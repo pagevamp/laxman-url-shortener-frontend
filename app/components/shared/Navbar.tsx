@@ -26,10 +26,10 @@ export default function Navbar() {
           </>
         ) : (
           <>
-            <Link href="/login" className={clsx("text-gray-700 dark:text-gray-300 hover:underline",{'text-blue-600! underline font-bold': pathname === "/login"})}>
+            <Link href="/login" className={clsx("text-gray-700 dark:text-gray-300 hover:underline",{'text-blue-600! dark:text-gray-300! underline font-bold': pathname === "/login"})}>
               Login
             </Link>
-            <Link href="/register" className={clsx("text-gray-700 dark:text-gray-300 hover:underline",{'text-blue-600! underline font-bold': pathname === "/register"})}>
+            <Link href="/register" className={clsx("text-gray-700 dark:text-gray-300 hover:underline",{'text-blue-600! dark:text-gray-300! underline font-bold': pathname === "/register"})}>
               Sign Up
             </Link>
           </>
