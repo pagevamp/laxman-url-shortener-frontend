@@ -1,7 +1,8 @@
 import axiosInstance from "../lib/axios";
+import axios from "axios";
 
 export interface LoginData {
-  email: string;
+  username: string;
   password: string;
 }
 
@@ -13,22 +14,36 @@ export interface RegisterData {
 }
 
 export interface LoginResponse {
+  response: {
+    data: {
+      message: string;
+    };
+  };
   accessToken: string;
 }
 
 export interface RegisterResponse {
-  accessToken: string;
+  message: string;
+  data: {
+    user: {
+      id: string;
+      name: string;
+      username: string;
+      email: string;
+      verified_at: string | null;
+      updated_at: string | null;
+      created_at: string;
+    };
+  };
 }
 
 export async function loginUser(data: LoginData): Promise<LoginResponse> {
   try {
     const res = await axiosInstance.post("/auth/login", data);
-    if (res.status !== 200) {
-      throw new Error("Login failed");
-    }
     return res.data;
-  } catch (err) {
-    throw new Error(err.response?.data?.message || "Login failed. Try again.");
+  } catch (error: any) {
+    console.log(error.response.data.message);
+    return error;
   }
 }
 
@@ -36,14 +51,10 @@ export async function RegisterUser(
   data: RegisterData
 ): Promise<RegisterResponse> {
   try {
-    const res = await axiosInstance.post("/auth/sign-up", data);
-    if (res.status !== 200) {
-      throw new Error("Registration failed");
-    }
+    const res = await axiosInstance.post("/users", data);
     return res.data;
-  } catch (err) {
-    throw new Error(
-      err.response?.data?.message || "Registration failed. Try again."
-    );
+  } catch (error: any) {
+    console.log(error.response.data.message);
+    return error;
   }
 }

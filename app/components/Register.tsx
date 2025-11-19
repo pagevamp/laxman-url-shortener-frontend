@@ -10,34 +10,31 @@ import { Button } from './Button';
 import Input from './ui/Input';
 import useRegisterFormFields from '../hooks/useRegisterFormFields';
 import {  registerFormSchema } from '../lib/zodSchemas/register.schema';
-import { RegisterUser } from '../services/auth.service';
+import { RegisterUser } from '../api/auth.api';
+import { z } from 'zod';
 
 export default function Register() {
     const { name, email, setName, setEmail, password, setPassword, username, setUsername,loading, setLoading, error, setError } = useRegisterFormFields();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setLoading(true);
-
         const result = registerFormSchema.safeParse({ name, username, email, password });
         if (!result.success) {
-            const fieldErrors = result.error.flatten().fieldErrors;
+            const fieldErrors = z.treeifyError(result.error);
             setError({
-                name: fieldErrors.name?.[0],
-                username: fieldErrors.username?.[0],
-                email: fieldErrors.email?.[0],
-                password: fieldErrors.password?.[0],
+                name: fieldErrors.properties?.name?.errors[0],
+                username: fieldErrors.properties?.username?.errors[0],
+                email: fieldErrors.properties?.email?.errors[0],
+                password: fieldErrors.properties?.password?.errors[0],
             });
             return;
         }
-
+        setLoading(true);
         try {
             const res = await RegisterUser({ name, username, email, password });
             console.log(res)
-            console.log("the response is: ", res)
         } catch (err: any) {
             setError({
-                ...error,
                 server: err?.response?.data?.message || "Registration failed. Try again."
             });
         }finally{

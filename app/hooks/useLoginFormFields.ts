@@ -2,14 +2,14 @@ import { useState } from "react";
 import { loginActionState } from "../lib/zodSchemas/login.schema";
 
 const useLoginFormFields = () => {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<loginActionState["errors"]>({});
 
   return {
-    email,
-    setEmail,
+    username,
+    setUsername,
     password,
     setPassword,
     loading,
