@@ -42,9 +42,10 @@ export default function LoginForm() {
 
   return (
     <form onSubmit={handleSubmit} className="w-full max-w-sm flex flex-col gap-6 px-8 py-12 bg-gray-50 dark:bg-gray-900 rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.5)]">
-      <h1 className="text-3xl font-semibold text-gray-900 dark:text-gray-100 mb-6">
+      <h1 className="text-3xl font-semibold text-gray-900 dark:text-gray-100">
         Welcome Back!
       </h1>
+      <p className="text-xl text-gray-900 dark:text-gray-100">Login to continue</p>
 
       <div className="space-y-4">
         <Input
