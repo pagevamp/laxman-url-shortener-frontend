@@ -4,14 +4,12 @@ import { AtSymbolIcon, KeyIcon } from "@heroicons/react/24/outline";
 import { ArrowRightIcon } from "@heroicons/react/20/solid";
 import { Button } from "./Button";
 import useLoginFormFields from "../hooks/useLoginFormFields";
-import { useState } from "react";
-import { loginActionState, loginFormSchema } from "../lib/zodSchemas/login.schema";
+import { loginFormSchema } from "../lib/zodSchemas/login.schema";
 import Input from "./ui/Input";
 import { loginUser } from "../services/auth.service";
 
 export default function LoginForm() {
-  const { email, setEmail, setPassword, password, loading, setLoading } = useLoginFormFields();
-  const [error, setError] = useState<loginActionState["errors"]>({});
+  const { email, setEmail, setPassword, password, loading, setLoading, error, setError } = useLoginFormFields();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

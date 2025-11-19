@@ -8,14 +8,12 @@ import {
 import { ArrowRightIcon } from '@heroicons/react/20/solid';
 import { Button } from './Button';
 import Input from './ui/Input';
-import { useState } from 'react';
 import useRegisterFormFields from '../hooks/useRegisterFormFields';
-import { registerActionState, registerFormSchema } from '../lib/zodSchemas/register.schema';
+import {  registerFormSchema } from '../lib/zodSchemas/register.schema';
 import { RegisterUser } from '../services/auth.service';
 
 export default function Register() {
-    const { name, email, setName, setEmail, password, setPassword, username, setUsername,loading, setLoading } = useRegisterFormFields();
-    const [error, setError] = useState<registerActionState["errors"]>({});
+    const { name, email, setName, setEmail, password, setPassword, username, setUsername,loading, setLoading, error, setError } = useRegisterFormFields();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();

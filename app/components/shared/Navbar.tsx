@@ -7,8 +7,8 @@ export default function Navbar() {
   const  user  = false;
 
   return (
-    <nav className="absolute w-full flex items-center justify-between px-8 py-4 bg-white dark:bg-gray-900 shadow-md  top-0 z-50">
-      <div className="text-xl font-bold text-gray-900 dark:text-white">URL Shortener</div>
+    <nav className="absolute w-full flex items-center justify-between px-8 py-4 bg-white dark:bg-gray-900 shadow-md  top-0 z-50 rounded-2xl">
+      <Link href={"/"} className="text-xl font-bold text-gray-900 dark:text-white">URL Shortener</Link>
       
       <div className="flex items-center gap-4">
         {user ? (

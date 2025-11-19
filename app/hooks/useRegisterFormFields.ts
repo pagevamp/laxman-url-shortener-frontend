@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { registerActionState } from "../lib/zodSchemas/register.schema";
 
 const useRegisterFormFields = () => {
   const [name, setName] = useState("");
@@ -6,6 +7,7 @@ const useRegisterFormFields = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<registerActionState["errors"]>({});
 
   return {
     name,
@@ -18,6 +20,8 @@ const useRegisterFormFields = () => {
     setUsername,
     loading,
     setLoading,
+    error,
+    setError,
   };
 };
 
