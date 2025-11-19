@@ -23,7 +23,6 @@ export default function LoginForm() {
                 });
                 return;
             }
-    
     setLoading(true);
     try {
       const res = await loginUser({ username, password });
@@ -31,7 +30,7 @@ export default function LoginForm() {
     } catch (err: any) {
       setError({
         ...error,
-        server: err?.response?.data?.message || "Registration failed. Try again."
+        server: err?.response?.data?.message || "Login failed. Try again."
       });
     } finally {
       setLoading(false)
