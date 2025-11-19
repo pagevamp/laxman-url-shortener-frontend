@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "./components/shared/Navbar";
 import { Suspense } from 'react';
 import { NavbarSkeleton } from "./components/Skeletons";
+import { Toaster } from "react-hot-toast";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,6 +34,7 @@ export default function RootLayout({
         <Suspense fallback={<NavbarSkeleton/>}>
         <Navbar/>
         </Suspense>
+        <Toaster position="bottom-center"/>
         {children}
       </body>
     </html>

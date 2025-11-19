@@ -1,4 +1,6 @@
 'use client'
+
+import { useRouter } from 'next/navigation'
 import {
     AtSymbolIcon,
     UserIcon,
@@ -9,15 +11,16 @@ import { ArrowRightIcon } from '@heroicons/react/20/solid';
 import { Button } from './Button';
 import Input from './ui/Input';
 import useRegisterFormFields from '../hooks/useRegisterFormFields';
-import {  registerFormSchema } from '../lib/zodSchemas/register.schema';
+import { registerFormSchema } from '../lib/zodSchemas/register.schema';
 import { RegisterUser } from '../api/auth.api';
 import { z } from 'zod';
-
+import toast from 'react-hot-toast';
 export default function Register() {
-    const { name, email, setName, setEmail, password, setPassword, username, setUsername,loading, setLoading, error, setError } = useRegisterFormFields();
-
+    const router = useRouter()
+    const { name, email, setName, setEmail, password, setPassword, username, setUsername, loading, setLoading, error, setError } = useRegisterFormFields();
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
         const result = registerFormSchema.safeParse({ name, username, email, password });
         if (!result.success) {
             const fieldErrors = z.treeifyError(result.error);
@@ -29,16 +32,23 @@ export default function Register() {
             });
             return;
         }
+
         setLoading(true);
+
         try {
-            const res = await RegisterUser({ name, username, email, password });
-            console.log(res)
-        } catch (err: any) {
-            setError({
-                server: err?.response?.data?.message || "Registration failed. Try again."
-            });
-        }finally{
+            const data = await RegisterUser({ name, username, email, password });
+            console.log(data.message)
+            toast.success(data.message)
+            router.push('/login');
+        } catch (err) {
+            if (err instanceof Error) {
+                toast.error(err.message);
+            } else {
+                toast.error("Registration failed");
+            }
+        } finally {
             setLoading(false)
+            setError({})
         }
     };
 
@@ -85,3 +95,4 @@ export default function Register() {
         </form >
     );
 }
+

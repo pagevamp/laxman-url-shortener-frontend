@@ -1,6 +1,6 @@
 'use client';
 
-import {  KeyIcon, UserIcon } from "@heroicons/react/24/outline";
+import { KeyIcon, UserIcon } from "@heroicons/react/24/outline";
 import { ArrowRightIcon } from "@heroicons/react/20/solid";
 import { Button } from "./Button";
 import useLoginFormFields from "../hooks/useLoginFormFields";
@@ -8,30 +8,36 @@ import { loginFormSchema } from "../lib/zodSchemas/login.schema";
 import Input from "./ui/Input";
 import { loginUser } from "../api/auth.api";
 import { z } from 'zod';
+import toast from "react-hot-toast";
+import { useRouter } from 'next/navigation';
 
 export default function LoginForm() {
   const { username, setUsername, setPassword, password, loading, setLoading, error, setError } = useLoginFormFields();
-
+  const router = useRouter();
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     const result = loginFormSchema.safeParse({ username, password });
-            if (!result.success) {
-                const fieldErrors = z.treeifyError(result.error);
-                setError({
-                    username: fieldErrors.properties?.username?.errors[0],
-                    password: fieldErrors.properties?.password?.errors[0],
-                });
-                return;
-            }
-    setLoading(true);
-    try {
-      const res = await loginUser({ username, password });
-      console.log(res.response.data.message)
-    } catch (err: any) {
+    if (!result.success) {
+      const fieldErrors = z.treeifyError(result.error);
       setError({
-        ...error,
-        server: err?.response?.data?.message || "Login failed. Try again."
+        username: fieldErrors.properties?.username?.errors[0],
+        password: fieldErrors.properties?.password?.errors[0],
       });
+      return;
+    }
+    setLoading(true);
+
+    try {
+      const data = await loginUser({ username, password });
+      toast.success("Login Successful!");
+      router.push('/')
+    } catch (err) {
+      if (err instanceof Error) {
+        toast.error(err.message);
+      } else {
+        toast.error("Login failed");
+      }
     } finally {
       setLoading(false)
       setError({})
@@ -40,9 +46,10 @@ export default function LoginForm() {
 
   return (
     <form onSubmit={handleSubmit} className="w-full max-w-sm flex flex-col gap-6 px-8 py-12 bg-gray-50 dark:bg-gray-900 rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.5)]">
-      <h1 className="text-3xl font-semibold text-gray-900 dark:text-gray-100 mb-6">
+      <h1 className="text-3xl font-semibold text-gray-900 dark:text-gray-100">
         Welcome Back!
       </h1>
+      <p className="text-xl text-gray-900 dark:text-gray-100">Login to continue</p>
 
       <div className="space-y-4">
         <Input

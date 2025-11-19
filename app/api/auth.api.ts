@@ -1,5 +1,6 @@
 import axiosInstance from "../lib/axios";
 import axios from "axios";
+import { getAxiosErrorMessage } from "../lib/helpers/axios.error";
 
 export interface LoginData {
   username: string;
@@ -14,12 +15,7 @@ export interface RegisterData {
 }
 
 export interface LoginResponse {
-  response: {
-    data: {
-      message: string;
-    };
-  };
-  accessToken: string;
+  access_token: string;
 }
 
 export interface RegisterResponse {
@@ -40,10 +36,9 @@ export interface RegisterResponse {
 export async function loginUser(data: LoginData): Promise<LoginResponse> {
   try {
     const res = await axiosInstance.post("/auth/login", data);
-    return res.data;
-  } catch (error: any) {
-    console.log(error.response.data.message);
-    return error;
+    return res.data as LoginResponse;
+  } catch (error: unknown) {
+    throw new Error(getAxiosErrorMessage(error));
   }
 }
 
@@ -52,9 +47,8 @@ export async function RegisterUser(
 ): Promise<RegisterResponse> {
   try {
     const res = await axiosInstance.post("/users", data);
-    return res.data;
-  } catch (error: any) {
-    console.log(error.response.data.message);
-    return error;
+    return res.data as RegisterResponse;
+  } catch (error: unknown) {
+    throw new Error(getAxiosErrorMessage(error));
   }
 }
