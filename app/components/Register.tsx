@@ -9,12 +9,13 @@ import { ArrowRightIcon } from '@heroicons/react/20/solid';
 import { Button } from './Button';
 import Input from './ui/Input';
 import useRegisterFormFields from '../hooks/useRegisterFormFields';
-import {  registerFormSchema } from '../lib/zodSchemas/register.schema';
+import { registerFormSchema } from '../lib/zodSchemas/register.schema';
 import { RegisterUser } from '../api/auth.api';
 import { z } from 'zod';
+import toast from 'react-hot-toast';
 
 export default function Register() {
-    const { name, email, setName, setEmail, password, setPassword, username, setUsername,loading, setLoading, error, setError } = useRegisterFormFields();
+    const { name, email, setName, setEmail, password, setPassword, username, setUsername, loading, setLoading, error, setError } = useRegisterFormFields();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -32,13 +33,19 @@ export default function Register() {
         setLoading(true);
         try {
             const res = await RegisterUser({ name, username, email, password });
-            console.log(res)
+            console.log("the response of register is: ",res.data.message)
+            if (res.status !== 201) {
+                toast.error(res.response.data.message)
+                return
+            }
+            toast.success(res.data.message)
         } catch (err: any) {
             setError({
                 server: err?.response?.data?.message || "Registration failed. Try again."
             });
-        }finally{
+        } finally {
             setLoading(false)
+            setError({})
         }
     };
 
@@ -85,3 +92,4 @@ export default function Register() {
         </form >
     );
 }
+

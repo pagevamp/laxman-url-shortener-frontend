@@ -1,6 +1,6 @@
 'use client';
 
-import {  KeyIcon, UserIcon } from "@heroicons/react/24/outline";
+import { KeyIcon, UserIcon } from "@heroicons/react/24/outline";
 import { ArrowRightIcon } from "@heroicons/react/20/solid";
 import { Button } from "./Button";
 import useLoginFormFields from "../hooks/useLoginFormFields";
@@ -8,6 +8,7 @@ import { loginFormSchema } from "../lib/zodSchemas/login.schema";
 import Input from "./ui/Input";
 import { loginUser } from "../api/auth.api";
 import { z } from 'zod';
+import toast from "react-hot-toast";
 
 export default function LoginForm() {
   const { username, setUsername, setPassword, password, loading, setLoading, error, setError } = useLoginFormFields();
@@ -15,24 +16,24 @@ export default function LoginForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const result = loginFormSchema.safeParse({ username, password });
-            if (!result.success) {
-                const fieldErrors = z.treeifyError(result.error);
-                setError({
-                    username: fieldErrors.properties?.username?.errors[0],
-                    password: fieldErrors.properties?.password?.errors[0],
-                });
-                return;
-            }
-    
+    if (!result.success) {
+      const fieldErrors = z.treeifyError(result.error);
+      setError({
+        username: fieldErrors.properties?.username?.errors[0],
+        password: fieldErrors.properties?.password?.errors[0],
+      });
+      return;
+    }
     setLoading(true);
     try {
       const res = await loginUser({ username, password });
-      console.log(res.response.data.message)
+      if (res.response.status !== 200) {
+        toast.error(res.response.data.message)
+        return
+      }
+      toast.success(res.response.data.message)
     } catch (err: any) {
-      setError({
-        ...error,
-        server: err?.response?.data?.message || "Registration failed. Try again."
-      });
+      toast.error("Registration Failed")
     } finally {
       setLoading(false)
       setError({})

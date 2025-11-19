@@ -15,6 +15,7 @@ export interface RegisterData {
 
 export interface LoginResponse {
   response: {
+    status: number;
     data: {
       message: string;
     };
@@ -23,16 +24,19 @@ export interface LoginResponse {
 }
 
 export interface RegisterResponse {
-  message: string;
-  data: {
-    user: {
-      id: string;
-      name: string;
-      username: string;
-      email: string;
-      verified_at: string | null;
-      updated_at: string | null;
-      created_at: string;
+  response: {
+    status: number;
+    data: {
+      message: string;
+      user: {
+        id: string;
+        name: string;
+        username: string;
+        email: string;
+        verified_at: string | null;
+        updated_at: string | null;
+        created_at: string;
+      };
     };
   };
 }
@@ -47,12 +51,10 @@ export async function loginUser(data: LoginData): Promise<LoginResponse> {
   }
 }
 
-export async function RegisterUser(
-  data: RegisterData
-): Promise<RegisterResponse> {
+export async function RegisterUser(data: RegisterData) {
   try {
     const res = await axiosInstance.post("/users", data);
-    return res.data;
+    return res;
   } catch (error: any) {
     console.log(error.response.data.message);
     return error;
