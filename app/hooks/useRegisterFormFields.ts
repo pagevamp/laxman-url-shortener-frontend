@@ -8,6 +8,8 @@ const useRegisterFormFields = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<registerActionState["errors"]>({});
+  const [verificationSent, setVerificationSent] = useState(false);
+  const [resendCooldown, setResendCooldown] = useState(0);
 
   return {
     name,
@@ -22,6 +24,10 @@ const useRegisterFormFields = () => {
     setLoading,
     error,
     setError,
+    verificationSent,
+    setVerificationSent,
+    resendCooldown,
+    setResendCooldown,
   };
 };
 
