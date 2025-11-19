@@ -2,13 +2,17 @@
 
 import Link from 'next/link';
 import DarkModeToggle from '../DarkModeToggle';
+import { usePathname } from 'next/navigation';
+import clsx from 'clsx';
 
 export default function Navbar() {
   const  user  = false;
 
+  const pathname = usePathname()
+
   return (
     <nav className="absolute w-full flex items-center justify-between px-8 py-4 bg-white dark:bg-gray-900 shadow-md  top-0 z-50 rounded-2xl">
-      <Link href={"/"} className="text-xl font-bold text-gray-900 dark:text-white">URL Shortener</Link>
+      <Link href={"/"} className="text-xl font-bold text-blue-600 dark:text-white">URL Shortener</Link>
       
       <div className="flex items-center gap-4">
         {user ? (
@@ -22,10 +26,10 @@ export default function Navbar() {
           </>
         ) : (
           <>
-            <Link href="/auth/login" className="text-gray-700 dark:text-gray-300 hover:underline hidden md:block">
+            <Link href="/login" className={clsx("text-gray-700 dark:text-gray-300 hover:underline",{'text-blue-600! underline font-bold': pathname === "/login"})}>
               Login
             </Link>
-            <Link href="/auth/register" className="text-gray-700 dark:text-gray-300 hover:underline hidden md:block">
+            <Link href="/register" className={clsx("text-gray-700 dark:text-gray-300 hover:underline",{'text-blue-600! underline font-bold': pathname === "/register"})}>
               Sign Up
             </Link>
           </>
