@@ -16,6 +16,10 @@ export interface LoginResponse {
   accessToken: string;
 }
 
+export interface RegisterResponse {
+  accessToken: string;
+}
+
 export async function loginUser(data: LoginData): Promise<LoginResponse> {
   try {
     const res = await axiosInstance.post("/auth/login", data);
