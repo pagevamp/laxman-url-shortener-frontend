@@ -15,6 +15,7 @@ import { registerFormSchema } from '../lib/zodSchemas/register.schema';
 import { RegisterUser } from '../api/auth.api';
 import { z } from 'zod';
 import toast from 'react-hot-toast';
+import Link from 'next/link';
 export default function Register() {
     const router = useRouter()
     const { name, email, setName, setEmail, password, setPassword, username, setUsername, loading, setLoading, error, setError } = useRegisterFormFields();
@@ -92,6 +93,15 @@ export default function Register() {
             <Button className="mt-6 w-full flex items-center justify-center">
                 {loading ? 'Signing up' : 'Sign Up'} <ArrowRightIcon className="ml-2 h-5 w-5" />
             </Button>
+             <p className="text-center text-sm text-gray-600 dark:text-gray-300">
+        Already have an account?{" "}
+        <Link
+          href="/login"
+          className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300"
+        >
+          Login
+        </Link>
+      </p>
         </form >
     );
 }

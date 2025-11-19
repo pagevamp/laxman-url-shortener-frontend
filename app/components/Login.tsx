@@ -10,6 +10,7 @@ import { loginUser } from "../api/auth.api";
 import { z } from 'zod';
 import toast from "react-hot-toast";
 import { useRouter } from 'next/navigation';
+import Link from "next/link";
 
 export default function LoginForm() {
   const { username, setUsername, setPassword, password, loading, setLoading, error, setError } = useLoginFormFields();
@@ -77,6 +78,15 @@ export default function LoginForm() {
       <Button className="mt-6 w-full flex items-center justify-center">
         {loading ? "Logging in..." : "Log in"} <ArrowRightIcon className="ml-2 h-5 w-5" />
       </Button>
+      <p className="text-center text-sm text-gray-600 dark:text-gray-300">
+        Don’t have an account?{" "}
+        <Link
+          href="/register"
+          className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300"
+        >
+          Create one
+        </Link>
+      </p>
     </form>
   );
 }
