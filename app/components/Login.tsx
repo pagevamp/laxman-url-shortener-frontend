@@ -9,12 +9,14 @@ import Input from "./ui/Input";
 import { loginUser } from "../api/auth.api";
 import { z } from 'zod';
 import toast from "react-hot-toast";
+import { useRouter } from 'next/navigation';
 
 export default function LoginForm() {
   const { username, setUsername, setPassword, password, loading, setLoading, error, setError } = useLoginFormFields();
-
+  const router = useRouter();
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     const result = loginFormSchema.safeParse({ username, password });
     if (!result.success) {
       const fieldErrors = z.treeifyError(result.error);
@@ -24,16 +26,20 @@ export default function LoginForm() {
       });
       return;
     }
+
     setLoading(true);
+
     try {
-      const res = await loginUser({ username, password });
-      if (res.response.status !== 200) {
-        toast.error(res.response.data.message)
-        return
+      const data = await loginUser({ username, password });
+      toast.success("Login Successful!");
+      console.log("Token:", data.access_token);
+      router.push('/')
+    } catch (err) {
+      if (err instanceof Error) {
+        toast.error(err.message);
+      } else {
+        toast.error("Login failed");
       }
-      toast.success(res.response.data.message)
-    } catch (err: any) {
-      toast.error("Registration Failed")
     } finally {
       setLoading(false)
       setError({})

@@ -20,6 +20,7 @@ export default function Register() {
     const { name, email, setName, setEmail, password, setPassword, username, setUsername, loading, setLoading, error, setError } = useRegisterFormFields();
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
         const result = registerFormSchema.safeParse({ name, username, email, password });
         if (!result.success) {
             const fieldErrors = z.treeifyError(result.error);
@@ -31,19 +32,20 @@ export default function Register() {
             });
             return;
         }
+
         setLoading(true);
+
         try {
-            const res = await RegisterUser({ name, username, email, password });
-            if (res.status !== 201) {
-                toast.error(res.response.data.message)
-                return
+            const data = await RegisterUser({ name, username, email, password });
+            console.log(data.message)
+            toast.success(data.message)
+            router.push('/login');
+        } catch (err) {
+            if (err instanceof Error) {
+                toast.error(err.message);
+            } else {
+                toast.error("Registration failed");
             }
-            toast.success(res.data.message)
-                router.push('/login');  
-        } catch (err: any) {
-            setError({
-                server: err?.response?.data?.message || "Registration failed. Try again."
-            });
         } finally {
             setLoading(false)
             setError({})
