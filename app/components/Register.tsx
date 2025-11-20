@@ -23,7 +23,6 @@ export default function Register() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         
-        try {
         const result = registerFormSchema.safeParse({ name, username, email, password });
         if (!result.success) {
             const fieldErrors = z.treeifyError(result.error);
@@ -35,9 +34,9 @@ export default function Register() {
             });
             return;
         }
-
+        
+        try {
         setLoading(true);
-
             const data = await RegisterUser({ name, username, email, password });
             console.log(data.message)
             toast.success(data.message)
