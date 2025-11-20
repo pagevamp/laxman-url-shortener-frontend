@@ -37,7 +37,6 @@ export default function Register() {
         try {
         setLoading(true);
             const data = await RegisterUser({ name, username, email, password });
-            console.log(data.message)
             toast.success(data.message)
             router.push('/login');
         } catch (err) {
