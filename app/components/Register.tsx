@@ -61,7 +61,6 @@ export default function Register() {
             </h1>
             <div className="space-y-4">
                 <Input
-                    type="text"
                     id="name"
                     name="name"
                     placeholder="Full Name"
