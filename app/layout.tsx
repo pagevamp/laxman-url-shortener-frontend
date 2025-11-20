@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/shared/Navbar";
-import { Suspense } from 'react';
-import { NavbarSkeleton } from "./components/Skeletons";
 import { Toaster } from "react-hot-toast";
 
 const geistSans = Geist({
@@ -31,9 +29,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} `}
       >
-        <Suspense fallback={<NavbarSkeleton/>}>
         <Navbar/>
-        </Suspense>
         <Toaster position="bottom-center"/>
         {children}
       </body>
