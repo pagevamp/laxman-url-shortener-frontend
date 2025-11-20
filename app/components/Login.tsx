@@ -17,7 +17,8 @@ export default function LoginForm() {
   const router = useRouter();
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    
+    try {
     const result = loginFormSchema.safeParse({ username, password });
     if (!result.success) {
       const fieldErrors = z.treeifyError(result.error);
@@ -27,10 +28,10 @@ export default function LoginForm() {
       });
       return;
     }
-    setLoading(true);
 
-    try {
-      const data = await loginUser({ username, password });
+      setLoading(true);
+
+       await loginUser({ username, password });
       toast.success("Login Successful!");
       router.push('/')
     } catch (err) {

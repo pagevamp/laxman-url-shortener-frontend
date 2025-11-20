@@ -21,7 +21,8 @@ export default function Register() {
     const { name, email, setName, setEmail, password, setPassword, username, setUsername, loading, setLoading, error, setError } = useRegisterFormFields();
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-
+        
+        try {
         const result = registerFormSchema.safeParse({ name, username, email, password });
         if (!result.success) {
             const fieldErrors = z.treeifyError(result.error);
@@ -36,7 +37,6 @@ export default function Register() {
 
         setLoading(true);
 
-        try {
             const data = await RegisterUser({ name, username, email, password });
             console.log(data.message)
             toast.success(data.message)
