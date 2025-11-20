@@ -1,13 +1,19 @@
 import axiosInstance from "../lib/axios";
-import axios from "axios";
 import { getAxiosErrorMessage } from "../lib/helpers/axios.error";
 
-export interface LoginData {
+export interface LoginRequestData {
   username: string;
   password: string;
 }
 
-export interface RegisterData {
+export interface ResendMailRequestData {
+  email: string;
+}
+export interface ResendMailResponse {
+  message: string;
+}
+
+export interface RegisterRequestData {
   name: string;
   username: string;
   email: string;
@@ -33,7 +39,9 @@ export interface RegisterResponse {
   };
 }
 
-export async function loginUser(data: LoginData): Promise<LoginResponse> {
+export async function loginUser(
+  data: LoginRequestData
+): Promise<LoginResponse> {
   try {
     const res = await axiosInstance.post("/auth/login", data);
     return res.data as LoginResponse;
@@ -43,11 +51,20 @@ export async function loginUser(data: LoginData): Promise<LoginResponse> {
 }
 
 export async function RegisterUser(
-  data: RegisterData
+  data: RegisterRequestData
 ): Promise<RegisterResponse> {
   try {
     const res = await axiosInstance.post("/users", data);
     return res.data as RegisterResponse;
+  } catch (error: unknown) {
+    throw new Error(getAxiosErrorMessage(error));
+  }
+}
+
+export async function ResendMail(data: ResendMailRequestData) {
+  try {
+    const res = await axiosInstance.post("/auth/resend-email", data);
+    return res.data as ResendMailRequestData;
   } catch (error: unknown) {
     throw new Error(getAxiosErrorMessage(error));
   }

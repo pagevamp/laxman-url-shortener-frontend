@@ -22,7 +22,6 @@ export default function Register() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         
-        try {
         const result = registerFormSchema.safeParse({ name, username, email, password });
         if (!result.success) {
             const fieldErrors = z.treeifyError(result.error);
@@ -34,11 +33,10 @@ export default function Register() {
             });
             return;
         }
-
+        
+        try {
         setLoading(true);
-
             const data = await RegisterUser({ name, username, email, password });
-            console.log(data.message)
             toast.success(data.message)
             router.push('/login');
         } catch (err) {
@@ -60,7 +58,6 @@ export default function Register() {
             </h1>
             <div className="space-y-4">
                 <Input
-                    type="text"
                     id="name"
                     name="name"
                     placeholder="Full Name"
@@ -70,7 +67,7 @@ export default function Register() {
                 </Input>
                 {error?.name && <p className="text-red-500 text-xs -mt-3">{error.name}</p>}
 
-                <Input type="text"
+                <Input 
                     id="username"
                     name="username"
                     placeholder="Username"
@@ -116,4 +113,3 @@ export default function Register() {
         </form >
     );
 }
-
