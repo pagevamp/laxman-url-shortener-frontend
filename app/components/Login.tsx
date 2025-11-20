@@ -2,39 +2,46 @@
 
 import { KeyIcon, UserIcon } from "@heroicons/react/24/outline";
 import { ArrowRightIcon } from "@heroicons/react/20/solid";
-import { Button } from "./Button";
+import { Button } from './Button';
 import useLoginFormFields from "../hooks/useLoginFormFields";
 import { loginFormSchema } from "../lib/zodSchemas/login.schema";
 import Input from "./ui/Input";
-import { loginUser } from "../api/auth.api";
+import { loginUser, ResendMail } from "../api/auth.api";
 import { z } from 'zod';
 import toast from "react-hot-toast";
 import { useRouter } from 'next/navigation';
 import Link from "next/link";
+import { useState } from "react";
 
 export default function LoginForm() {
+  const [unverified, setUnverified] = useState(false);
+
   const { username, setUsername, setPassword, password, loading, setLoading, error, setError } = useLoginFormFields();
   const router = useRouter();
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const result = loginFormSchema.safeParse({ username, password });
-    if (!result.success) {
-      const fieldErrors = z.treeifyError(result.error);
-      setError({
-        username: fieldErrors.properties?.username?.errors[0],
-        password: fieldErrors.properties?.password?.errors[0],
-      });
-      return;
-    }
-    setLoading(true);
 
     try {
+      e.preventDefault();
+      setUnverified(false);
+      const result = loginFormSchema.safeParse({ username, password });
+      if (!result.success) {
+        const fieldErrors = z.treeifyError(result.error);
+        setError({
+          username: fieldErrors.properties?.username?.errors[0],
+          password: fieldErrors.properties?.password?.errors[0],
+        });
+        return;
+      }
+      setLoading(true);
+
       const data = await loginUser({ username, password });
       toast.success("Login Successful!");
       router.push('/')
     } catch (err) {
       if (err instanceof Error) {
+        if (err.message === "User is not verified!") {
+          router.push('/verify-email')
+        }
         toast.error(err.message);
       } else {
         toast.error("Login failed");
@@ -42,6 +49,22 @@ export default function LoginForm() {
     } finally {
       setLoading(false)
       setError({})
+    }
+  };
+
+  const handleResend = async () => {
+    try{
+      const res = await ResendMail({email:"rumbavai767@gmail.com"});
+      toast.success("Login Successful!");
+    }catch(err){
+ if (err instanceof Error) {
+        if (err.message === "User is not verified!") {
+          setUnverified(true);
+        }
+        toast.error(err.message);
+      } else {
+        toast.error("Login failed");
+      }
     }
   };
 
@@ -75,9 +98,22 @@ export default function LoginForm() {
         {error?.password && <p className="text-red-500 text-xs -mt-3">{error.password}</p>}
       </div>
 
-      <Button className="mt-6 w-full flex items-center justify-center">
+      <Button className="mt-6">
         {loading ? "Logging in..." : "Log in"} <ArrowRightIcon className="ml-2 h-5 w-5" />
       </Button>
+
+      {unverified && (
+        <div className="mt-3 text-center">
+          <p className="text-red-500 text-sm mb-2">Your account is not verified.</p>
+          <a
+            onClick={handleResend}
+            className="text-blue-600 hover:underline text-sm cursor-pointer"
+          >
+            Resend verification email
+          </a>
+        </div>
+      )}
+
       <p className="text-center text-sm text-gray-600 dark:text-gray-300">
         Don’t have an account?{" "}
         <Link

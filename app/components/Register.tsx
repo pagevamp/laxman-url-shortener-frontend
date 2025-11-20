@@ -1,3 +1,4 @@
+
 'use client'
 
 import { useRouter } from 'next/navigation'
@@ -15,38 +16,9 @@ import { registerFormSchema } from '../lib/zodSchemas/register.schema';
 import { RegisterUser } from '../api/auth.api';
 import { z } from 'zod';
 import toast from 'react-hot-toast';
-import Link from 'next/link';
 export default function Register() {
     const router = useRouter()
-    const { name, email, setName, setEmail, password, setPassword, username, setUsername, loading, setLoading, error, setError, verificationSent, setVerificationSent, resendCooldown, setResendCooldown } = useRegisterFormFields();
-
-const handleResendVerification = async () => {
-    if (resendCooldown > 0) return; // prevent spam
-
-    try {
-        // call your resend email API
-        // await resendVerificationEmail(email);
-        toast.success("Verification email resent!");
-        startCooldown();
-    } catch (err) {
-        if (err instanceof Error) toast.error(err.message);
-        else toast.error("Failed to resend verification email");
-    }
-};
-
-    const startCooldown = () => {
-        setResendCooldown(30); // 30 seconds countdown
-        const interval = setInterval(() => {
-            setResendCooldown(prev => {
-                if (prev <= 1) {
-                    clearInterval(interval);
-                    return 0;
-                }
-                return prev - 1;
-            });
-        }, 1000);
-    };
-
+    const { name, email, setName, setEmail, password, setPassword, username, setUsername, loading, setLoading, error, setError } = useRegisterFormFields();
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -67,11 +39,7 @@ const handleResendVerification = async () => {
         try {
             const data = await RegisterUser({ name, username, email, password });
             console.log(data.message)
-
             toast.success(data.message)
-            setVerificationSent(true);
-            startCooldown();
-
             router.push('/login');
         } catch (err) {
             if (err instanceof Error) {
@@ -125,29 +93,6 @@ const handleResendVerification = async () => {
             <Button className="mt-6 w-full flex items-center justify-center">
                 {loading ? 'Signing up' : 'Sign Up'} <ArrowRightIcon className="ml-2 h-5 w-5" />
             </Button>
-            <p className="text-center text-sm text-gray-600 dark:text-gray-300">
-                Already have an account?{" "}
-                <Link
-                    href="/login"
-                    className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300"
-                >
-                    Login
-                </Link>
-            </p>
-
-            {verificationSent && (
-    <div className="text-center mt-4 p-2 bg-yellow-50 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 rounded-md">
-        Verification email sent.
-        <button
-            className={`ml-2 font-medium text-blue-600 dark:text-blue-400 ${resendCooldown > 0 ? 'opacity-50 cursor-not-allowed' : 'hover:text-blue-500 dark:hover:text-blue-300'}`}
-            onClick={handleResendVerification}
-            disabled={resendCooldown > 0}
-        >
-            {resendCooldown > 0 ? `Resend in ${resendCooldown}s` : 'Resend'}
-        </button>
-    </div>
-)}
         </form >
     );
 }
-

@@ -1,10 +1,16 @@
 import axiosInstance from "../lib/axios";
-import axios from "axios";
 import { getAxiosErrorMessage } from "../lib/helpers/axios.error";
 
 export interface LoginData {
   username: string;
   password: string;
+}
+
+export interface ResendData {
+  email: string;
+}
+export interface ResendResponse {
+  message: string;
 }
 
 export interface RegisterData {
@@ -48,6 +54,15 @@ export async function RegisterUser(
   try {
     const res = await axiosInstance.post("/users", data);
     return res.data as RegisterResponse;
+  } catch (error: unknown) {
+    throw new Error(getAxiosErrorMessage(error));
+  }
+}
+
+export async function ResendMail(data: ResendData) {
+  try {
+    const res = await axiosInstance.post("/auth/resend-email", data);
+    return res.data as ResendData;
   } catch (error: unknown) {
     throw new Error(getAxiosErrorMessage(error));
   }
