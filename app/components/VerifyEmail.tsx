@@ -7,8 +7,6 @@ import Input from "./ui/Input";
 import { ResendMail } from "../api/auth.api";
 import { z } from 'zod';
 import toast from "react-hot-toast";
-// import { useRouter } from 'next/navigation';
-// import Link from "next/link";
 import { useState } from "react";
 import { VerifyEmailActionState, verifyEmailFormSchema } from "../lib/zodSchemas/verify-email.schema";
 
@@ -17,10 +15,9 @@ export default function VerifyEmailForm() {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<VerifyEmailActionState["errors"]>({});
 
-    // const router = useRouter();
-
-
     const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+
         try {
             const result = verifyEmailFormSchema.safeParse({ email });
             if (!result.success) {
@@ -30,9 +27,8 @@ export default function VerifyEmailForm() {
                 });
                 return;
             }
-            e.preventDefault();
             setLoading(true)
-            const res = await ResendMail({ email });
+            await ResendMail({ email });
             toast.success("Verification mail sent. Please verify!");
         } catch (err) {
             if (err instanceof Error) {
@@ -45,7 +41,6 @@ export default function VerifyEmailForm() {
             setError({})
         }
     };
-
 
     return (
         <form onSubmit={handleSubmit} className="w-full max-w-sm flex flex-col gap-6 px-8 py-12 bg-gray-50 dark:bg-gray-900 rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.5)]">
