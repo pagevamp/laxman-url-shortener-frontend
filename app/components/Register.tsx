@@ -16,6 +16,7 @@ import { registerFormSchema } from '../lib/zodSchemas/register.schema';
 import { RegisterUser } from '../api/auth.api';
 import { z } from 'zod';
 import toast from 'react-hot-toast';
+import Link from 'next/link';
 export default function Register() {
     const router = useRouter()
     const { name, email, setName, setEmail, password, setPassword, username, setUsername, loading, setLoading, error, setError } = useRegisterFormFields();
@@ -59,12 +60,23 @@ export default function Register() {
                 Sign up with your details.
             </h1>
             <div className="space-y-4">
-                <Input type="text" id="name" name="name" placeholder="Full Name" onChange={(e) => { setName(e.target.value) }}>
+                <Input
+                    type="text"
+                    id="name"
+                    name="name"
+                    placeholder="Full Name"
+                    onChange={(e) => { setName(e.target.value) }}
+                >
                     <FaceSmileIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 peer-focus:text-gray-900" />
                 </Input>
                 {error?.name && <p className="text-red-500 text-xs -mt-3">{error.name}</p>}
 
-                <Input type="text" id="username" name="username" placeholder="Username" onChange={(e) => { setUsername(e.target.value) }}>
+                <Input type="text"
+                    id="username"
+                    name="username"
+                    placeholder="Username"
+                    onChange={(e) => { setUsername(e.target.value) }}
+                >
                     <UserIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 peer-focus:text-gray-900" />
                 </Input>
                 {error?.username && <p className="text-red-500 text-xs -mt-3">{error.username}</p>}
@@ -93,6 +105,15 @@ export default function Register() {
             <Button className="mt-6 w-full flex items-center justify-center">
                 {loading ? 'Signing up' : 'Sign Up'} <ArrowRightIcon className="ml-2 h-5 w-5" />
             </Button>
+            <p className="text-center text-sm text-gray-600 dark:text-gray-300">
+                Already have an account?{" "}
+                <Link
+                    href="/login"
+                    className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300"
+                >
+                    Login
+                </Link>
+            </p>
         </form >
     );
 }

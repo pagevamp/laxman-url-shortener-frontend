@@ -77,8 +77,8 @@ export default function LoginForm() {
 
       <div className="space-y-4">
         <Input
-          id="email"
-          name="email"
+          id="username"
+          name="username"
           placeholder="username"
           onChange={(e) => setUsername(e.target.value)}
         >
