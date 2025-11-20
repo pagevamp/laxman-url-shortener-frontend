@@ -67,7 +67,7 @@ export default function Register() {
                 </Input>
                 {error?.name && <p className="text-red-500 text-xs -mt-3">{error.name}</p>}
 
-                <Input type="text"
+                <Input 
                     id="username"
                     name="username"
                     placeholder="Username"
