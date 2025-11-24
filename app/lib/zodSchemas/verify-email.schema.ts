@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const verifyEmailFormSchema = z.object({
-  email: z.string().email({ message: "Please enter a valid email." }).trim(),
+  email: z.email({ message: "Please enter a valid email." }).trim(),
 });
 
 export type VerifyEmailActionState = {
