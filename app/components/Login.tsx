@@ -25,7 +25,7 @@ export default function LoginForm() {
     } catch (err) {
       if (err instanceof Error) {
         if (err.message === "User is not verified!") {
-          router.push("/verify-email");
+          router.push("/send-verification");
         }
         toast.error(err.message);
       } else {

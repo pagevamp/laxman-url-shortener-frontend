@@ -15,10 +15,7 @@ export const registerFormSchema = z.object({
         "Your username can only include letters, numbers, and underscores.",
     })
     .trim(),
-  email: z
-    .string()
-    .email({ message: "Please enter a valid email address." })
-    .trim(),
+  email: z.email({ message: "Please enter a valid email address." }).trim(),
   password: z
     .string()
     .min(8, { message: "Your password must be at least 8 characters long." })
