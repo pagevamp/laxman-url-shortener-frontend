@@ -14,11 +14,11 @@ import { useRegister } from '../hooks/useRegister';
 import { RegisterUser } from '../api/auth.api';
 import toast from 'react-hot-toast';
 export default function Register() {
-    const { form, setForm, handleResgister, loading, setLoading, error, setError, router } = useRegister();
+    const { form, setForm, handleRegister, loading, setLoading, error, setError, router } = useRegister();
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const isValid = handleResgister();
+        const isValid = handleRegister();
         if (!isValid) return;
 
         try {

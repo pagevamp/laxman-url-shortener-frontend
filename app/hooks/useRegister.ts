@@ -20,7 +20,7 @@ export const useRegister = () => {
   const [error, setError] = useState<registerActionState["errors"]>({});
   const router = useRouter();
 
-  const handleResgister = () => {
+  const handleRegister = () => {
     const result = registerFormSchema.safeParse({
       name: form.name,
       email: form.email,
@@ -44,7 +44,7 @@ export const useRegister = () => {
   return {
     form,
     setForm,
-    handleResgister,
+    handleRegister,
     loading,
     setLoading,
     error,
