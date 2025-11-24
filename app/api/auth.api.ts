@@ -9,6 +9,7 @@ export interface LoginRequestData {
 export interface ResendMailRequestData {
   email: string;
 }
+
 export interface ResendMailResponse {
   message: string;
 }
