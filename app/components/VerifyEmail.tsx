@@ -28,17 +28,20 @@ export default function VerifyEmailForm() {
                 return;
             }
             setLoading(true)
-            await ResendMail({ email });
-            toast.success("Verification mail sent. Please verify!");
+            await toast.promise(
+                ResendMail({ email }),
+                {
+                    loading: "Sending verification mail...",
+                    success: "Verification mail sent. Please verify!",
+                    error: (err) =>
+                        err instanceof Error ? err.message : "Failed to send email",
+                }
+            );
+                setError({});
         } catch (err) {
-            if (err instanceof Error) {
-                toast.error(err.message);
-            } else {
-                toast.error("Login failed");
-            }
+                
         } finally {
             setLoading(false)
-            setError({})
         }
     };
 

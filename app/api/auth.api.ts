@@ -39,7 +39,6 @@ export async function RegisterUser(
     if (!parsed.success) {
       throw new Error("Invalid response format from server.");
     }
-
     return parsed.data;
   } catch (error: unknown) {
     throw new Error(getAxiosErrorMessage(error));
