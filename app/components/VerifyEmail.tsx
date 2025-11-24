@@ -18,7 +18,6 @@ export default function VerifyEmailForm() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        try {
             const result = verifyEmailFormSchema.safeParse({ email });
             if (!result.success) {
                 const fieldErrors = z.treeifyError(result.error);
@@ -37,12 +36,8 @@ export default function VerifyEmailForm() {
                         err instanceof Error ? err.message : "Failed to send email",
                 }
             );
-                setError({});
-        } catch (err) {
-                
-        } finally {
+            setError({});
             setLoading(false)
-        }
     };
 
     return (
