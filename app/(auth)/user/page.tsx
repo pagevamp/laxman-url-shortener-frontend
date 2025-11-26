@@ -3,13 +3,9 @@
 import { KeyIcon, UserIcon } from "@heroicons/react/24/outline";
 import { ArrowRightIcon } from "@heroicons/react/20/solid";
 import { Button } from './Button';
-import Input from "./ui/Input";
-import Link from "next/link";
-import { useLogin } from "../hooks/useLogin";
-import { loginUser } from "../api/auth.api";
 import toast from "react-hot-toast";
 
-export default function LoginForm() {
+export default function UserDelete() {
   const { handleValidation,form, setForm, loading, setLoading, error, setError, router } = useLogin();
 
   const handleSubmit = async (e: React.FormEvent) => {

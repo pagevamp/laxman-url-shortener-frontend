@@ -1,6 +1,5 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
 import {
     AtSymbolIcon,
     UserIcon,
@@ -10,37 +9,23 @@ import {
 import { ArrowRightIcon } from '@heroicons/react/20/solid';
 import { Button } from './Button';
 import Input from './ui/Input';
-import useRegisterFormFields from '../hooks/useRegisterFormFields';
-import { registerFormSchema } from '../lib/zodSchemas/register.schema';
-import { RegisterUser } from '../api/auth.api';
-import { z } from 'zod';
-import toast from 'react-hot-toast';
 import Link from 'next/link';
+import { useRegister } from '../hooks/useRegister';
+import { RegisterUser } from '../api/auth.api';
+import toast from 'react-hot-toast';
 export default function Register() {
-    const router = useRouter()
-    const { name, email, setName, setEmail, password, setPassword, username, setUsername, loading, setLoading, error, setError } = useRegisterFormFields();
+    const { form, setForm, handleRegister, loading, setLoading, error, setError, router } = useRegister();
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        
+
+        const isValid = handleRegister();
+        if (!isValid) return;
+
         try {
-        const result = registerFormSchema.safeParse({ name, username, email, password });
-        if (!result.success) {
-            const fieldErrors = z.treeifyError(result.error);
-            setError({
-                name: fieldErrors.properties?.name?.errors[0],
-                username: fieldErrors.properties?.username?.errors[0],
-                email: fieldErrors.properties?.email?.errors[0],
-                password: fieldErrors.properties?.password?.errors[0],
-            });
-            return;
-        }
-
-        setLoading(true);
-
-            const data = await RegisterUser({ name, username, email, password });
-            console.log(data.message)
-            toast.success(data.message)
-            router.push('/login');
+            setLoading(true);
+            const data = await RegisterUser({ name: form.name, username: form.username, email: form.email, password: form.password });
+            toast.success(data.message);
+            router.push("/login");
         } catch (err) {
             if (err instanceof Error) {
                 toast.error(err.message);
@@ -48,8 +33,8 @@ export default function Register() {
                 toast.error("Registration failed");
             }
         } finally {
-            setLoading(false)
-            setError({})
+            setLoading(false);
+            setError({});
         }
     };
 
@@ -60,21 +45,20 @@ export default function Register() {
             </h1>
             <div className="space-y-4">
                 <Input
-                    type="text"
                     id="name"
                     name="name"
                     placeholder="Full Name"
-                    onChange={(e) => { setName(e.target.value) }}
+                    onChange={(e) => setForm((prev) => ({ ...prev, name: e.target.value }))}
                 >
                     <FaceSmileIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 peer-focus:text-gray-900" />
                 </Input>
                 {error?.name && <p className="text-red-500 text-xs -mt-3">{error.name}</p>}
 
-                <Input type="text"
+                <Input
                     id="username"
                     name="username"
                     placeholder="Username"
-                    onChange={(e) => { setUsername(e.target.value) }}
+                    onChange={(e) => setForm((prev) => ({ ...prev, username: e.target.value }))}
                 >
                     <UserIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 peer-focus:text-gray-900" />
                 </Input>
@@ -84,7 +68,7 @@ export default function Register() {
                     id="email"
                     name="email"
                     placeholder="email@example.com"
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={(e) => setForm((prev) => ({ ...prev, email: e.target.value }))}
                 >
                     <AtSymbolIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 peer-focus:text-gray-900" />
                 </Input>
@@ -95,7 +79,7 @@ export default function Register() {
                     id="password"
                     name="password"
                     placeholder="password"
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={(e) => setForm((prev) => ({ ...prev, password: e.target.value }))}
                 >
                     <KeyIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 peer-focus:text-gray-900" />
                 </Input>
@@ -116,4 +100,3 @@ export default function Register() {
         </form >
     );
 }
-
