@@ -1,7 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
 import cookie from "cookie";
-import { get } from "http";
 import { getAxiosErrorMessage } from "@/app/lib/helpers/axios.error";
 
 export default async function handler(
