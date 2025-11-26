@@ -9,7 +9,6 @@ import { useEffect } from 'react';
 import { Button } from '../Button';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import path from 'path';
 
 export default function Navbar() {
   const router  = useRouter()
