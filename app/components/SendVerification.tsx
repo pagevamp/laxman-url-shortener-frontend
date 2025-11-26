@@ -22,7 +22,6 @@ export default function SendVerificationForm() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         const isValid = handleValidation();
-        console.log(isValid)
         if (!isValid) return
         setLoading(true)
         await toast.promise(

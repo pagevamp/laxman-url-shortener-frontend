@@ -1,4 +1,5 @@
 // import { cookies } from "next/headers";
+import axios from "axios";
 import axiosInstance from "../lib/axios";
 import { getAxiosErrorMessage } from "../lib/helpers/axios.error";
 import {
@@ -18,14 +19,30 @@ export async function loginUser(
   data: LoginRequestData
 ): Promise<LoginResponse> {
   try {
-    const res = await axiosInstance.post("/auth/login", data, {});
-
+    const res = await axios.post("/api/proxy", data, { withCredentials: true });
     const parsed = LoginResponseSchema.safeParse(res.data);
     if (!parsed.success) {
       throw new Error("Invalid response format from server.");
     }
-
     return parsed.data;
+  } catch (error: unknown) {
+    throw new Error(getAxiosErrorMessage(error));
+  }
+}
+
+export async function checkLoggedIn() {
+  try {
+    const res = await axios.post("/api/authCheck", { withCredentials: true });
+    return res.data;
+  } catch (error: unknown) {
+    throw new Error(getAxiosErrorMessage(error));
+  }
+}
+
+export async function logout() {
+  try {
+    const res = await axios.post("/api/logout", { withCredentials: true });
+    return res.data;
   } catch (error: unknown) {
     throw new Error(getAxiosErrorMessage(error));
   }
