@@ -32,10 +32,10 @@ async function handleLogout() {
       <div className="flex items-center gap-4">
         {loggedIn ? (
           <>
-            <Link href="/" className="text-gray-700 dark:text-gray-300 hover:underline">
+            <Link href="/" className={clsx("text-gray-700 hidden md:block dark:text-gray-300 hover:underline",{'text-blue-600! dark:text-gray-300! underline font-bold': pathname === "/"})}>
               Dashboard
             </Link>
-            <Link href="/profile" className="text-gray-700 dark:text-gray-300 hover:underline">
+            <Link href="/profile" className={clsx("text-gray-700 hidden md:block dark:text-gray-300 hover:underline",{'text-blue-600! dark:text-gray-300! underline font-bold': pathname === "/profile"})}>
               Profile
             </Link>
              <Button  onClick={handleLogout} className="bg-transparent! border-none! shadow-none dark:text-gray-300! text-gray-700! hidden md:block  hover:underline px-0!">
