@@ -14,22 +14,22 @@ import {
   ResendMailResponseSchema,
   VerifyUserRequestData,
 } from "./interfaces/interfaces";
+
 export async function loginUser(
   data: LoginRequestData
 ): Promise<LoginResponse> {
   try {
-    const res = await fetch("/api/login", {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const response = await res.json();
-    const parsed = LoginResponseSchema.safeParse(response);
+    const res = await axios.post("/api/login", data, { withCredentials: true });
+
+    if (res.data.error || res.data.message) {
+      throw new Error(res.data.error || res.data.message);
+    }
+
+    const parsed = LoginResponseSchema.safeParse(res.data);
     if (!parsed.success) {
       throw new Error("Invalid response format from server.");
     }
+
     return parsed.data;
   } catch (error: unknown) {
     throw new Error(getAxiosErrorMessage(error));
@@ -39,6 +39,11 @@ export async function loginUser(
 export async function checkLoggedIn() {
   try {
     const res = await axios.post("/api/authCheck", { withCredentials: true });
+
+    if (res.data.error || res.data.message) {
+      throw new Error(res.data.error || res.data.message);
+    }
+
     return res.data;
   } catch (error: unknown) {
     throw new Error(getAxiosErrorMessage(error));
