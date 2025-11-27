@@ -14,17 +14,23 @@ import {
   ResendMailResponseSchema,
   VerifyUserRequestData,
 } from "./interfaces/interfaces";
-
-export async function loginUser(
-  data: LoginRequestData
-): Promise<LoginResponse> {
+export async function loginUser(data: LoginRequestData): Promise<void> {
   try {
-    const res = await axios.post("/api/proxy", data, { withCredentials: true });
-    const parsed = LoginResponseSchema.safeParse(res.data);
-    if (!parsed.success) {
-      throw new Error("Invalid response format from server.");
-    }
-    return parsed.data;
+    const res = await fetch("/api/login", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const response = await res.json();
+    // const parsed = LoginResponseSchema.safeParse(res.data);
+    // console.log("Login Response:", await res.json());
+    console.log("Login Response:", response);
+    // if (!parsed.success) {
+    //   throw new Error("Invalid response format from server.");
+    // }
+    // return res;
   } catch (error: unknown) {
     throw new Error(getAxiosErrorMessage(error));
   }
@@ -41,8 +47,14 @@ export async function checkLoggedIn() {
 
 export async function logout() {
   try {
-    const res = await axios.post("/api/logout", { withCredentials: true });
-    return res.data;
+    const res = await fetch("/api/logout", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const response = res.json();
+    return response;
   } catch (error: unknown) {
     throw new Error(getAxiosErrorMessage(error));
   }
@@ -93,29 +105,3 @@ export async function VerifyUser(data: VerifyUserRequestData) {
     throw new Error(getAxiosErrorMessage(error));
   }
 }
-
-// export async function deleteUser() {
-//   try {
-//     const res = await axiosInstance.delete("api/proxy/users/:id/me", {
-//       params: data,
-//     });
-//     const parsed = ResendMailResponseSchema.safeParse(res.data);
-//     if (!parsed.success) {
-//       throw new Error("Invalid response format from server.");
-//     }
-//     return parsed.data;
-//   } catch (error: unknown) {
-//     throw new Error(getAxiosErrorMessage(error));
-//   }
-// }
-
-// export const getRequest = async (path: string) => {
-//   const accessToken = (await cookies()).get("access_token")?.value || "";
-//   const res = await axiosInstance.get("users/:id/me", {
-//     headers: {
-//       Cookie: `accessToken=${accessToken}`,
-//     },
-//     withCredentials: true,
-//   });
-//   return res.data;
-// };
