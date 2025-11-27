@@ -5,7 +5,7 @@ import { z } from "zod";
 import {
   registerActionState,
   registerFormSchema,
-} from "../lib/zodSchemas/register.schema";
+} from "../lib/schemas/register.schema";
 import { useState } from "react";
 
 export const useRegister = () => {
