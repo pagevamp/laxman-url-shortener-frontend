@@ -13,11 +13,8 @@ import Link from 'next/link';
 import { useRegister } from '../hooks/useRegister';
 import { RegisterUser } from '../api/auth.api';
 import toast from 'react-hot-toast';
-import { useEffect } from 'react';
-import { useAuth } from '../context/AuthContext';
 export default function Register() {
     const { form, setForm, handleRegister, loading, setLoading, error, setError, router } = useRegister();
-    const {loggedIn} = useAuth()
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -41,14 +38,6 @@ export default function Register() {
         }
     };
 
-    useEffect(() => {
-      if (loggedIn) {
-        router.push("/");
-      } else {
-        router.push("/register");
-      }
-    }, [loggedIn]);
-
     return (
         <form onSubmit={handleSubmit} className="w-full max-w-sm flex flex-col gap-6 px-8 py-12 rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.5)]">
             <h1 className="text-3xl font-semibold text-gray-900 dark:text-gray-100 mb-3">
@@ -61,7 +50,7 @@ export default function Register() {
                     placeholder="Full Name"
                     onChange={(e) => setForm((prev) => ({ ...prev, name: e.target.value }))}
                 >
-                    <FaceSmileIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 " />
+                    <FaceSmileIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 peer-focus:text-gray-900" />
                 </Input>
                 {error?.name && <p className="text-red-500 text-xs -mt-3">{error.name}</p>}
 
@@ -71,7 +60,7 @@ export default function Register() {
                     placeholder="Username"
                     onChange={(e) => setForm((prev) => ({ ...prev, username: e.target.value }))}
                 >
-                    <UserIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+                    <UserIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 peer-focus:text-gray-900" />
                 </Input>
                 {error?.username && <p className="text-red-500 text-xs -mt-3">{error.username}</p>}
 
@@ -81,7 +70,7 @@ export default function Register() {
                     placeholder="email@example.com"
                     onChange={(e) => setForm((prev) => ({ ...prev, email: e.target.value }))}
                 >
-                    <AtSymbolIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 " />
+                    <AtSymbolIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 peer-focus:text-gray-900" />
                 </Input>
                 {error?.email && <p className="text-red-500 text-xs -mt-3">{error.email}</p>}
 
@@ -92,7 +81,7 @@ export default function Register() {
                     placeholder="password"
                     onChange={(e) => setForm((prev) => ({ ...prev, password: e.target.value }))}
                 >
-                    <KeyIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 " />
+                    <KeyIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 peer-focus:text-gray-900" />
                 </Input>
                 {error?.password && <p className="text-red-500 text-xs -mt-3">{error.password}</p>}
             </div>
