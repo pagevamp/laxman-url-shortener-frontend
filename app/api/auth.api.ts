@@ -36,6 +36,15 @@ export async function loginUser(
   }
 }
 
+export async function checkLoggedIn() {
+  try {
+    const res = await axios.post("/api/authCheck", { withCredentials: true });
+    return res.data;
+  } catch (error: unknown) {
+    throw new Error(getAxiosErrorMessage(error));
+  }
+}
+
 export async function RegisterUser(
   data: RegisterRequestData
 ): Promise<RegisterResponse> {
