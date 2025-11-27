@@ -14,7 +14,9 @@ import {
   ResendMailResponseSchema,
   VerifyUserRequestData,
 } from "./interfaces/interfaces";
-export async function loginUser(data: LoginRequestData): Promise<void> {
+export async function loginUser(
+  data: LoginRequestData
+): Promise<LoginResponse> {
   try {
     const res = await fetch("/api/login", {
       method: "POST",
@@ -24,37 +26,11 @@ export async function loginUser(data: LoginRequestData): Promise<void> {
       },
     });
     const response = await res.json();
-    // const parsed = LoginResponseSchema.safeParse(res.data);
-    // console.log("Login Response:", await res.json());
-    console.log("Login Response:", response);
-    // if (!parsed.success) {
-    //   throw new Error("Invalid response format from server.");
-    // }
-    // return res;
-  } catch (error: unknown) {
-    throw new Error(getAxiosErrorMessage(error));
-  }
-}
-
-export async function checkLoggedIn() {
-  try {
-    const res = await axios.post("/api/authCheck", { withCredentials: true });
-    return res.data;
-  } catch (error: unknown) {
-    throw new Error(getAxiosErrorMessage(error));
-  }
-}
-
-export async function logout() {
-  try {
-    const res = await fetch("/api/logout", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const response = res.json();
-    return response;
+    const parsed = LoginResponseSchema.safeParse(response);
+    if (!parsed.success) {
+      throw new Error("Invalid response format from server.");
+    }
+    return parsed.data;
   } catch (error: unknown) {
     throw new Error(getAxiosErrorMessage(error));
   }

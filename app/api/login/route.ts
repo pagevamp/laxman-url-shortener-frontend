@@ -15,7 +15,7 @@ export async function POST(req: Request) {
     const { access_token } = backendRes.data;
 
     if (!access_token)
-      return NextResponse.json({ data: "Invalid Credentials" });
+      return NextResponse.json({ message: "Invalid Credentials" });
 
     cookieStore.set("accessToken", access_token, {
       httpOnly: true,
@@ -25,7 +25,7 @@ export async function POST(req: Request) {
       maxAge: 7 * 24 * 60 * 60,
     });
 
-    return NextResponse.json({ data: true });
+    return NextResponse.json({ loggedIn: true });
   } catch (err: unknown) {
     const error = getAxiosErrorMessage(err);
     return NextResponse.json({ error });
