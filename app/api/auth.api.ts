@@ -94,28 +94,14 @@ export async function VerifyUser(data: VerifyUserRequestData) {
   }
 }
 
-// export async function deleteUser() {
-//   try {
-//     const res = await axiosInstance.delete("api/proxy/users/:id/me", {
-//       params: data,
-//     });
-//     const parsed = ResendMailResponseSchema.safeParse(res.data);
-//     if (!parsed.success) {
-//       throw new Error("Invalid response format from server.");
-//     }
-//     return parsed.data;
-//   } catch (error: unknown) {
-//     throw new Error(getAxiosErrorMessage(error));
-//   }
-// }
-
-// export const getRequest = async (path: string) => {
-//   const accessToken = (await cookies()).get("access_token")?.value || "";
-//   const res = await axiosInstance.get("users/:id/me", {
-//     headers: {
-//       Cookie: `accessToken=${accessToken}`,
-//     },
-//     withCredentials: true,
-//   });
-//   return res.data;
-// };
+export async function deleteUser(token: string) {
+  try {
+    await axiosInstance.delete("/users/:id/me", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  } catch (error: unknown) {
+    throw new Error(getAxiosErrorMessage(error));
+  }
+}

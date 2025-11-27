@@ -10,7 +10,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     if (!loggedIn) {
       router.push("/login");
     }
-  }, [loggedIn, router]);
+  }, [loggedIn]);
 
   if (!loggedIn) return null;
     return (
