@@ -10,6 +10,7 @@ import {
   ResendMailRequestData,
   ResendMailResponse,
   ResendMailResponseSchema,
+  VerifyUserRequestData,
 } from "./interfaces/interfaces";
 
 export async function loginUser(
@@ -56,6 +57,19 @@ export async function ResendMail(
       throw new Error("Invalid response format from server.");
     }
 
+    return parsed.data;
+  } catch (error: unknown) {
+    throw new Error(getAxiosErrorMessage(error));
+  }
+}
+
+export async function VerifyUser(data: VerifyUserRequestData) {
+  try {
+    const res = await axiosInstance.get("/auth/verify-email", { params: data });
+    const parsed = ResendMailResponseSchema.safeParse(res.data);
+    if (!parsed.success) {
+      throw new Error("Invalid response format from server.");
+    }
     return parsed.data;
   } catch (error: unknown) {
     throw new Error(getAxiosErrorMessage(error));

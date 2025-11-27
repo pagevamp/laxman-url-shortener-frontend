@@ -1,10 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import {
-  loginActionState,
-  loginFormSchema,
-} from "../lib/zodSchemas/login.schema";
+import { loginActionState, loginFormSchema } from "../lib/schemas/login.schema";
 import { z } from "zod";
 import { useRouter } from "next/navigation";
 

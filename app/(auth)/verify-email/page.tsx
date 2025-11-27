@@ -1,7 +1,7 @@
-import VerifyEmailForm from "@/app/components/VerifyEmail";
+import VerifyEmail from "@/app/components/VerifyEmail";
 
-export default function VerifyPage() {
+export default function VerifyEmaiPage() {
   return (
-    <VerifyEmailForm />
+    <VerifyEmail />
   );
 }

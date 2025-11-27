@@ -7,6 +7,10 @@ export interface ResendMailRequestData {
   email: string;
 }
 
+export interface VerifyUserRequestData {
+  token: string;
+}
+
 export interface RegisterRequestData {
   name: string;
   username: string;
