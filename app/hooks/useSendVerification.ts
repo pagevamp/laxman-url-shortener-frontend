@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import {
   sendVerificationActionState,
   sendVerificationSchema,
-} from "../lib/zodSchemas/sendVerification.schema";
+} from "../lib/schemas/sendVerification.schema";
 
 export const useSendVerification = () => {
   const [email, setEmail] = useState("");
