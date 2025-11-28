@@ -8,9 +8,11 @@ import Link from "next/link";
 import { useLogin } from "../hooks/useLogin";
 import { loginUser } from "../api/auth.api";
 import toast from "react-hot-toast";
+import { useAuth } from "../context/AuthContext";
 
 export default function LoginForm() {
   const { handleValidation,form, setForm, loading, setLoading, error, setError, router } = useLogin();
+  const { setLoggedIn } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,6 +22,7 @@ export default function LoginForm() {
     try {
       setLoading(true);
       await loginUser({ username: form.username, password: form.password });
+      setLoggedIn(true)
       toast.success("Login Successful!");
       router.push("/");
     } catch (err) {
