@@ -25,7 +25,6 @@ export default function VerifyEmail() {
         }
         setStatus("error")
       } finally {
-
       }
     }
     if (token) {
