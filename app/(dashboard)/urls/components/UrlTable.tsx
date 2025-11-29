@@ -1,7 +1,8 @@
 "use client";
 
+import { Button } from "@/app/components/ui/Button";
 import { useUrl } from "@/app/hooks/useUrl";
-import { PencilIcon, ClipboardDocumentCheckIcon } from "@heroicons/react/24/outline";
+import { PencilIcon, ClipboardDocumentCheckIcon, PlusIcon } from "@heroicons/react/24/outline";
 
 interface UrlItem {
   id: string;
@@ -72,9 +73,15 @@ export default function UrlTable() {
 
   return (
     <div className="w-full overflow-hidden rounded-3xl bg-gray-50 dark:bg-gray-900 shadow-[0_10px_40px_rgba(0,0,0,0.5)] p-6">
-      <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">
-        Your Shortened URLs
-      </h2>
+       <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Your Shortened URLs</h1>
+        <Button
+          className="flex items-center gap-2! px-4! bg-blue-600 text-white rounded-lg hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 transition hover:scale-105"
+        >
+          <PlusIcon className="h-5 w-5" />
+          Add New URL
+        </Button>
+      </div>
       <div className="overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-700">
         <table className="w-full border-collapse">
           <thead className="bg-gray-200 dark:bg-gray-700">
@@ -141,10 +148,10 @@ export default function UrlTable() {
                 </td>
 
                 <td className="p-4">
-                  <button className="flex items-center gap-2 px-2 py-1 rounded-xl bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 transition cursor-pointer hover:scale-105">
+                  <Button className="h-8! flex items-center gap-2 px-4! rounded-xl bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 transition cursor-pointer hover:scale-105">
                     <PencilIcon className="h-4 w-4" />
                     Edit
-                  </button>
+                  </Button>
                 </td>
               </tr>
             ))}
