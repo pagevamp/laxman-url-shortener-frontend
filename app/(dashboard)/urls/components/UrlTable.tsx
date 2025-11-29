@@ -73,15 +73,6 @@ export default function UrlTable() {
 
   return (
     <div className="w-full overflow-hidden rounded-3xl bg-gray-50 dark:bg-gray-900 shadow-[0_10px_40px_rgba(0,0,0,0.5)] p-6">
-       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Your Shortened URLs</h1>
-        <Button
-          className="flex items-center gap-2! px-4! bg-blue-600 text-white rounded-lg hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 transition hover:scale-105"
-        >
-          <PlusIcon className="h-5 w-5" />
-          Add New URL
-        </Button>
-      </div>
       <div className="overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-700">
         <table className="w-full border-collapse">
           <thead className="bg-gray-200 dark:bg-gray-700">
