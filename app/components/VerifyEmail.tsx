@@ -24,7 +24,6 @@ export default function VerifyEmail() {
           toast.error("Registration failed");
         }
         setStatus("error")
-      } finally {
       }
     }
     if (token) {
