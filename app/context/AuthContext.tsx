@@ -17,8 +17,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     useEffect(() => {
         const checkLogin = async () => {
             try {
-                const res = await checkLoggedIn();
-                console.log("the res is: ",res)
+            const res = await checkLoggedIn();
                 setLoggedIn(res.loggedIn);
                 setToken(res.token);
             } catch (err) {
