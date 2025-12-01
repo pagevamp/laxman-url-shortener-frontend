@@ -1,9 +1,9 @@
 "use client";
 
 import { Button } from "@/app/components/ui/Button";
+import { SortableFields, UrlItem } from "@/app/hooks/interfaces/types";
 import { useUrl } from "@/app/hooks/useUrl";
 import { PencilIcon, ClipboardDocumentCheckIcon } from "@heroicons/react/24/outline";
-import { useMemo, useState } from "react";
 
 const urls: UrlItem[] = [
   {
@@ -58,56 +58,25 @@ const urls: UrlItem[] = [
     created_at: "2025-11-10T08:30:10.100Z",
   },
 ];
-interface UrlItem {
-  id: string;
-  original_url: string;
-  short_url: string;
-  expires_at: string;
-  created_at: string;
-}
-
-type SortableFields = "created_at" | "expires_at";
-
 
 export default function UrlTable() {
-  const { copiedMap, handleCopyClick, getExpiryColor } = useUrl()
-  const [search, setSearch] = useState("");
-  const [filter, setFilter] = useState("all");
-  const [sortBy, setSortBy] = useState<SortableFields>("created_at");
-  const [sortOrder, setSortOrder] = useState("desc");
+  const { copiedMap, handleCopyClick, getExpiryColor, search,
+    setSearch,
+    filter,
+    setFilter,
+    sortBy,
+    setSortBy,
+    sortOrder,
+    setSortOrder, useFilteredSortedUrls } = useUrl()
+
   const baseDomain = process.env.BASE_URL;
 
-   const filteredData = useMemo(() => {
-    let data = [...urls];
-
-    if (search.trim() !== "") {
-      data = data.filter((item) =>
-        item.original_url.toLowerCase().includes(search.toLowerCase()) ||
-        item.short_url.toLowerCase().includes(search.toLowerCase())
-      );
-    }
-
-    const now = new Date();
-    if (filter === "active") {
-      data = data.filter((item) => new Date(item.expires_at) > now);
-    } else if (filter === "expired") {
-      data = data.filter((item) => new Date(item.expires_at) <= now);
-    }
-
-    data.sort((a, b) => {
-      const valA = new Date(a[sortBy]).getTime();
-      const valB = new Date(b[sortBy]).getTime();
-
-      return sortOrder === "asc" ? valA - valB : valB - valA;
-    });
-
-    return data;
-  }, [urls, search, filter, sortBy, sortOrder]);
+  const filteredData = useFilteredSortedUrls(urls);
 
   return (
     <div className="w-full overflow-hidden rounded-3xl bg-gray-50 dark:bg-gray-900 shadow-[0_10px_40px_rgba(0,0,0,0.5)] p-6">
       <div className="overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-700">
-        
+
         <div className="flex flex-col md:flex-row items-center justify-start gap-3 bg-gray-50 dark:bg-gray-900 p-4 rounded-2xl shadow">
 
           <input
@@ -130,7 +99,7 @@ export default function UrlTable() {
 
           <select
             value={sortBy}
-            onChange={(e) => setSortBy(e.target.value as SortableFields )}
+            onChange={(e) => setSortBy(e.target.value as SortableFields)}
             className="px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200"
           >
             <option value="created_at">Sort by Created Date</option>

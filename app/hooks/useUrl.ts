@@ -1,9 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { SortableFields, UrlItem } from "./interfaces/types";
 
 export const useUrl = () => {
   const [copiedMap, setCopiedMap] = useState<{ [key: string]: boolean }>({});
+  const [search, setSearch] = useState("");
+  const [filter, setFilter] = useState("all");
+  const [sortBy, setSortBy] = useState<SortableFields>("created_at");
+  const [sortOrder, setSortOrder] = useState("desc");
 
   const handleCopyClick = async (text: string, id: string) => {
     try {
@@ -29,9 +34,47 @@ export const useUrl = () => {
     return "text-green-600 dark:text-green-400";
   };
 
+  function useFilteredSortedUrls(urls: UrlItem[]) {
+    return useMemo(() => {
+      let data = [...urls];
+
+      if (search.trim() !== "") {
+        data = data.filter(
+          (item) =>
+            item.original_url.toLowerCase().includes(search.toLowerCase()) ||
+            item.short_url.toLowerCase().includes(search.toLowerCase())
+        );
+      }
+
+      const now = new Date();
+      if (filter === "active") {
+        data = data.filter((item) => new Date(item.expires_at) > now);
+      } else if (filter === "expired") {
+        data = data.filter((item) => new Date(item.expires_at) <= now);
+      }
+
+      data.sort((a, b) => {
+        const valA = new Date(a[sortBy]).getTime();
+        const valB = new Date(b[sortBy]).getTime();
+        return sortOrder === "asc" ? valA - valB : valB - valA;
+      });
+
+      return data;
+    }, [urls, search, filter, sortBy, sortOrder]);
+  }
+
   return {
     copiedMap,
     handleCopyClick,
     getExpiryColor,
+    search,
+    setSearch,
+    filter,
+    setFilter,
+    sortBy,
+    setSortBy,
+    sortOrder,
+    setSortOrder,
+    useFilteredSortedUrls,
   };
 };
