@@ -2,7 +2,7 @@
 
 import { Button } from "@/app/components/ui/Button";
 import { SortableFields, UrlItem } from "@/app/hooks/interfaces/types";
-import { useUrl } from "@/app/hooks/useUrl";
+import { useUrl } from "@/app/hooks/useUrlTable";
 import { PencilIcon, ClipboardDocumentCheckIcon } from "@heroicons/react/24/outline";
 
 const urls: UrlItem[] = [
