@@ -1,4 +1,3 @@
-// import { cookies } from "next/headers";
 import axios from "axios";
 import axiosInstance from "../lib/axios";
 import { getAxiosErrorMessage } from "../lib/helpers/axios.error";

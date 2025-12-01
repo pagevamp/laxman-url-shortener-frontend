@@ -3,12 +3,16 @@
 import { VerifyUser } from "@/app/api/auth.api";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
-import { CheckCircleIcon, XCircleIcon, ClockIcon } from "@heroicons/react/24/solid";
+import {
+  CheckCircleIcon,
+  XCircleIcon,
+  ClockIcon,
+} from "@heroicons/react/24/solid";
 import Link from "next/link";
 import { useVerifyMail } from "../hooks/useVerifyMail";
 
 export default function VerifyEmail() {
- const {token, message, setMessage, status, setStatus} = useVerifyMail();
+  const { token, message, setMessage, status, setStatus } = useVerifyMail();
   useEffect(() => {
     async function verifyToken() {
       try {
@@ -19,12 +23,11 @@ export default function VerifyEmail() {
       } catch (err) {
         if (err instanceof Error) {
           toast.error(err.message);
-          setMessage(err.message)
+          setMessage(err.message);
         } else {
           toast.error("Registration failed");
         }
-        setStatus("error")
-      } finally {
+        setStatus("error");
       }
     }
     if (token) {
@@ -36,8 +39,10 @@ export default function VerifyEmail() {
   }, [token]);
 
   const getStatusIcon = () => {
-    if (status === "checking") return <ClockIcon className="w-12 h-12 text-yellow-500 animate-pulse" />;
-    if (status === "success") return <CheckCircleIcon className="w-12 h-12 text-green-500" />;
+    if (status === "checking")
+      return <ClockIcon className="w-12 h-12 text-yellow-500 animate-pulse" />;
+    if (status === "success")
+      return <CheckCircleIcon className="w-12 h-12 text-green-500" />;
     return <XCircleIcon className="w-12 h-12 text-red-500" />;
   };
 

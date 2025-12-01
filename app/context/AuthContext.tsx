@@ -1,13 +1,18 @@
 "use client";
-import axios from "axios";
-import { createContext, useContext, useEffect, useState, ReactNode } from "react";
+import {
+    createContext,
+    useContext,
+    useEffect,
+    useState,
+    ReactNode,
+} from "react";
 import { checkLoggedIn } from "../api/auth.api";
 
 interface AuthContextType {
     loggedIn: boolean | null;
     setLoggedIn: (value: boolean) => void;
     token: string | null;
-    setToken:(value:string) =>void;
+    setToken: (value: string) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);

@@ -3,6 +3,7 @@ import clsx from "clsx";
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  className?: string;
 }
 
 export function Button({ children, onClick, className, ...rest }: ButtonProps) {
