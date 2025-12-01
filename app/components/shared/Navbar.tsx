@@ -4,7 +4,6 @@ import Link from 'next/link';
 import DarkModeToggle from '../DarkModeToggle';
 import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
-import { useEffect } from 'react';
 import { Button } from '../Button';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
@@ -21,8 +20,6 @@ export default function Navbar() {
     setLoggedIn(false);
     router.push('/login');
   }
-  useEffect(() => {
-  }, [loggedIn]);
 
   return (
     <nav className="absolute w-full flex items-center justify-between px-8 py-4 bg-white dark:bg-gray-900 shadow-md  top-0 z-50 rounded-2xl">
