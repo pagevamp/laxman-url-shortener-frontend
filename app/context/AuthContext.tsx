@@ -1,12 +1,18 @@
 "use client";
-import { createContext, useContext, useEffect, useState, ReactNode } from "react";
+import {
+    createContext,
+    useContext,
+    useEffect,
+    useState,
+    ReactNode,
+} from "react";
 import { checkLoggedIn } from "../api/auth.api";
 
 interface AuthContextType {
     loggedIn: boolean | null;
     setLoggedIn: (value: boolean) => void;
     token: string | null;
-    setToken:(value:string) =>void;
+    setToken: (value: string) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -17,7 +23,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     useEffect(() => {
         const checkLogin = async () => {
             try {
-            const res = await checkLoggedIn();
+                const res = await checkLoggedIn();
                 setLoggedIn(res.loggedIn);
                 setToken(res.token);
             } catch (err) {

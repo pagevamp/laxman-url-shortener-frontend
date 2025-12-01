@@ -26,11 +26,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} `}
-      >
-        <Navbar/>
-        <Toaster position="bottom-center"/>
+      <body className={`${geistSans.variable} ${geistMono.variable} `}>
+        <Navbar />
+        <Toaster position="bottom-center" />
         {children}
       </body>
     </html>

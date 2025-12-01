@@ -3,7 +3,7 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 body {
-  background-image: url('./assets/bg-water.webp');
+  background-image: url("./assets/bg-water.webp");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
