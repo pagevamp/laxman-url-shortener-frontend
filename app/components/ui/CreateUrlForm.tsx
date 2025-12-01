@@ -30,7 +30,7 @@ export default function CreateUrlForm() {
     return (
         <form
             onSubmit={handleSubmit}
-            className="w-full max-w-md flex flex-col gap-8 px-5 py-7 dark:bg-gray-900 rounded-3xl dark:shadow-black/30"
+            className="w-full max-w-md flex flex-col gap-8 dark:bg-gray-900 rounded-3xl dark:shadow-black/30"
         >
             <p className="text-lg text-gray-700 dark:text-gray-300">
                 Enter the URL and set an optional expiry date

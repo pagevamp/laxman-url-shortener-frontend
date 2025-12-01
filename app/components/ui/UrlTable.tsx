@@ -1,16 +1,9 @@
 "use client";
 
 import { Button } from "@/app/components/ui/Button";
+import { SortableFields, UrlItem } from "@/app/hooks/interfaces/types";
 import { useUrl } from "@/app/hooks/useUrl";
-import { PencilIcon, ClipboardDocumentCheckIcon, PlusIcon } from "@heroicons/react/24/outline";
-
-interface UrlItem {
-  id: string;
-  original_url: string;
-  short_url: string;
-  expires_at: string;
-  created_at: string;
-}
+import { PencilIcon, ClipboardDocumentCheckIcon } from "@heroicons/react/24/outline";
 
 const urls: UrlItem[] = [
   {
@@ -25,7 +18,7 @@ const urls: UrlItem[] = [
     original_url: "https://vercel.com/docs/functions/edge-functions",
     short_url: "edgeFn10",
     expires_at: "2025-11-30T10:00:00.000Z",
-    created_at: "2025-11-25T10:12:40.200Z",
+    created_at: "2025-08-25T10:12:40.200Z",
   },
   {
     id: "9988aa77-bb66-cc55-d1d44-ff332211515",
@@ -67,13 +60,61 @@ const urls: UrlItem[] = [
 ];
 
 export default function UrlTable() {
-  const { copiedMap, handleCopyClick, getExpiryColor } = useUrl()
+  const { copiedMap, handleCopyClick, getExpiryColor, search,
+    setSearch,
+    filter,
+    setFilter,
+    sortBy,
+    setSortBy,
+    sortOrder,
+    setSortOrder, useFilteredSortedUrls } = useUrl()
 
   const baseDomain = process.env.BASE_URL;
+
+  const filteredData = useFilteredSortedUrls(urls);
 
   return (
     <div className="w-full overflow-hidden rounded-3xl bg-gray-50 dark:bg-gray-900 shadow-[0_10px_40px_rgba(0,0,0,0.5)] p-6">
       <div className="overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-700">
+
+        <div className="flex flex-col md:flex-row items-center justify-start gap-3 bg-gray-50 dark:bg-gray-900 p-4 rounded-2xl shadow">
+
+          <input
+            type="text"
+            placeholder="Search by URL or short code..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full md:w-1/3 px-3 py-2 rounded-xl border focus:outline-gray-500 border-gray-400 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200"
+          />
+
+          <select
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
+            className="px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200"
+          >
+            <option value="all">All URLs</option>
+            <option value="active">Active URLs</option>
+            <option value="expired">Expired URLs</option>
+          </select>
+
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value as SortableFields)}
+            className="px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200"
+          >
+            <option value="created_at">Sort by Created Date</option>
+            <option value="expires_at">Sort by Expiry Date</option>
+          </select>
+
+          <select
+            value={sortOrder}
+            onChange={(e) => setSortOrder(e.target.value)}
+            className="px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200"
+          >
+            <option value="desc">Descending</option>
+            <option value="asc">Ascending</option>
+          </select>
+        </div>
         <table className="w-full border-collapse">
           <thead className="bg-gray-200 dark:bg-gray-700">
             <tr className="text-left">
@@ -87,12 +128,12 @@ export default function UrlTable() {
           </thead>
 
           <tbody>
-            {urls.map((item, index) => (
+            {filteredData.map((item, index) => (
               <tr
                 key={item.id}
                 className="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition hover:scale-100"
               >
-                
+
                 <td className="p-4 font-medium text-gray-700 dark:text-gray-300">{index + 1}</td>
 
                 <td className="p-4">

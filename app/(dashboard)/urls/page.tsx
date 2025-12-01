@@ -1,10 +1,10 @@
 "use client"
 import Modal from '@/app/components/ui/Modal';
-import CreateUrlForm from './components/CreateUrlForm';
+import CreateUrlForm from '../../components/ui/CreateUrlForm';
 import { useState } from 'react';
 import { Button } from '@/app/components/ui/Button';
 import { PlusIcon } from '@heroicons/react/24/outline';
-import UrlTable from './components/UrlTable';
+import UrlTable from '@/app/components/ui/UrlTable';
 
 export default function UrlPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -26,7 +26,7 @@ export default function UrlPage() {
 
       {isModalOpen && (
         <Modal onClose={() => setIsModalOpen(false)} title="Create New URL">
-          <CreateUrlForm  />
+          <CreateUrlForm />
         </Modal>
       )}
     </div>
