@@ -1,4 +1,3 @@
-import React from 'react'
 import UrlTable from '../../components/ui/UrlTable'
 import { Button } from '@/app/components/ui/Button'
 import { PlusIcon } from '@heroicons/react/24/outline'
