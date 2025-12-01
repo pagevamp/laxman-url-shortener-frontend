@@ -58,9 +58,11 @@ export default function SendVerificationForm() {
           id="email"
           name="email"
           placeholder="email"
+          value={email}
+          error={error?.email}
           onChange={(e) => setEmail(e.target.value)}
         >
-          <AtSymbolIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+          <AtSymbolIcon className="h-5 w-5" />
         </Input>
         {error?.email && (
           <p className="text-red-500 text-xs -mt-3">{error.email}</p>

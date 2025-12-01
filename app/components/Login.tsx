@@ -63,30 +63,27 @@ export default function LoginForm() {
           id="username"
           name="username"
           placeholder="username"
+          value={form.username}
+          error={error?.username}
           onChange={(e) =>
             setForm((prev) => ({ ...prev, username: e.target.value }))
           }
         >
-          <UserIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+          <UserIcon className="h-5 w-5" />
         </Input>
-        {error?.username && (
-          <p className="text-red-500 text-xs -mt-3">{error.username}</p>
-        )}
-
         <Input
           type="password"
           id="password"
           name="password"
           placeholder="password"
+          value={form.password}
+          error={error?.password}
           onChange={(e) =>
             setForm((prev) => ({ ...prev, password: e.target.value }))
           }
         >
-          <KeyIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+          <KeyIcon className=" h-5 w-5" />
         </Input>
-        {error?.password && (
-          <p className="text-red-500 text-xs -mt-3">{error.password}</p>
-        )}
       </div>
 
       <Button className="mt-6">
