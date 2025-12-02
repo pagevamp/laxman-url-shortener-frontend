@@ -23,15 +23,26 @@ export const useUrl = () => {
     }
   };
 
-  const getExpiryColor = (expires_at: string) => {
+  // const getExpiryColor = (expires_at: string) => {
+  //   const now = new Date();
+  //   const expiry = new Date(expires_at);
+  //   const diff = expiry.getTime() - now.getTime();
+
+  //   if (diff <= 0) return "text-red-600 dark:text-red-400";
+  //   if (diff < 24 * 60 * 60 * 1000)
+  //     return "text-yellow-600 dark:text-yellow-400";
+  //   return "text-green-600 dark:text-green-400";
+  // };
+  const getExpiryBg = (expires_at: string) => {
     const now = new Date();
     const expiry = new Date(expires_at);
     const diff = expiry.getTime() - now.getTime();
 
-    if (diff <= 0) return "text-red-600 dark:text-red-400";
+    if (diff <= 0)
+      return "bg-red-100 dark:bg-red-800 text-red-800 dark:text-red-200";
     if (diff < 24 * 60 * 60 * 1000)
-      return "text-yellow-600 dark:text-yellow-400";
-    return "text-green-600 dark:text-green-400";
+      return "bg-yellow-100 dark:bg-yellow-800 text-yellow-800 dark:text-yellow-200";
+    return "bg-green-100 dark:bg-green-800 text-green-800 dark:text-green-200";
   };
 
   function useFilteredSortedUrls(urls: UrlItem[]) {
@@ -66,7 +77,7 @@ export const useUrl = () => {
   return {
     copiedMap,
     handleCopyClick,
-    getExpiryColor,
+    getExpiryBg,
     search,
     setSearch,
     filter,

@@ -3,7 +3,7 @@
 import { Button } from "@/app/components/ui/Button";
 import { SortableFields, UrlItem } from "@/app/hooks/interfaces/types";
 import { useUrl } from "@/app/hooks/useUrlTable";
-import { PencilIcon, ClipboardDocumentCheckIcon } from "@heroicons/react/24/outline";
+import { PencilIcon, ClipboardDocumentCheckIcon, ArrowTrendingDownIcon, ArrowTrendingUpIcon } from "@heroicons/react/24/outline";
 
 const urls: UrlItem[] = [
   {
@@ -60,7 +60,7 @@ const urls: UrlItem[] = [
 ];
 
 export default function UrlTable() {
-  const { copiedMap, handleCopyClick, getExpiryColor, search,
+  const { copiedMap, handleCopyClick, getExpiryBg, search,
     setSearch,
     filter,
     setFilter,
@@ -77,7 +77,7 @@ export default function UrlTable() {
     <div className="w-full overflow-hidden rounded-3xl bg-gray-50 dark:bg-gray-900 shadow-[0_10px_40px_rgba(0,0,0,0.5)] p-6">
       <div className="overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-700">
 
-        <div className="flex flex-col md:flex-row items-center justify-start gap-3 bg-gray-50 dark:bg-gray-900 p-4 rounded-2xl shadow">
+        <div className="flex flex-col md:flex-row items-center justify-start gap-3 bg-gray-50 dark:bg-gray-900 p-4 shadow">
 
           <input
             type="text"
@@ -90,39 +90,52 @@ export default function UrlTable() {
           <select
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
-            className="px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200"
+            className="px-3 py-2 rounded-xl border focus:outline-none border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 cursor-pointer"
           >
             <option value="all">All URLs</option>
             <option value="active">Active URLs</option>
             <option value="expired">Expired URLs</option>
           </select>
 
-          <select
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value as SortableFields)}
-            className="px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200"
-          >
-            <option value="created_at">Sort by Created Date</option>
-            <option value="expires_at">Sort by Expiry Date</option>
-          </select>
-
-          <select
-            value={sortOrder}
-            onChange={(e) => setSortOrder(e.target.value)}
-            className="px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200"
-          >
-            <option value="desc">Descending</option>
-            <option value="asc">Ascending</option>
-          </select>
         </div>
+
+        {/* table */}
         <table className="w-full border-collapse">
           <thead className="bg-gray-200 dark:bg-gray-700">
             <tr className="text-left">
               <th className="p-4 text-gray-700 dark:text-gray-300 font-medium">#</th>
               <th className="p-4 text-gray-700 dark:text-gray-300 font-medium">Original URL</th>
               <th className="p-4 text-gray-700 dark:text-gray-300 font-medium">Short URL</th>
-              <th className="p-4 text-gray-700 dark:text-gray-300 font-medium">Expires At</th>
-              <th className="p-4 text-gray-700 dark:text-gray-300 font-medium">Created At</th>
+              <th
+                onClick={() => {
+                  setSortBy("expires_at");
+                  setSortOrder(sortBy === "expires_at" ? (sortOrder === "asc" ? "desc" : "asc") : "asc");
+                }}
+                className="p-4 text-gray-700 dark:text-gray-300 font-medium cursor-pointer select-none hover:underline"
+              >
+                <div className="flex">
+
+                  Expires At
+                  {sortBy === "expires_at" && (
+                    <span className="ml-1">{sortOrder === "asc" ? <ArrowTrendingUpIcon className="h-5 w-5" /> : <ArrowTrendingDownIcon className="h-5 w-5" />}</span>
+                  )}
+                </div>
+              </th>
+
+              <th
+                onClick={() => {
+                  setSortBy("created_at");
+                  setSortOrder(sortBy === "created_at" ? (sortOrder === "asc" ? "desc" : "asc") : "asc");
+                }}
+                className="p-4 flex text-gray-700 dark:text-gray-300 font-medium cursor-pointer select-none hover:underline"
+              >
+                <div className="flex">
+                  Created At
+                  {sortBy === "created_at" && (
+                    <span className="ml-1">{sortOrder === "asc" ? <ArrowTrendingUpIcon className="h-5 w-5" /> : <ArrowTrendingDownIcon className="h-5 w-5" />}</span>
+                  )}
+                </div>
+              </th>
               <th className="p-4 text-gray-700 dark:text-gray-300 font-medium ">Actions</th>
             </tr>
           </thead>
@@ -171,7 +184,7 @@ export default function UrlTable() {
                 </td>
 
 
-                <td className={`p-4 font-medium ${getExpiryColor(item.expires_at)}`}>
+                <td className={`p-1 px-2 font-medium rounded-lg ${getExpiryBg(item.expires_at)}`}>
                   {new Date(item.expires_at).toLocaleString()}
                 </td>
 
