@@ -4,6 +4,7 @@ import { Button } from "@/app/components/ui/Button";
 import { SortableFields, UrlItem } from "@/app/hooks/interfaces/types";
 import { useUrl } from "@/app/hooks/useUrlTable";
 import { PencilIcon, ClipboardDocumentCheckIcon, ArrowTrendingDownIcon, ArrowTrendingUpIcon } from "@heroicons/react/24/outline";
+import { useEffect, useState } from "react";
 
 const urls: UrlItem[] = [
   {
@@ -30,7 +31,7 @@ const urls: UrlItem[] = [
     id: "9988aa77-bb66-cc55-dd144-ff331221155",
     original_url: "https://nextjs.org/docs/app/building-your-application",
     short_url: "nextDocs",
-    expires_at: "2025-11-29T14:00:00.000Z",
+    expires_at: "2025-12-02T14:00:00.000Z",
     created_at: "2025-11-10T08:30:10.100Z",
   }, {
     id: "9988aa77-bb66-cc55-dd44-ff311113221155",
@@ -69,9 +70,23 @@ export default function UrlTable() {
     sortOrder,
     setSortOrder, useFilteredSortedUrls } = useUrl()
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+
+
   const baseDomain = process.env.BASE_URL;
 
   const filteredData = useFilteredSortedUrls(urls);
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedData = filteredData.slice(startIndex, endIndex);
+
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [search, filter, sortBy, sortOrder]);
 
   return (
     <div className="w-full overflow-hidden rounded-3xl bg-gray-50 dark:bg-gray-900 shadow-[0_10px_40px_rgba(0,0,0,0.5)] p-6">
@@ -141,7 +156,7 @@ export default function UrlTable() {
           </thead>
 
           <tbody>
-            {filteredData.map((item, index) => (
+            {paginatedData.map((item, index) => (
               <tr
                 key={item.id}
                 className="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition hover:scale-100"
@@ -184,8 +199,12 @@ export default function UrlTable() {
                 </td>
 
 
-                <td className={`p-1 px-2 font-medium rounded-lg ${getExpiryBg(item.expires_at)}`}>
-                  {new Date(item.expires_at).toLocaleString()}
+                <td>
+                  <span
+                    className={` p-2 rounded-4xl shadow-lg ${getExpiryBg(item.expires_at)}`}>
+                    {new Date(item.expires_at).toLocaleString()}
+                  </span>
+
                 </td>
 
                 <td className="p-4 text-gray-700 dark:text-gray-300">
@@ -202,6 +221,27 @@ export default function UrlTable() {
             ))}
           </tbody>
         </table>
+        <div className="flex justify-between items-center mt-4">
+          <button
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+            className="px-3 py-1 bg-gray-200 dark:bg-gray-700 rounded disabled:opacity-50"
+          >
+            Previous
+          </button>
+
+          <span>
+            Page {currentPage} of {totalPages}
+          </span>
+
+          <button
+            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+            disabled={currentPage === totalPages}
+            className="px-3 py-1 bg-gray-200 dark:bg-gray-700 rounded disabled:opacity-50"
+          >
+            Next
+          </button>
+        </div>
       </div>
     </div>
   );
