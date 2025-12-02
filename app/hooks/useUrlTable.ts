@@ -29,10 +29,10 @@ export const useUrl = () => {
     const diff = expiry.getTime() - now.getTime();
 
     if (diff <= 0)
-      return "bg-red-100 dark:bg-red-800 text-red-800 dark:text-white shadow-red-300/30";
+      return "bg-red-100 dark:bg-red-800 text-red-800 dark:text-red-200 shadow-red-300/30";
     if (diff < 24 * 60 * 60 * 1000)
-      return "bg-yellow-100 dark:bg-yellow-500 text-yellow-800 dark:text-white shadow-yellow-300/30";
-    return "bg-green-100 dark:bg-green-900 text-green-800 dark:text-white shadow-green-300/30";
+      return "bg-yellow-100 dark:bg-yellow-500 text-yellow-800 dark:text-yellow-100 shadow-yellow-300/30";
+    return "bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 shadow-green-300/30";
   };
 
   function useFilteredSortedUrls(urls: UrlItem[]) {

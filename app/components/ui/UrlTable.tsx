@@ -105,13 +105,12 @@ export default function UrlTable() {
           <select
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
-            className="px-3 py-2 rounded-xl border focus:outline-none border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 cursor-pointer"
+            className="px-10 py-2 rounded-xl border focus:outline-none border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 cursor-pointer"
           >
             <option value="all">All URLs</option>
             <option value="active">Active URLs</option>
             <option value="expired">Expired URLs</option>
           </select>
-
         </div>
 
         {/* table */}
