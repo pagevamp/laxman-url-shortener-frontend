@@ -20,10 +20,6 @@ export async function loginUser(
   try {
     const res = await axios.post("/api/login", data, { withCredentials: true });
 
-    if (res.data.error || res.data.message) {
-      throw new Error(res.data.error || res.data.message);
-    }
-
     const parsed = LoginResponseSchema.safeParse(res.data);
     if (!parsed.success) {
       throw new Error("Invalid response format from server.");
@@ -31,6 +27,7 @@ export async function loginUser(
 
     return parsed.data;
   } catch (error: unknown) {
+    console.log(error);
     throw new Error(getAxiosErrorMessage(error));
   }
 }
@@ -38,10 +35,6 @@ export async function loginUser(
 export async function checkLoggedIn() {
   try {
     const res = await axios.get("/api/authCheck", { withCredentials: true });
-
-    if (res.data.error || res.data.message) {
-      throw new Error(res.data.error || res.data.message);
-    }
 
     return res.data;
   } catch (error: unknown) {
