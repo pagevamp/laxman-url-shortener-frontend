@@ -272,8 +272,6 @@ export default function UrlTable() {
 
   const baseDomain = process.env.BASE_URL;
 
-  console.log("the query params is: ", queryParams);
-
   const filteredData = useFilteredSortedUrls(urls);
   const startIndex = (queryParams.currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
