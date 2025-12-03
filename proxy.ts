@@ -4,17 +4,17 @@ export function proxy(req: NextRequest) {
   const token = req.cookies.get("accessToken");
   const { pathname } = req.nextUrl;
 
-  const isAuthPage = pathname === "/login" || pathname === "/register";
-  const isProtectedPage = pathname === "/";
+  const authPages = ["/login", "/register"];
 
-  if (token && isAuthPage) {
+  const protectedPages = ["/"];
+
+  if (token && authPages.includes(pathname)) {
     return NextResponse.redirect(new URL("/", req.url));
   }
 
-  if (!token && isProtectedPage) {
+  if (!token && protectedPages.includes(pathname)) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
-
   return NextResponse.next();
 }
 
