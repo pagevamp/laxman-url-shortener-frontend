@@ -290,7 +290,7 @@ export default function UrlTable() {
         />
 
         {/* table */}
-        <table className="w-full border-collapse">
+        <table className="w-full">
           <thead className="bg-gray-200 dark:bg-gray-700">
             <tr className="text-left">
               <th className="p-4 text-gray-700 dark:text-gray-300 font-medium">
@@ -351,7 +351,7 @@ export default function UrlTable() {
             </tr>
           </thead>
 
-          <tbody>
+          <tbody className="h-screen">
             {paginatedData.map((item, index) => (
               <tr
                 key={item.id}
