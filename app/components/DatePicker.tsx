@@ -16,14 +16,24 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 interface DateTimePickerProps {
   setForm: React.Dispatch<
     React.SetStateAction<{
-      originalUrl: string;
-      expiresAt: Date;
+      originalUrl?: string;
+      expiresAt: Date | null;
     }>
   >;
+  initialDate?: Date | null;
 }
 
-export function DateTimePicker({ setForm }: DateTimePickerProps) {
-  const [date, setDate] = React.useState<Date>();
+export function DateTimePicker({ setForm, initialDate }: DateTimePickerProps) {
+  const [date, setDate] = React.useState<Date | undefined>(
+    initialDate ?? undefined
+  );
+
+  React.useEffect(() => {
+    if (initialDate) {
+      setForm((prev) => ({ ...prev, expiresAt: initialDate }));
+    }
+  }, []);
+
   const [isOpen, setIsOpen] = React.useState(false);
   const hours = Array.from({ length: 12 }, (_, i) => i + 1);
 
@@ -63,7 +73,7 @@ export function DateTimePicker({ setForm }: DateTimePickerProps) {
         <Button
           variant="outline"
           className={cn(
-            "w-full justify-start text-left font-normal py-6",
+            "w-full justify-start text-left font-normal py-6 cursor-pointer",
             !date && "text-muted-foreground"
           )}
         >

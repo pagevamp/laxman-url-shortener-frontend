@@ -1,20 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import {
-  CreateUrlActionState,
-  createUrlSchema,
-} from "../lib/schemas/url.schema";
+import { editUrlActionState, editUrlSchema } from "../lib/schemas/url.schema";
 import { z } from "zod";
 
-export const useCreateUrl = () => {
+export const useEditUrl = () => {
   const [form, setForm] = useState({
-    originalUrl: "",
     expiresAt: null as Date | null,
   });
 
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<CreateUrlActionState["errors"]>({});
+  const [error, setError] = useState<editUrlActionState["errors"]>({});
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -22,8 +18,7 @@ export const useCreateUrl = () => {
   };
 
   const handleValidation = () => {
-    const result = createUrlSchema.safeParse({
-      originalUrl: form.originalUrl,
+    const result = editUrlSchema.safeParse({
       expiresAt: form.expiresAt,
     });
 
@@ -31,7 +26,6 @@ export const useCreateUrl = () => {
       const fieldErrors = z.treeifyError(result.error);
 
       setError({
-        originalUrl: fieldErrors.properties?.originalUrl?.errors[0],
         expiresAt: fieldErrors.properties?.expiresAt?.errors[0],
       });
       return false;
