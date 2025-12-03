@@ -1,13 +1,17 @@
 "use client";
 
-import { FilterType, UrlItem, SortableFields } from "../../types/types";
+import { UrlItem, SortableFields } from "../../types/types";
 import { useUrl } from "@/app/hooks/useUrlTable";
+import Pagination from "./Pagination";
 import {
   PencilIcon,
   ClipboardDocumentCheckIcon,
   ChevronUpDownIcon,
   TrashIcon,
+  ArrowTrendingDownIcon,
+  ArrowTrendingUpIcon,
 } from "@heroicons/react/24/outline";
+import SearchBar from "./SearchField";
 
 const urls: UrlItem[] = [
   // 1
@@ -264,7 +268,7 @@ export default function UrlTable() {
     handleFilterChange,
     handleSort,
   } = useUrl();
-  const itemsPerPage = 8;
+  const itemsPerPage = 10;
 
   const baseDomain = process.env.BASE_URL;
 
@@ -278,24 +282,12 @@ export default function UrlTable() {
   return (
     <div className="overflow-hidden rounded-3xl bg-gray-50 dark:bg-gray-900 shadow-[0_10px_40px_rgba(0,0,0,0.5)] p-6">
       <div className="mb-5 pb-5 overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-700">
-        <div className="flex flex-col md:flex-row items-center justify-start gap-3 bg-gray-50 dark:bg-gray-900 p-4">
-          <input
-            type="text"
-            placeholder="Search by URL or short code..."
-            value={queryParams.search}
-            onChange={(e) => handleSearchChange(e.target.value)}
-            className="w-full md:w-1/3 px-3 py-2 rounded-xl border focus:outline-gray-500 border-gray-400 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200"
-          />
-          <select
-            value={queryParams.filter}
-            onChange={(e) => handleFilterChange(e.target.value as FilterType)}
-            className="px-5 py-2 rounded-xl border focus:outline-none border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 cursor-pointer"
-          >
-            <option value={FilterType.ALL}>All URLs</option>
-            <option value={FilterType.ACTIVE}>Active URLs</option>
-            <option value={FilterType.EXPIRED}>Expired URLs</option>
-          </select>
-        </div>
+        {/* search bar with add new url button */}
+        <SearchBar
+          handleFilterChange={handleFilterChange}
+          handleSearchChange={handleSearchChange}
+          queryParams={queryParams}
+        />
 
         {/* table */}
         <table className="w-full border-collapse">
@@ -319,6 +311,16 @@ export default function UrlTable() {
                 <div className="flex gap-3 items-center">
                   Expires At
                   <ChevronUpDownIcon className="h-5 w-5" />
+                  {queryParams.sortBy === "expires_at" && (
+                    <>
+                      {queryParams.sortOrder === "asc" && (
+                        <ArrowTrendingUpIcon className="h-5 w-5" />
+                      )}
+                      {queryParams.sortOrder === "desc" && (
+                        <ArrowTrendingDownIcon className="h-5 w-5" />
+                      )}
+                    </>
+                  )}
                 </div>
               </th>
 
@@ -331,6 +333,16 @@ export default function UrlTable() {
                 <div className="flex gap-3 items-center">
                   Created At
                   <ChevronUpDownIcon className="h-5 w-5" />
+                  {queryParams.sortBy === "created_at" && (
+                    <>
+                      {queryParams.sortOrder === "asc" && (
+                        <ArrowTrendingUpIcon className="h-5 w-5" />
+                      )}
+                      {queryParams.sortOrder === "desc" && (
+                        <ArrowTrendingDownIcon className="h-5 w-5" />
+                      )}
+                    </>
+                  )}
                 </div>
               </th>
               <th className="p-4 text-gray-700 dark:text-gray-300 font-medium ">
@@ -437,66 +449,12 @@ export default function UrlTable() {
             ))}
           </tbody>
         </table>
-
-        {/* paginations */}
-        <div className="flex justify-center items-center mt-6">
-          <div className="flex items-center gap-2 bg-white dark:bg-gray-800 px-4 py-2 rounded-full shadow-md border border-gray-200 dark:border-gray-700">
-            {/* prev */}
-            <button
-              onClick={() => handlePageChange(queryParams.currentPage - 1)}
-              disabled={queryParams.currentPage === 1}
-              className="
-                px-3 py-1.5
-                rounded-full
-                text-sm
-                bg-gray-200 dark:bg-gray-700 
-                text-gray-800 dark:text-gray-200
-                hover:bg-gray-300 dark:hover:bg-gray-600
-                transition
-                disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
-            >
-              Prev
-            </button>
-
-            {[...Array(totalPages)].map((_, i) => {
-              const page = i + 1;
-              const isActive = page === queryParams.currentPage;
-
-              return (
-                <button
-                  key={page}
-                  onClick={() => handlePageChange(page)}
-                  className={`
-                px-3 py-1.5 rounded-full text-sm font-medium transition cursor-pointer
-            ${
-              isActive
-                ? "bg-blue-600 text-white shadow-sm hover:bg-blue-700"
-                : "bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600"
-            }
-          `}
-                >
-                  {page}
-                </button>
-              );
-            })}
-
-            <button
-              onClick={() => handlePageChange(queryParams.currentPage + 1)}
-              disabled={queryParams.currentPage === totalPages}
-              className="
-                px-3 py-1.5
-                rounded-full
-                text-sm
-                bg-gray-200 dark:bg-gray-700 
-                text-gray-800 dark:text-gray-200
-                hover:bg-gray-300 dark:hover:bg-gray-600
-                transition
-                disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
-            >
-              Next
-            </button>
-          </div>
-        </div>
+        {/* pagination */}
+        <Pagination
+          handlePageChange={handlePageChange}
+          queryParams={queryParams}
+          totalPages={totalPages}
+        />
       </div>
     </div>
   );

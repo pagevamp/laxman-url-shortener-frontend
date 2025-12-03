@@ -74,16 +74,12 @@ export const useUrl = () => {
   };
 
   const handleCopyClick = async (text: string, id: string) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      setCopiedMap((prev) => ({ ...prev, [id]: true }));
+    await navigator.clipboard.writeText(text);
+    setCopiedMap((prev) => ({ ...prev, [id]: true }));
 
-      setTimeout(() => {
-        setCopiedMap((prev) => ({ ...prev, [id]: false }));
-      }, 2000);
-    } catch (error) {
-      console.error("Failed to copy text", error);
-    }
+    setTimeout(() => {
+      setCopiedMap((prev) => ({ ...prev, [id]: false }));
+    }, 2000);
   };
   const getExpiryBg = (expires_at: string) => {
     const now = new Date();
