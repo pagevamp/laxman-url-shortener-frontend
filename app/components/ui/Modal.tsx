@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import React, { ReactNode } from 'react';
+import React, { ReactNode } from "react";
 
 interface ModalProps {
   onClose: () => void;
@@ -19,9 +19,13 @@ export default function Modal({ onClose, title, children }: ModalProps) {
           ✕
         </button>
 
-        {title && <h1 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">{title}</h1>}
+        {title && (
+          <h1 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+            {title}
+          </h1>
+        )}
 
-        <div className='flex items-center justify-center'>{children}</div>
+        <div className="flex items-center justify-center">{children}</div>
       </div>
     </div>
   );
