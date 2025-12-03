@@ -1,6 +1,8 @@
 import UrlTable from "../../components/ui/UrlTable";
 import { Button } from "@/app/components/ui/Button";
+import UrlTableSkeleton from "@/app/components/UrlTableSkeleton";
 import { PlusIcon } from "@heroicons/react/24/outline";
+import { Suspense } from "react";
 
 export default function UrlPage() {
   return (
@@ -14,7 +16,9 @@ export default function UrlPage() {
           Add New URL
         </Button>
       </div>
-      <UrlTable />
+      <Suspense fallback={<UrlTableSkeleton />}>
+        <UrlTable />
+      </Suspense>
     </div>
   );
 }
