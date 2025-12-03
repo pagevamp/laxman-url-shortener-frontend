@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 
+const authPages = ["/login", "/register"];
+
+const protectedPages = ["/"];
+
 export function proxy(req: NextRequest) {
   const token = req.cookies.get("accessToken");
   const { pathname } = req.nextUrl;
-
-  const authPages = ["/login", "/register"];
-
-  const protectedPages = ["/"];
 
   if (token && authPages.includes(pathname)) {
     return NextResponse.redirect(new URL("/", req.url));
