@@ -9,20 +9,14 @@ import { DateTimePicker } from "../DatePicker";
 
 export default function CreateUrlForm() {
   const {
-    form,
     setForm,
     handleValidation,
     loading,
     setLoading,
     error,
     setError,
+    handleChange,
   } = useCreateUrl();
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
-    console.log(form);
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

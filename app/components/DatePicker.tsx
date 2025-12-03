@@ -31,7 +31,6 @@ export function DateTimePicker({ setForm }: DateTimePickerProps) {
     if (selectedDate) {
       setForm((prev) => ({ ...prev, expiresAt: selectedDate }));
       setDate(selectedDate);
-      console.log(selectedDate);
     }
   };
 
@@ -55,7 +54,6 @@ export function DateTimePicker({ setForm }: DateTimePickerProps) {
       }
       setDate(newDate);
       setForm((prev) => ({ ...prev, expiresAt: newDate }));
-      console.log(newDate);
     }
   };
 

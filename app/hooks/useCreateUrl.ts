@@ -16,6 +16,11 @@ export const useCreateUrl = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<CreateUrlActionState["errors"]>({});
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
+
   const handleValidation = () => {
     const result = createUrlSchema.safeParse({
       originalUrl: form.originalUrl,
@@ -43,5 +48,6 @@ export const useCreateUrl = () => {
     setLoading,
     error,
     setError,
+    handleChange,
   };
 };
