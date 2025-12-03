@@ -27,7 +27,6 @@ export async function loginUser(
 
     return parsed.data;
   } catch (error: unknown) {
-    console.log(error);
     throw new Error(getAxiosErrorMessage(error));
   }
 }
