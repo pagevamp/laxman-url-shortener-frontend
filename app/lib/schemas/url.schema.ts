@@ -1,14 +1,14 @@
 import { z } from "zod";
 
 export const createUrlSchema = z.object({
-  originalUrl: z.url().nonempty().trim(),
+  originalUrl: z.string().url().nonempty().trim(),
   expiresAt: z.date(),
 });
 
-export type createUrlActionState = {
+export type CreateUrlActionState = {
   form?: {
     originalUrl?: string;
-    expiresAt?: string;
+    expiresAt?: Date;
   };
   errors?: {
     originalUrl?: string;

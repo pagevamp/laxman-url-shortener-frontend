@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import {
-  createUrlActionState,
+  CreateUrlActionState,
   createUrlSchema,
 } from "../lib/schemas/url.schema";
 import { z } from "zod";
@@ -10,11 +10,11 @@ import { z } from "zod";
 export const useCreateUrl = () => {
   const [form, setForm] = useState({
     originalUrl: "",
-    expiresAt: "",
+    expiresAt: Date,
   });
 
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<createUrlActionState["errors"]>({});
+  const [error, setError] = useState<CreateUrlActionState["errors"]>({});
 
   const handleValidation = () => {
     const result = createUrlSchema.safeParse({
