@@ -34,7 +34,7 @@ export default function VerifyEmail() {
       verifyToken();
     } else {
       setStatus("error");
-      setMessage("Token not found in URL.");
+      setMessage("Token not found");
     }
   }, [token]);
 
