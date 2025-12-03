@@ -268,7 +268,7 @@ export default function UrlTable() {
     handleFilterChange,
     handleSort,
   } = useUrl();
-  const itemsPerPage = 3;
+  const itemsPerPage = 10;
 
   const baseDomain = process.env.BASE_URL;
 
@@ -284,6 +284,7 @@ export default function UrlTable() {
   return (
     <div className="overflow-hidden rounded-3xl bg-gray-50 dark:bg-gray-900 shadow-[0_10px_40px_rgba(0,0,0,0.5)] p-6">
       <div className="mb-5 pb-5 overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-700">
+        {/* search bar with add new url button */}
         <SearchBar
           handleFilterChange={handleFilterChange}
           handleSearchChange={handleSearchChange}
@@ -450,7 +451,7 @@ export default function UrlTable() {
             ))}
           </tbody>
         </table>
-        {/* paginations */}
+        {/* pagination */}
         <Pagination
           handlePageChange={handlePageChange}
           queryParams={queryParams}
