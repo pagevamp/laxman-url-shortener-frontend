@@ -137,6 +137,17 @@ export const useUrl = () => {
     return data;
   }
 
+  function formatDate(dateString: string) {
+    return new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
+  }
+
   return {
     queryParams,
     copiedMap,
@@ -147,5 +158,6 @@ export const useUrl = () => {
     handlePageChange,
     handleFilterChange,
     handleSort,
+    formatDate,
   };
 };
