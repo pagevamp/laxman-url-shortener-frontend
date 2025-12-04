@@ -16,7 +16,7 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 interface DateTimePickerProps {
   setForm: React.Dispatch<
     React.SetStateAction<{
-      originalUrl?: string;
+      originalUrl: string;
       expiresAt: Date | null;
     }>
   >;
