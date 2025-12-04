@@ -27,7 +27,6 @@ export default function CreateUrlForm() {
     try {
       setLoading(true);
       toast.success("Short Url created successfully!");
-      console.log(form);
     } catch (err) {
       if (err instanceof Error) {
         toast.error(err.message);
