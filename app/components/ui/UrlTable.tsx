@@ -286,7 +286,7 @@ export default function UrlTable({
 
   const itemsPerPage = 10;
 
-  const baseDomain = process.env.BASE_URL;
+  const BASE_DOMAIN = process.env.NEXT_PUBLIC_BASE_URL
 
   const filteredData = useFilteredSortedUrls(urls);
   const startIndex = (queryParams.currentPage - 1) * itemsPerPage;
@@ -392,15 +392,15 @@ export default function UrlTable({
                   <div className="flex items-center gap-2 max-w-[250px]">
                     <span
                       className="flex-1 px-3 py-1 bg-blue-50 dark:bg-blue-900 text-blue-800 dark:text-blue-200 font-medium rounded-full truncate"
-                      title={baseDomain + `/urls/` + item.short_url}
+                      title={BASE_DOMAIN + `/urls/` + item.short_url}
                     >
-                      {baseDomain + `/urls/` + item.short_url}
+                      {BASE_DOMAIN + `/urls/` + item.short_url}
                     </span>
 
                     <button
                       onClick={() =>
                         handleCopyClick(
-                          baseDomain + `/urls/` + item.short_url,
+                          BASE_DOMAIN + `/urls/` + item.short_url,
                           item.id
                         )
                       }
@@ -474,6 +474,7 @@ export default function UrlTable({
           </tbody>
         </table>
         {/* pagination */}
+
         <Pagination
           handlePageChange={handlePageChange}
           queryParams={queryParams}
