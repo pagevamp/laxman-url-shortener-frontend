@@ -12,8 +12,15 @@ interface EditUrlForm {
 }
 
 export default function EditUrlForm({ url }: EditUrlForm) {
-  const { setForm, handleValidation, loading, setLoading, error, setError } =
-    useEditUrl();
+  const {
+    expiresAt,
+    setExpiresAt,
+    handleValidation,
+    loading,
+    setLoading,
+    error,
+    setError,
+  } = useEditUrl();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,6 +30,7 @@ export default function EditUrlForm({ url }: EditUrlForm) {
     try {
       setLoading(true);
       toast.success("Url Edited successfully!");
+      console.log(expiresAt);
     } catch (err) {
       if (err instanceof Error) {
         toast.error(err.message);
@@ -49,7 +57,7 @@ export default function EditUrlForm({ url }: EditUrlForm) {
 
       <div className="mt-4">
         <DateTimePicker
-          setForm={setForm}
+          setExpiresAt={setExpiresAt}
           initialDate={url?.expires_at ? new Date(url.expires_at) : null}
         />
         {error?.expiresAt && (

@@ -5,21 +5,14 @@ import { editUrlActionState, editUrlSchema } from "../lib/schemas/url.schema";
 import { z } from "zod";
 
 export const useEditUrl = () => {
-  const [form, setForm] = useState({
-    expiresAt: null as Date | null,
-  });
+  const [expiresAt, setExpiresAt] = useState(null as Date | null);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<editUrlActionState["errors"]>({});
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
-  };
-
   const handleValidation = () => {
     const result = editUrlSchema.safeParse({
-      expiresAt: form.expiresAt,
+      expiresAt: expiresAt,
     });
 
     if (!result.success) {
@@ -35,13 +28,12 @@ export const useEditUrl = () => {
   };
 
   return {
-    form,
-    setForm,
+    expiresAt,
+    setExpiresAt,
     handleValidation,
     loading,
     setLoading,
     error,
     setError,
-    handleChange,
   };
 };
