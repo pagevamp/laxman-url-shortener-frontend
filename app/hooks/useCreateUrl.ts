@@ -10,7 +10,7 @@ import { z } from "zod";
 export const useCreateUrl = () => {
   const [form, setForm] = useState({
     originalUrl: "",
-    expiresAt: Date,
+    expiresAt: null as Date | null,
   });
 
   const [loading, setLoading] = useState(false);
