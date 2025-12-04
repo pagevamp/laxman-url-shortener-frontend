@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { FilterType, SortableFields, SortOrder, UrlItem } from "../types/types";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
@@ -12,7 +12,7 @@ export const useUrl = () => {
   const pathname = usePathname();
   const router = useRouter();
   const params = new URLSearchParams(searchParams.toString());
-
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [queryParams, setQueryParams] = useState({
     currentPage: pageFromUrl,
     search: searchParams.get("search") || "",
@@ -77,10 +77,16 @@ export const useUrl = () => {
     await navigator.clipboard.writeText(text);
     setCopiedMap((prev) => ({ ...prev, [id]: true }));
 
-    setTimeout(() => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+
+    timeoutRef.current = setTimeout(() => {
       setCopiedMap((prev) => ({ ...prev, [id]: false }));
+      timeoutRef.current = null;
     }, 2000);
   };
+
   const getExpiryBg = (expires_at: string) => {
     const now = new Date();
     const expiry = new Date(expires_at);
