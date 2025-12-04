@@ -8,7 +8,7 @@ export async function POST(req: Request) {
     const data = await req.json();
     const cookieStore = await cookies();
     const backendRes = await axios.post(
-      `${process.env.BASE_URL}/auth/login`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/auth/login`,
       data
     );
 
