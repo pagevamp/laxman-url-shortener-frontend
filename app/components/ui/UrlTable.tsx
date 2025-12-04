@@ -12,7 +12,7 @@ import {
   ArrowTrendingUpIcon,
 } from "@heroicons/react/24/outline";
 import SearchBar from "./SearchField";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 
 const urls: UrlItem[] = [
   // 1
@@ -262,6 +262,7 @@ interface UrlTableProps {
     SetStateAction<{
       create: boolean;
       edit: boolean;
+      delete: boolean;
     }>
   >;
   setSelectedUrl: Dispatch<SetStateAction<UrlItem | null>>;
@@ -451,6 +452,10 @@ export default function UrlTable({
                   </button>
 
                   <button
+                    onClick={() => {
+                      setSelectedUrl(item);
+                      setIsModalOpen((prev) => ({ ...prev, delete: true }));
+                    }}
                     className="
                         p-2.5 
                         rounded-full 

@@ -13,7 +13,6 @@ interface EditUrlForm {
 
 export default function EditUrlForm({ url }: EditUrlForm) {
   const {
-    expiresAt,
     setExpiresAt,
     handleValidation,
     loading,
@@ -30,7 +29,6 @@ export default function EditUrlForm({ url }: EditUrlForm) {
     try {
       setLoading(true);
       toast.success("Url Edited successfully!");
-      console.log(expiresAt);
     } catch (err) {
       if (err instanceof Error) {
         toast.error(err.message);
