@@ -9,12 +9,18 @@ import UrlTable from "../../components/ui/UrlTable";
 import EditUrlForm from "@/app/components/ui/EditUrlForm";
 import { UrlItem } from "@/app/types/types";
 import { Suspense } from "react";
+import DeleteUrlForm from "@/app/components/ui/DeleteUrlForm";
 
 export default function UrlPage() {
   const [isModalOpen, setIsModalOpen] = useState({
     create: false,
     edit: false,
+    delete: false,
   });
+
+  function handleClose(value: string) {
+    setIsModalOpen((prev) => ({ ...prev, [value]: false }));
+  }
 
   const [selectedUrl, setSelectedUrl] = useState<UrlItem | null>(null);
 
@@ -40,19 +46,18 @@ export default function UrlPage() {
       </Suspense>
 
       {isModalOpen.create && (
-        <Modal
-          onClose={() => setIsModalOpen((prev) => ({ ...prev, create: false }))}
-          title="Create New URL"
-        >
+        <Modal onClose={() => handleClose("create")} title="Create New URL">
           <CreateUrlForm />
         </Modal>
       )}
       {isModalOpen.edit && (
-        <Modal
-          onClose={() => setIsModalOpen((prev) => ({ ...prev, edit: false }))}
-          title="Edit URL"
-        >
+        <Modal onClose={() => handleClose("edit")} title="Edit URL">
           <EditUrlForm url={selectedUrl} />
+        </Modal>
+      )}
+      {isModalOpen.delete && (
+        <Modal onClose={() => handleClose("delete")} title="Delete URL">
+          <DeleteUrlForm url={selectedUrl} handleClose={handleClose} />
         </Modal>
       )}
     </div>
