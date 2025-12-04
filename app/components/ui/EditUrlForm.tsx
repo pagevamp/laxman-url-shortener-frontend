@@ -13,7 +13,6 @@ interface EditUrlForm {
 
 export default function EditUrlForm({ url }: EditUrlForm) {
   const {
-    expiresAt,
     setExpiresAt,
     handleValidation,
     loading,

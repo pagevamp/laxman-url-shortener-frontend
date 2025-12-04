@@ -15,7 +15,6 @@ export default function DeleteUrlForm({ url, handleClose }: DeleteUrlForm) {
 
     try {
       toast.success("Url Deleted successfully!");
-      console.log("url deleted succesfully");
     } catch (err) {
       if (err instanceof Error) {
         toast.error(err.message);
