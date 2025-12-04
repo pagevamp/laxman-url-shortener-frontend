@@ -267,10 +267,11 @@ export default function UrlTable() {
     handlePageChange,
     handleFilterChange,
     handleSort,
+    formatDate,
   } = useUrl();
   const itemsPerPage = 10;
 
-  const BASE_DOMAIN = process.env.NEXT_PUBLIC_BASE_URL
+  const BASE_DOMAIN = process.env.NEXT_PUBLIC_BASE_URL;
 
   const filteredData = useFilteredSortedUrls(urls);
   const startIndex = (queryParams.currentPage - 1) * itemsPerPage;
@@ -408,12 +409,12 @@ export default function UrlTable() {
                       item.expires_at
                     )}`}
                   >
-                    {new Date(item.expires_at).toLocaleString()}
+                    {formatDate(item.expires_at)}
                   </span>
                 </td>
 
                 <td className="p-4 whitespace-nowrap text-gray-700 dark:text-gray-300">
-                  {new Date(item.created_at).toLocaleString()}
+                  {formatDate(item.created_at)}
                 </td>
 
                 <td className="p-4 flex items-center gap-2">
