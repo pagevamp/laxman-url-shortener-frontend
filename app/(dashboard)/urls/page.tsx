@@ -1,7 +1,7 @@
 "use client";
 import Modal from "@/app/components/ui/Modal";
 import CreateUrlForm from "../../components/ui/CreateUrlForm";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button } from "@/app/components/ui/Button";
 import UrlTableSkeleton from "@/app/components/UrlTableSkeleton";
 import { PlusIcon } from "@heroicons/react/24/outline";
@@ -9,15 +9,7 @@ import UrlTable from "../../components/ui/UrlTable";
 import { Suspense } from "react";
 
 export default function UrlPage() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  useEffect(() => {
-    if (isModalOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-  }, [isModalOpen]);
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <div>
@@ -27,15 +19,18 @@ export default function UrlPage() {
         </h1>
         <Button
           className="flex items-center gap-2 p-3! bg-blue-600 text-white rounded-lg hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 transition hover:scale-105"
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => setIsOpen(true)}
         >
           <PlusIcon className="h-5 w-5" />
           Add New URL
         </Button>
       </div>
-
-      {isModalOpen && (
-        <Modal onClose={() => setIsModalOpen(false)} title="Create New URL">
+      {isOpen && (
+        <Modal
+          open={isOpen}
+          onClose={() => setIsOpen(false)}
+          title="Create New URL"
+        >
           <CreateUrlForm />
         </Modal>
       )}

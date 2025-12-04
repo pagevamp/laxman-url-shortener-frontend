@@ -9,7 +9,6 @@ import { DateTimePicker } from "../DatePicker";
 
 export default function CreateUrlForm() {
   const {
-    form,
     handleValidation,
     loading,
     setLoading,

@@ -1,17 +1,66 @@
 "use client";
 
-import React, { ReactNode } from "react";
+import clsx from "clsx";
+import { FC, ReactNode, useEffect, useRef, ReactEventHandler } from "react";
 
 interface ModalProps {
-  onClose: () => void;
+  open: boolean;
+  onClose?: () => void;
   title?: string;
   children: ReactNode;
+  className?: string;
 }
 
-export default function Modal({ onClose, title, children }: ModalProps) {
+export const Modal: FC<ModalProps> = ({
+  open,
+  onClose,
+  title,
+  children,
+  className = "",
+}) => {
+  const dialogRef = useRef<HTMLDialogElement>(null);
+
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+
+    if (open && !dialog.open) {
+      dialog.showModal();
+      document.body.style.overflow = "hidden";
+    } else if (!open && dialog.open) {
+      dialog.close();
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+
+  const handleClose: ReactEventHandler<HTMLDialogElement> = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onClose?.();
+  };
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">
-      <div className="bg-white dark:bg-gray-900 rounded-xl shadow-lg w-full max-w-lg p-6 relative">
+    <dialog
+      ref={dialogRef}
+      onClose={handleClose}
+      onClick={(e) => {
+        if (e.target === dialogRef.current) onClose?.();
+      }}
+      className={clsx(
+        `
+          fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
+          backdrop:bg-black/30 backdrop:backdrop-blur-sm
+          p-0 border-none rounded-4xl
+          w-full max-w-lg
+        `,
+        className
+      )}
+    >
+      <div className="bg-white dark:bg-gray-900 rounded-xl p-6 relative">
         <button
           onClick={onClose}
           className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 font-bold cursor-pointer"
@@ -20,13 +69,15 @@ export default function Modal({ onClose, title, children }: ModalProps) {
         </button>
 
         {title && (
-          <h1 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+          <h1 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">
             {title}
           </h1>
         )}
 
-        <div className="flex items-center justify-center">{children}</div>
+        <div className="flex justify-center">{children}</div>
       </div>
-    </div>
+    </dialog>
   );
-}
+};
+
+export default Modal;
