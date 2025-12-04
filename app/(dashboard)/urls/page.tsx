@@ -1,7 +1,7 @@
 "use client";
 import Modal from "@/app/components/ui/Modal";
 import CreateUrlForm from "../../components/ui/CreateUrlForm";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/app/components/ui/Button";
 import UrlTableSkeleton from "@/app/components/UrlTableSkeleton";
 import { PlusIcon } from "@heroicons/react/24/outline";
@@ -10,6 +10,14 @@ import { Suspense } from "react";
 
 export default function UrlPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    if (isModalOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+  }, [isModalOpen]);
 
   return (
     <div>
