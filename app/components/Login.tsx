@@ -31,7 +31,7 @@ export default function LoginForm() {
     try {
       setLoading(true);
       await loginUser({ username: form.username, password: form.password });
-      setLoggedIn(true)
+      setLoggedIn(true);
       toast.success("Login Successful!");
       router.push("/");
     } catch (err) {
