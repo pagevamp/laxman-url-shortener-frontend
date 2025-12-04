@@ -132,7 +132,7 @@ export function DateTimePicker({
               </div>
               <ScrollBar orientation="horizontal" className="sm:hidden" />
             </ScrollArea>
-            <ScrollArea className="">
+            <ScrollArea>
               <div className="flex sm:flex-col p-2">
                 {["AM", "PM"].map((ampm) => (
                   <Button
