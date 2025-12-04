@@ -12,249 +12,8 @@ import {
   ArrowTrendingUpIcon,
 } from "@heroicons/react/24/outline";
 import SearchBar from "./SearchField";
-
-const urls: UrlItem[] = [
-  // 1
-  {
-    id: "a1f2d3e4-1111-4444-9999-abcd12340001",
-    original_url: "https://google.com/search/about",
-    short_url: "g0sA12",
-    expires_at: "2025-12-30T06:42:35.000Z", // active
-    created_at: "2025-11-29T11:00:25.368Z",
-  },
-  // 2
-  {
-    id: "a1f2d3e4-1111-4444-9999-abcd12340002",
-    original_url: "https://vercel.com/docs/functions/edge-functions",
-    short_url: "edge2025",
-    expires_at: "2025-11-30T10:00:00.000Z", // < 1 day left
-    created_at: "2025-08-25T10:12:40.200Z",
-  },
-  // 3
-  {
-    id: "a1f2d3e4-1111-4444-9999-abcd12340003",
-    original_url: "https://nextjs.org/docs",
-    short_url: "nxA77",
-    expires_at: "2025-11-28T14:00:00.000Z", // expired
-    created_at: "2025-11-10T08:30:10.100Z",
-  },
-  // 4
-  {
-    id: "a1f2d3e4-1111-4444-9999-abcd12340004",
-    original_url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
-    short_url: "mdnJS55",
-    expires_at: "2025-12-03T21:00:00.000Z", // active
-    created_at: "2025-10-10T09:12:40.100Z",
-  },
-  // 5
-  {
-    id: "a1f2d3e4-1111-4444-9999-abcd12340005",
-    original_url: "https://expressjs.com/en/guide/routing.html",
-    short_url: "expRt1",
-    expires_at: "2025-11-29T22:00:00.000Z", // < 1 day left
-    created_at: "2025-11-20T11:05:00.000Z",
-  },
-  // 6
-  {
-    id: "a1f2d3e4-1111-4444-9999-abcd12340006",
-    original_url: "https://react.dev/reference/react",
-    short_url: "rctRef6",
-    expires_at: "2025-12-10T12:00:00.000Z", // active
-    created_at: "2025-09-29T12:00:00.000Z",
-  },
-  // 7
-  {
-    id: "a1f2d3e4-1111-4444-9999-abcd12340007",
-    original_url: "https://openai.com/research",
-    short_url: "OAres77",
-    expires_at: "2025-11-25T09:00:00.000Z", // expired
-    created_at: "2025-11-01T17:00:00.000Z",
-  },
-  // 8
-  {
-    id: "a1f2d3e4-1111-4444-9999-abcd12340008",
-    original_url: "https://bun.sh/docs/api",
-    short_url: "bapi202",
-    expires_at: "2025-12-15T11:00:00.000Z",
-    created_at: "2025-11-15T13:45:00.000Z",
-  },
-  // 9
-  {
-    id: "a1f2d3e4-1111-4444-9999-abcd12340009",
-    original_url: "https://cloudflare.com/learning/cdn/what-is-a-cdn",
-    short_url: "cdn95x",
-    expires_at: "2025-11-29T10:30:00.000Z", // < 1 day
-    created_at: "2025-11-20T10:00:00.000Z",
-  },
-  // 10
-  {
-    id: "a1f2d3e4-1111-4444-9999-abcd12340010",
-    original_url: "https://nodejs.org/api/fs.html",
-    short_url: "fsApi88",
-    expires_at: "2025-12-20T16:00:00.000Z",
-    created_at: "2025-10-02T19:20:00.000Z",
-  },
-  // 11
-  {
-    id: "a1x2d3e4-1111-4444-9999-abcd12340011",
-    original_url: "https://github.com/features/copilot",
-    short_url: "gCP999",
-    expires_at: "2025-11-26T07:40:00.000Z", // expired
-    created_at: "2025-10-10T07:00:00.000Z",
-  },
-  // 12
-  {
-    id: "a1x2d3e4-1111-4444-9999-abcd12340012",
-    original_url: "https://tailwindcss.com/docs",
-    short_url: "tw444",
-    expires_at: "2025-11-29T23:59:00.000Z", // < 1 day left
-    created_at: "2025-11-14T08:30:00.000Z",
-  },
-  // 13
-  {
-    id: "b2c3d4e5-2222-4444-9999-abcd12340013",
-    original_url: "https://stripe.com/docs",
-    short_url: "strp77",
-    expires_at: "2025-12-05T09:00:00.000Z", // active
-    created_at: "2025-11-10T12:00:00.000Z",
-  },
-  // 14
-  {
-    id: "b2c3d4e5-2222-4444-9999-abcd12340014",
-    original_url: "https://supabase.com/docs",
-    short_url: "spb88",
-    expires_at: "2025-11-20T18:00:00.000Z", // expired
-    created_at: "2025-10-01T10:00:00.000Z",
-  },
-  // 15
-  {
-    id: "b2c3d4e5-2222-4444-9999-abcd12340015",
-    original_url: "https://mongodb.com/docs/manual",
-    short_url: "mdb990",
-    expires_at: "2025-12-12T16:00:00.000Z", // active
-    created_at: "2025-11-01T12:30:00.000Z",
-  },
-  // 16
-  {
-    id: "b2c3d4e5-2222-4444-9999-abcd12340016",
-    original_url: "https://docker.com/get-started",
-    short_url: "dckr55",
-    expires_at: "2025-11-29T05:00:00.000Z", // < 1 day left
-    created_at: "2025-11-25T09:00:00.000Z",
-  },
-  // 17
-  {
-    id: "b2c3d4e5-2222-4444-9999-abcd12340017",
-    original_url: "https://python.org/dev/peps",
-    short_url: "pPEP8",
-    expires_at: "2025-12-25T10:10:00.000Z",
-    created_at: "2025-09-20T10:20:00.000Z",
-  },
-  // 18
-  {
-    id: "b2c3d4e5-2222-4444-9999-abcd12340018",
-    original_url: "https://nuxt.com/docs",
-    short_url: "nxT300",
-    expires_at: "2025-11-21T08:00:00.000Z", // expired
-    created_at: "2025-11-11T12:00:00.000Z",
-  },
-  // 19
-  {
-    id: "c3d4e5f6-3333-4444-9999-abcd12340019",
-    original_url: "https://postgresql.org/docs",
-    short_url: "pgSQL7",
-    expires_at: "2025-12-18T15:00:00.000Z",
-    created_at: "2025-11-18T08:00:00.000Z",
-  },
-  // 20
-  {
-    id: "c3d4e5f6-3333-4444-9999-abcd12340020",
-    original_url: "https://graphql.org/learn",
-    short_url: "gQL10",
-    expires_at: "2025-11-29T03:00:00.000Z", // < 1 day
-    created_at: "2025-11-27T07:30:00.000Z",
-  },
-  // 21
-  {
-    id: "c3d4e5f6-3333-4444-9999-abcd12340021",
-    original_url: "https://kubernetes.io/docs",
-    short_url: "k8sDocs",
-    expires_at: "2025-11-10T12:00:00.000Z", // expired
-    created_at: "2025-09-13T06:10:00.000Z",
-  },
-  // 22
-  {
-    id: "c3d4e5f6-3333-4444-9999-abcd12340022",
-    original_url: "https://developer.apple.com/documentation",
-    short_url: "applDev",
-    expires_at: "2025-12-08T18:00:00.000Z",
-    created_at: "2025-10-30T14:20:00.000Z",
-  },
-  // 23
-  {
-    id: "d4e5f6g7-4444-4444-9999-abcd12340023",
-    original_url: "https://dev.to",
-    short_url: "devTO99",
-    expires_at: "2025-11-29T18:30:00.000Z", // < 1 day left
-    created_at: "2025-11-15T06:00:00.000Z",
-  },
-  // 24
-  {
-    id: "d4e5f6g7-4444-4444-9999-abcd12340024",
-    original_url: "https://go.dev/doc",
-    short_url: "goLang9",
-    expires_at: "2025-11-26T11:00:00.000Z", // expired
-    created_at: "2025-10-04T10:00:00.000Z",
-  },
-  // 25
-  {
-    id: "d4e5f6g7-4444-4444-9999-abcd12340025",
-    original_url: "https://prisma.io/docs",
-    short_url: "prs88",
-    expires_at: "2025-12-17T17:00:00.000Z",
-    created_at: "2025-11-03T10:00:00.000Z",
-  },
-  // 26
-  {
-    id: "d4e5f6g7-4444-4444-9999-abcd12340026",
-    original_url: "https://nestjs.com",
-    short_url: "njs44",
-    expires_at: "2025-11-29T20:00:00.000Z", // < 1 day
-    created_at: "2025-11-22T09:00:00.000Z",
-  },
-  // 27
-  {
-    id: "e5f6g7h8-5555-4444-9999-abcd12340027",
-    original_url: "https://deno.com/manual",
-    short_url: "deno77",
-    expires_at: "2025-11-18T06:00:00.000Z", // expired
-    created_at: "2025-11-01T17:00:00.000Z",
-  },
-  // 28
-  {
-    id: "e5f6g7h8-5555-4444-9999-abcd12340028",
-    original_url: "https://fastapi.tiangolo.com",
-    short_url: "fast661",
-    expires_at: "2025-12-22T14:00:00.000Z",
-    created_at: "2025-11-05T11:00:00.000Z",
-  },
-  // 29
-  {
-    id: "e5f6g7h8-5555-4444-9999-abcd12340029",
-    original_url: "https://astro.build/docs",
-    short_url: "astro99",
-    expires_at: "2025-11-29T04:00:00.000Z", // < 1 day
-    created_at: "2025-11-28T02:40:00.000Z",
-  },
-  // 30
-  {
-    id: "e5f6g7h8-5555-4444-9999-abcd12340030",
-    original_url: "https://svelte.dev/docs",
-    short_url: "svt55",
-    expires_at: "2025-12-11T13:00:00.000Z", // active
-    created_at: "2025-10-20T14:00:00.000Z",
-  },
-];
+import { useEffect } from "react";
+import { getUrls } from "@/app/api/url.api";
 
 export default function UrlTable() {
   const {
@@ -268,6 +27,10 @@ export default function UrlTable() {
     handleFilterChange,
     handleSort,
     formatDate,
+    urls,
+    setUrls,
+    loading,
+    setLoading,
   } = useUrl();
   const itemsPerPage = 10;
 
@@ -279,6 +42,25 @@ export default function UrlTable() {
   const paginatedData = filteredData.slice(startIndex, endIndex);
 
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+  const token =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3N2NiNjY5Yy03NDk3LTQ2MWMtODhhOC01NDQ5YzViY2E1ZjkiLCJ1c2VybmFtZSI6ImxheG1hbiIsImlhdCI6MTc2NDg0MzIyMSwiZXhwIjoxNzY1NDQ4MDIxfQ.iXTU1RS15EPe6bFCjNwV3V35jU2boG_DMhcuBoLrY9g";
+  useEffect(() => {
+    if (!token) return;
+    const fetchUrls = async () => {
+      try {
+        setLoading(true);
+        const data = await getUrls(token);
+        console.log("the data is: ", data);
+        setUrls(data.data.urls);
+      } catch (error) {
+        console.error("Failed to fetch URLs:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUrls();
+  }, [token]);
 
   return (
     <div className="overflow-hidden rounded-3xl bg-gray-50 dark:bg-gray-900 shadow-[0_10px_40px_rgba(0,0,0,0.5)] p-6">
