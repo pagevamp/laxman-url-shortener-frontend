@@ -1,4 +1,5 @@
 import { FilterType, SortableFields, SortOrder } from "@/app/types/types";
+import { PageButton } from "./PageButton";
 
 interface PaginationProps {
   handlePageChange: (page: number) => void;
@@ -19,40 +20,54 @@ const Pagination = ({
 }: PaginationProps) => {
   const { currentPage } = queryParams;
 
-  const PageButton = (page: number, isActive = false) => (
-    <button
-      key={page}
-      onClick={() => handlePageChange(page)}
-      className={`
-        px-3 py-1.5 rounded-full text-sm font-medium transition cursor-pointer
-        ${
-          isActive
-            ? "bg-blue-600 text-white shadow-sm hover:bg-blue-700"
-            : "bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600"
-        }
-      `}
-    >
-      {page}
-    </button>
-  );
-
   const pagesToRender = [];
 
-  if (currentPage > 2) pagesToRender.push(PageButton(1));
+  if (currentPage > 2)
+    pagesToRender.push(
+      <PageButton key={1} page={1} handlePageChange={handlePageChange} />
+    );
 
   if (currentPage > 3)
     pagesToRender.push(<span key="start-ellipsis">...</span>);
 
-  if (currentPage > 1) pagesToRender.push(PageButton(currentPage - 1));
+  if (currentPage > 1)
+    pagesToRender.push(
+      <PageButton
+        key={currentPage - 1}
+        page={currentPage - 1}
+        handlePageChange={handlePageChange}
+      />
+    );
 
-  pagesToRender.push(PageButton(currentPage, true));
+  pagesToRender.push(
+    <PageButton
+      key={currentPage}
+      page={currentPage}
+      isActive
+      handlePageChange={handlePageChange}
+    />
+  );
 
-  if (currentPage < totalPages) pagesToRender.push(PageButton(currentPage + 1));
+  if (currentPage < totalPages)
+    pagesToRender.push(
+      <PageButton
+        key={currentPage + 1}
+        page={currentPage + 1}
+        handlePageChange={handlePageChange}
+      />
+    );
 
   if (currentPage < totalPages - 2)
     pagesToRender.push(<span key="end-ellipsis">...</span>);
 
-  if (currentPage < totalPages - 1) pagesToRender.push(PageButton(totalPages));
+  if (currentPage < totalPages - 1)
+    pagesToRender.push(
+      <PageButton
+        key={totalPages}
+        page={totalPages}
+        handlePageChange={handlePageChange}
+      />
+    );
 
   return (
     <div className="flex justify-center items-center mt-6">
