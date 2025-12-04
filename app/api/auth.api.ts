@@ -41,7 +41,7 @@ export async function checkLoggedIn() {
   }
 }
 
-export async function RegisterUser(
+export async function registerUser(
   data: RegisterRequestData
 ): Promise<RegisterResponse> {
   try {
@@ -57,7 +57,7 @@ export async function RegisterUser(
   }
 }
 
-export async function ResendMail(
+export async function resendMail(
   data: ResendMailRequestData
 ): Promise<ResendMailResponse> {
   try {
@@ -74,7 +74,7 @@ export async function ResendMail(
   }
 }
 
-export async function VerifyUser(data: VerifyUserRequestData) {
+export async function verifyUser(data: VerifyUserRequestData) {
   try {
     const res = await axiosInstance.get("/auth/verify-email", { params: data });
     const parsed = ResendMailResponseSchema.safeParse(res.data);

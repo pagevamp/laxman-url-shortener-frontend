@@ -4,7 +4,7 @@ import { AtSymbolIcon } from "@heroicons/react/24/outline";
 import { ArrowRightIcon } from "@heroicons/react/20/solid";
 import { Button } from "./Button";
 import Input from "./ui/Input";
-import { ResendMail } from "../api/auth.api";
+import { resendMail } from "../api/auth.api";
 import toast from "react-hot-toast";
 import { useSendVerification } from "../hooks/useSendVerification";
 
@@ -26,7 +26,7 @@ export default function SendVerificationForm() {
     setLoading(true);
     await toast
       .promise(
-        ResendMail({ email }).finally(() => setLoading(false)),
+        resendMail({ email }).finally(() => setLoading(false)),
         {
           loading: "Sending verification mail...",
           success: "Verification mail sent. Please verify!",

@@ -11,7 +11,7 @@ import { Button } from "./Button";
 import Input from "./ui/Input";
 import Link from "next/link";
 import { useRegister } from "../hooks/useRegister";
-import { RegisterUser } from "../api/auth.api";
+import { registerUser } from "../api/auth.api";
 import toast from "react-hot-toast";
 export default function Register() {
   const {
@@ -32,7 +32,7 @@ export default function Register() {
 
     try {
       setLoading(true);
-      const data = await RegisterUser({
+      const data = await registerUser({
         name: form.name,
         username: form.username,
         email: form.email,

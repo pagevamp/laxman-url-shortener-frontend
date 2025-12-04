@@ -1,6 +1,6 @@
 "use client";
 
-import { VerifyUser } from "@/app/api/auth.api";
+import { verifyUser } from "@/app/api/auth.api";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 import {
@@ -16,7 +16,7 @@ export default function VerifyEmail() {
   useEffect(() => {
     async function verifyToken() {
       try {
-        const data = await VerifyUser({ token });
+        const data = await verifyUser({ token });
         toast.success(data.message);
         setStatus("success");
         setMessage(data.message);
