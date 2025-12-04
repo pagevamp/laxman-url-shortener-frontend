@@ -19,7 +19,7 @@ export default function UrlPage() {
   const [selectedUrl, setSelectedUrl] = useState<UrlItem | null>(null);
 
   useEffect(() => {
-    if (isModalOpen) {
+    if (isModalOpen.create || isModalOpen.edit) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
