@@ -102,41 +102,39 @@ export const useUrl = () => {
   };
 
   function useFilteredSortedUrls(urls: UrlItem[]) {
-    return useMemo(() => {
-      let data = [...urls];
+    let data = [...urls];
 
-      const searchQuery = searchParams.get("search");
-      if (searchQuery?.trim() !== "") {
-        data = data.filter(
-          (item) =>
-            item.original_url
-              .toLowerCase()
-              .includes(searchQuery?.toLowerCase() ?? "") ||
-            item.short_url
-              .toLowerCase()
-              .includes(searchQuery?.toLowerCase() ?? "")
-        );
-      }
+    const searchQuery = searchParams.get("search");
+    if (searchQuery?.trim() !== "") {
+      data = data.filter(
+        (item) =>
+          item.original_url
+            .toLowerCase()
+            .includes(searchQuery?.toLowerCase() ?? "") ||
+          item.short_url
+            .toLowerCase()
+            .includes(searchQuery?.toLowerCase() ?? "")
+      );
+    }
 
-      const now = new Date();
-      if (queryParams.filter === "active") {
-        data = data.filter((item) => new Date(item.expires_at) > now);
-      } else if (queryParams.filter === "expired") {
-        data = data.filter((item) => new Date(item.expires_at) <= now);
-      }
+    const now = new Date();
+    if (queryParams.filter === "active") {
+      data = data.filter((item) => new Date(item.expires_at) > now);
+    } else if (queryParams.filter === "expired") {
+      data = data.filter((item) => new Date(item.expires_at) <= now);
+    }
 
-      data.sort((a, b) => {
-        const field = queryParams.sortBy;
-        const order = queryParams.sortOrder === "asc" ? 1 : -1;
+    data.sort((a, b) => {
+      const field = queryParams.sortBy;
+      const order = queryParams.sortOrder === "asc" ? 1 : -1;
 
-        const dateA = new Date(a[field]).getTime();
-        const dateB = new Date(b[field]).getTime();
+      const dateA = new Date(a[field]).getTime();
+      const dateB = new Date(b[field]).getTime();
 
-        return (dateA - dateB) * order;
-      });
+      return (dateA - dateB) * order;
+    });
 
-      return data;
-    }, [urls, queryParams, searchParams]);
+    return data;
   }
 
   return {
