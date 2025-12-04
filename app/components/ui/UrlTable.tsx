@@ -1,6 +1,6 @@
 "use client";
 
-import { UrlItem, SortableFields } from "../../types/types";
+import { SortableFields } from "../../types/types";
 import { useUrl } from "@/app/hooks/useUrlTable";
 import Pagination from "./Pagination";
 import {
@@ -29,7 +29,6 @@ export default function UrlTable() {
     formatDate,
     urls,
     setUrls,
-    loading,
     setLoading,
   } = useUrl();
   const itemsPerPage = 10;
@@ -42,8 +41,8 @@ export default function UrlTable() {
   const paginatedData = filteredData.slice(startIndex, endIndex);
 
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3N2NiNjY5Yy03NDk3LTQ2MWMtODhhOC01NDQ5YzViY2E1ZjkiLCJ1c2VybmFtZSI6ImxheG1hbiIsImlhdCI6MTc2NDg0MzIyMSwiZXhwIjoxNzY1NDQ4MDIxfQ.iXTU1RS15EPe6bFCjNwV3V35jU2boG_DMhcuBoLrY9g";
+  const token = process.env.NEXT_PUBLIC_TOKEN;
+
   useEffect(() => {
     if (!token) return;
     const fetchUrls = async () => {

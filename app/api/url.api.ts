@@ -31,7 +31,7 @@ export async function createShortUrl(
   data: CreateUrlRequestData,
   token: string
 ): Promise<CreateUrlResponse> {
-  const res = await axios.post("/http:localhsot:3001/urls", data, {
+  const res = await axiosInstance.post("/urls", data, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

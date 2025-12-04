@@ -6,10 +6,12 @@ import { LinkIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
 import { useCreateUrl } from "@/app/hooks/useCreateUrl";
 import toast from "react-hot-toast";
 import { DateTimePicker } from "../DatePicker";
+import { createShortUrl } from "@/app/api/url.api";
 
 export default function CreateUrlForm() {
   const {
     form,
+    setForm,
     handleValidation,
     loading,
     setLoading,
@@ -18,6 +20,18 @@ export default function CreateUrlForm() {
     handleChange,
     setExpiresAt,
   } = useCreateUrl();
+  const token = process.env.NEXT_PUBLIC_TOKEN || "";
+  const formatDateForDisplay = (date: Date) => {
+    const pad = (n: number) => n.toString().padStart(2, "0");
+    const year = date.getFullYear();
+    const month = pad(date.getMonth() + 1);
+    const day = pad(date.getDate());
+    const hours = pad(date.getHours());
+    const minutes = pad(date.getMinutes());
+    const seconds = pad(date.getSeconds());
+
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,6 +40,9 @@ export default function CreateUrlForm() {
     if (!isValid) return;
     try {
       setLoading(true);
+      const expiryDate = formatDateForDisplay(form.expires_at);
+      console.log(expiryDate);
+      await createShortUrl(form, token);
       toast.success("Short Url created successfully!");
     } catch (err) {
       if (err instanceof Error) {
@@ -50,20 +67,20 @@ export default function CreateUrlForm() {
 
       <div className="space-y-6">
         <Input
-          id="originalUrl"
-          name="originalUrl"
+          id="original_url"
+          name="original_url"
           placeholder="https://example.com"
           onChange={handleChange}
         >
           <LinkIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
         </Input>
-        {error?.originalUrl && (
-          <p className="text-red-500 text-xs -mt-3">{error.originalUrl}</p>
+        {error?.original_url && (
+          <p className="text-red-500 text-xs -mt-3">{error.original_url}</p>
         )}
 
         <DateTimePicker setExpiresAt={setExpiresAt} />
-        {error?.expiresAt && (
-          <p className="text-red-500 text-xs -mt-3">{error.expiresAt}</p>
+        {error?.expires_at && (
+          <p className="text-red-500 text-xs -mt-3">{error.expires_at}</p>
         )}
       </div>
 

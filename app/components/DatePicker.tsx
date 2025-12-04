@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/popover";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 interface DateTimePickerProps {
-  setExpiresAt: (date: Date | null) => void;
+  setExpiresAt: (date: Date) => void;
   initialDate?: Date | null;
 }
 

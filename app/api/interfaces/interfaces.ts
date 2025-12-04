@@ -20,9 +20,7 @@ export const GetUrlsResponseSchema = z.object({
 
 export const CreateUrlRequestSchema = z.object({
   original_url: z.url(),
-  expires_at: z.string().refine((val) => !isNaN(Date.parse(val)), {
-    message: "Invalid date string",
-  }),
+  expires_at: z.date(),
 });
 
 export const CreateUrlResponseSchema = z.object({
