@@ -3,10 +3,12 @@ import Modal from "@/app/components/ui/Modal";
 import CreateUrlForm from "../../components/ui/CreateUrlForm";
 import { useState } from "react";
 import { Button } from "@/app/components/ui/Button";
+import UrlTableSkeleton from "@/app/components/UrlTableSkeleton";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import UrlTable from "../../components/ui/UrlTable";
 import EditUrlForm from "@/app/components/ui/EditUrlForm";
 import { UrlItem } from "@/app/types/types";
+import { Suspense } from "react";
 
 export default function UrlPage() {
   const [isModalOpen, setIsModalOpen] = useState({
@@ -30,10 +32,12 @@ export default function UrlPage() {
           Add New URL
         </Button>
       </div>
-      <UrlTable
-        setIsModalOpen={setIsModalOpen}
-        setSelectedUrl={setSelectedUrl}
-      />
+      <Suspense fallback={<UrlTableSkeleton />}>
+        <UrlTable
+          setIsModalOpen={setIsModalOpen}
+          setSelectedUrl={setSelectedUrl}
+        />
+      </Suspense>
 
       {isModalOpen.create && (
         <Modal

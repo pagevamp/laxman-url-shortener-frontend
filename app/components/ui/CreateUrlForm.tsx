@@ -9,13 +9,14 @@ import { DateTimePicker } from "../DatePicker";
 
 export default function CreateUrlForm() {
   const {
-    setForm,
+    form,
     handleValidation,
     loading,
     setLoading,
     error,
     setError,
     handleChange,
+    setExpiresAt,
   } = useCreateUrl();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -60,7 +61,7 @@ export default function CreateUrlForm() {
           <p className="text-red-500 text-xs -mt-3">{error.originalUrl}</p>
         )}
 
-        <DateTimePicker setForm={setForm} />
+        <DateTimePicker setExpiresAt={setExpiresAt} />
         {error?.expiresAt && (
           <p className="text-red-500 text-xs -mt-3">{error.expiresAt}</p>
         )}

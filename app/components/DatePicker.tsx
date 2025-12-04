@@ -14,23 +14,21 @@ import {
 } from "@/components/ui/popover";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 interface DateTimePickerProps {
-  setForm: React.Dispatch<
-    React.SetStateAction<{
-      originalUrl?: string;
-      expiresAt: Date | null;
-    }>
-  >;
+  setExpiresAt: (date: Date | null) => void;
   initialDate?: Date | null;
 }
 
-export function DateTimePicker({ setForm, initialDate }: DateTimePickerProps) {
+export function DateTimePicker({
+  setExpiresAt,
+  initialDate,
+}: DateTimePickerProps) {
   const [date, setDate] = React.useState<Date | undefined>(
     initialDate ?? undefined
   );
 
   React.useEffect(() => {
     if (initialDate) {
-      setForm((prev) => ({ ...prev, expiresAt: initialDate }));
+      setExpiresAt(initialDate);
     }
   }, []);
 
@@ -39,7 +37,7 @@ export function DateTimePicker({ setForm, initialDate }: DateTimePickerProps) {
 
   const handleDateSelect = (selectedDate: Date | undefined) => {
     if (selectedDate) {
-      setForm((prev) => ({ ...prev, expiresAt: selectedDate }));
+      setExpiresAt(selectedDate);
       setDate(selectedDate);
     }
   };
@@ -63,7 +61,7 @@ export function DateTimePicker({ setForm, initialDate }: DateTimePickerProps) {
         );
       }
       setDate(newDate);
-      setForm((prev) => ({ ...prev, expiresAt: newDate }));
+      setExpiresAt(newDate);
     }
   };
 

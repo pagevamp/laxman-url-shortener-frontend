@@ -13,6 +13,9 @@ export const useCreateUrl = () => {
     expiresAt: null as Date | null,
   });
 
+  const setExpiresAt = (date: Date | null) =>
+    setForm((prev) => ({ ...prev, expiresAt: date }));
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<CreateUrlActionState["errors"]>({});
 
@@ -49,5 +52,6 @@ export const useCreateUrl = () => {
     error,
     setError,
     handleChange,
+    setExpiresAt,
   };
 };
