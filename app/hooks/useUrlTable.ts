@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { FilterType, SortableFields, SortOrder, UrlItem } from "../types/types";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
