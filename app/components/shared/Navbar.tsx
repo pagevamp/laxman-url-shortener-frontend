@@ -31,8 +31,7 @@ export default function Navbar() {
       <div className="flex items-center gap-4">
         {loggedIn ? (
           <>
-            <NavLink href={"/"}>Dashboard</NavLink>
-            <NavLink href={"/urls"}>Urls</NavLink>
+            <NavLink href={"/urls"}>Dashboard</NavLink>
             <Button
               onClick={handleLogout}
               className="bg-transparent! border-none! shadow-none dark:text-gray-300! text-gray-700! hidden md:block  hover:underline px-0!"

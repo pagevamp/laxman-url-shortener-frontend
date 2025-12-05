@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 
 const authPages = ["/login", "/register"];
 
-const protectedPages = ["/", "/urls"];
+const protectedPages = ["/urls"];
 const JWT_SECRET = process.env.JWT_SECRET || "";
 export function proxy(req: NextRequest) {
   const token = req.cookies.get("accessToken")?.value;

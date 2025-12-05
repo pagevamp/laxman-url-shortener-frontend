@@ -14,6 +14,7 @@ import {
 import SearchBar from "./SearchField";
 import { useEffect } from "react";
 import { getUrls } from "@/app/api/url.api";
+import { useAuth } from "@/app/context/AuthContext";
 
 export default function UrlTable() {
   const {
@@ -42,18 +43,15 @@ export default function UrlTable() {
   const paginatedData = filteredData.slice(startIndex, endIndex);
 
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3N2NiNjY5Yy03NDk3LTQ2MWMtODhhOC01NDQ5YzViY2E1ZjkiLCJ1c2VybmFtZSI6ImxheG1hbiIsImlhdCI6MTc2NDg0MzIyMSwiZXhwIjoxNzY1NDQ4MDIxfQ.iXTU1RS15EPe6bFCjNwV3V35jU2boG_DMhcuBoLrY9g";
+  const { token } = useAuth();
   useEffect(() => {
     if (!token) return;
     const fetchUrls = async () => {
       try {
         setLoading(true);
         const data = await getUrls(token);
-        console.log("the data is: ", data);
         setUrls(data.data.urls);
       } catch (error) {
-        console.error("Failed to fetch URLs:", error);
       } finally {
         setLoading(false);
       }
