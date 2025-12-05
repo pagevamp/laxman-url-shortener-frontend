@@ -1,6 +1,6 @@
 "use client";
 
-import { UrlItem, SortableFields } from "../../types/types";
+import { SortableFields } from "../../types/types";
 import { useUrl } from "@/app/hooks/useUrlTable";
 import Pagination from "./Pagination";
 import {
@@ -45,19 +45,20 @@ export default function UrlTable() {
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
   const { token } = useAuth();
   useEffect(() => {
-    if (!token) return;
-    const fetchUrls = async () => {
-      try {
-        setLoading(true);
-        const data = await getUrls(token);
-        setUrls(data.data.urls);
-      } catch (error) {
-      } finally {
-        setLoading(false);
-      }
-    };
+    if (token) {
+      const fetchUrls = async () => {
+        try {
+          setLoading(true);
+          const data = await getUrls(token);
+          setUrls(data.data.urls);
+        } catch (error) {
+        } finally {
+          setLoading(false);
+        }
+      };
 
-    fetchUrls();
+      fetchUrls();
+    }
   }, [token]);
 
   return (
