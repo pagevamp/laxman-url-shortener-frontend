@@ -14,10 +14,15 @@ import {
 import SearchBar from "./SearchField";
 import { getUrls } from "@/app/api/url.api";
 import useSWR from "swr";
+import { useEffect } from "react";
 
 const fetcher = (token: string) => getUrls(token).then((res) => res.data.urls);
 
-export default function UrlTable() {
+interface UrlTableProps {
+  onCreated: (fn: () => void) => void;
+}
+
+export default function UrlTable({ onCreated }: UrlTableProps) {
   const token = process.env.NEXT_PUBLIC_TOKEN || "";
   const { data: urls = [], mutate } = useSWR(["urls", token], () =>
     fetcher(token)
@@ -44,6 +49,11 @@ export default function UrlTable() {
   const paginatedData = filteredData.slice(startIndex, endIndex);
 
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+
+  useEffect(() => {
+    onCreated(mutate);
+  }, []);
+
   return (
     <div className="overflow-hidden rounded-3xl bg-gray-50 dark:bg-gray-900 shadow-[0_10px_40px_rgba(0,0,0,0.5)] p-6">
       <div className="mb-5 pb-5 overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-700">

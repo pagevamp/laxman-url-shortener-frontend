@@ -10,9 +10,10 @@ import { createShortUrl } from "@/app/api/url.api";
 
 interface CreateUrlForm {
   handleClose: (value: string) => void;
+  refresh: () => void;
 }
 
-export default function CreateUrlForm({ handleClose }: CreateUrlForm) {
+export default function CreateUrlForm({ handleClose, refresh }: CreateUrlForm) {
   const {
     form,
     handleValidation,
@@ -47,6 +48,7 @@ export default function CreateUrlForm({ handleClose }: CreateUrlForm) {
       console.log(expiryDate);
       await createShortUrl(form, token);
       toast.success("Short Url created successfully!");
+      refresh();
       handleClose("create");
     } catch (err) {
       if (err instanceof Error) {

@@ -31,14 +31,20 @@ export async function createShortUrl(
   data: CreateUrlRequestData,
   token: string
 ): Promise<CreateUrlResponse> {
-  const res = await axiosInstance.post("/urls", data, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  try {
+    const res = await axiosInstance.post("/urls", data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-  const parsed = CreateUrlResponseSchema.safeParse(res.data);
-  if (!parsed.success) throw new Error("Invalid response format");
+    console.log("the res is", res);
 
-  return parsed.data;
+    const parsed = CreateUrlResponseSchema.safeParse(res.data);
+    if (!parsed.success) throw new Error("Invalid response format");
+
+    return parsed.data;
+  } catch (error: unknown) {
+    throw new Error(getAxiosErrorMessage(error));
+  }
 }
