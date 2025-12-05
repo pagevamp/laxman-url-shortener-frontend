@@ -38,8 +38,6 @@ export async function createShortUrl(
       },
     });
 
-    console.log("the res is", res);
-
     const parsed = CreateUrlResponseSchema.safeParse(res.data);
     if (!parsed.success) throw new Error("Invalid response format");
 

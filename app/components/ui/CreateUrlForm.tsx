@@ -25,17 +25,6 @@ export default function CreateUrlForm({ handleClose, refresh }: CreateUrlForm) {
     setExpiresAt,
   } = useCreateUrl();
   const token = process.env.NEXT_PUBLIC_TOKEN || "";
-  const formatDateForDisplay = (date: Date) => {
-    const pad = (n: number) => n.toString().padStart(2, "0");
-    const year = date.getFullYear();
-    const month = pad(date.getMonth() + 1);
-    const day = pad(date.getDate());
-    const hours = pad(date.getHours());
-    const minutes = pad(date.getMinutes());
-    const seconds = pad(date.getSeconds());
-
-    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,8 +33,6 @@ export default function CreateUrlForm({ handleClose, refresh }: CreateUrlForm) {
     if (!isValid) return;
     try {
       setLoading(true);
-      const expiryDate = formatDateForDisplay(form.expires_at);
-      console.log(expiryDate);
       await createShortUrl(form, token);
       toast.success("Short Url created successfully!");
       refresh();
