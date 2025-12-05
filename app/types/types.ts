@@ -11,8 +11,8 @@ export interface UrlItem {
 }
 
 export interface CreateUrl {
-  ORIGINAL_URL: "originalUrl";
-  EXPIRES_AT: "expiresAt";
+  ORIGINAL_URL: "original_url";
+  EXPIRES_AT: "expires_at";
 }
 
 export enum FilterType {

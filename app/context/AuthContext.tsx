@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       try {
         const res = await checkLoggedIn();
         setLoggedIn(res.loggedIn);
-        setToken(res.token);
+        setToken(res.token.value);
       } catch (err) {
         setLoggedIn(false);
       }
