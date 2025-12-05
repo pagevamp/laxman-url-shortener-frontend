@@ -41,8 +41,8 @@ export default function UrlTable() {
   const startIndex = (queryParams.currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const paginatedData = filteredData.slice(startIndex, endIndex);
-
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+
   const { token } = useAuth();
   useEffect(() => {
     if (token) {
@@ -51,7 +51,6 @@ export default function UrlTable() {
           setLoading(true);
           const data = await getUrls(token);
           setUrls(data.data.urls);
-          console.log(urls);
         } catch (error) {
         } finally {
           setLoading(false);
