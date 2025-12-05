@@ -16,3 +16,17 @@ export type CreateUrlActionState = {
     server?: string;
   };
 };
+
+export const editUrlSchema = z.object({
+  expiresAt: z.date(),
+});
+
+export type editUrlActionState = {
+  form?: {
+    expiresAt?: Date | null;
+  };
+  errors?: {
+    expiresAt?: string;
+    server?: string;
+  };
+};

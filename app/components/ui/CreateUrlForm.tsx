@@ -13,7 +13,6 @@ interface CreateUrlForm {
 
 export default function CreateUrlForm({ handleClose }: CreateUrlForm) {
   const {
-    form,
     handleValidation,
     loading,
     setLoading,

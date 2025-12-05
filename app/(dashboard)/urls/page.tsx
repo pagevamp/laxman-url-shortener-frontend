@@ -6,24 +6,29 @@ import { Button } from "@/app/components/ui/Button";
 import UrlTableSkeleton from "@/app/components/UrlTableSkeleton";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import UrlTable from "../../components/ui/UrlTable";
+import EditUrlForm from "@/app/components/ui/EditUrlForm";
+import { UrlItem } from "@/app/types/types";
 import { Suspense } from "react";
 
 export default function UrlPage() {
   const [isModalOpen, setIsModalOpen] = useState({
     create: false,
+    edit: false,
   });
 
-  function handleClose(value: string) {
-    setIsModalOpen((prev) => ({ ...prev, [value]: false }));
-  }
+  const [selectedUrl, setSelectedUrl] = useState<UrlItem | null>(null);
 
   useEffect(() => {
-    if (isModalOpen.create) {
+    if (isModalOpen.create || isModalOpen.edit) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
     }
   }, [isModalOpen]);
+
+  function handleClose(value: string) {
+    setIsModalOpen((prev) => ({ ...prev, [value]: false }));
+  }
 
   return (
     <div>
@@ -39,15 +44,23 @@ export default function UrlPage() {
           Add New URL
         </Button>
       </div>
+      <Suspense fallback={<UrlTableSkeleton />}>
+        <UrlTable
+          setIsModalOpen={setIsModalOpen}
+          setSelectedUrl={setSelectedUrl}
+        />
+      </Suspense>
 
       {isModalOpen.create && (
         <Modal onClose={() => handleClose("create")} title="Create New URL">
           <CreateUrlForm handleClose={handleClose} />
         </Modal>
       )}
-      <Suspense fallback={<UrlTableSkeleton />}>
-        <UrlTable />
-      </Suspense>
+      {isModalOpen.edit && (
+        <Modal onClose={() => handleClose("edit")} title="Edit URL">
+          <EditUrlForm url={selectedUrl} />
+        </Modal>
+      )}
     </div>
   );
 }
