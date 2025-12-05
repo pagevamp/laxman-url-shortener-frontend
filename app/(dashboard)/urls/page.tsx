@@ -1,21 +1,34 @@
 "use client";
 import Modal from "@/app/components/ui/Modal";
 import CreateUrlForm from "../../components/ui/CreateUrlForm";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Button } from "@/app/components/ui/Button";
 import UrlTableSkeleton from "@/app/components/UrlTableSkeleton";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import UrlTable from "../../components/ui/UrlTable";
 import { Suspense } from "react";
+import { getUrls } from "@/app/api/url.api";
+import { UrlItem } from "@/app/api/interfaces/interfaces";
 
 export default function UrlPage() {
   const [isModalOpen, setIsModalOpen] = useState({
     create: false,
   });
 
+  const [urls, setUrls] = useState<UrlItem[]>([]);
+
   function handleClose(value: string) {
     setIsModalOpen((prev) => ({ ...prev, [value]: false }));
   }
+
+  const fetchUrls = useCallback(async (token: string) => {
+    try {
+      const data = await getUrls(token);
+      setUrls(data.data.urls);
+    } catch (error) {
+    } finally {
+    }
+  }, []);
 
   useEffect(() => {
     if (isModalOpen.create) {
@@ -42,11 +55,11 @@ export default function UrlPage() {
 
       {isModalOpen.create && (
         <Modal onClose={() => handleClose("create")} title="Create New URL">
-          <CreateUrlForm handleClose={handleClose} />
+          <CreateUrlForm handleClose={handleClose} fetchUrls={fetchUrls} />
         </Modal>
       )}
       <Suspense fallback={<UrlTableSkeleton />}>
-        <UrlTable />
+        <UrlTable fetchUrls={fetchUrls} urls={urls} />
       </Suspense>
     </div>
   );

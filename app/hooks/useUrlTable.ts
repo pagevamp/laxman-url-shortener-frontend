@@ -7,7 +7,6 @@ import { useRouter } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
 
 export const useUrl = () => {
-  const [loading, setLoading] = useState(false);
   const [urls, setUrls] = useState<UrlItem[]>([]);
 
   const searchParams = useSearchParams();
@@ -162,8 +161,6 @@ export const useUrl = () => {
     handleFilterChange,
     handleSort,
     formatDate,
-    loading,
-    setLoading,
     urls,
     setUrls,
   };

@@ -12,11 +12,24 @@ import {
   ArrowTrendingUpIcon,
 } from "@heroicons/react/24/outline";
 import SearchBar from "./SearchField";
-import { getUrls } from "@/app/api/url.api";
 import { useEffect } from "react";
 import { useAuth } from "@/app/context/AuthContext";
 
-export default function UrlTable() {
+interface UrlTableProps {
+  fetchUrls: (token: string) => Promise<void>;
+  urls: {
+    id: string;
+    original_url: string;
+    short_url: string;
+    user_id: string;
+    deleted_at: string | null;
+    expires_at: string;
+    notified: boolean;
+    created_at: string;
+  }[];
+}
+
+export default function UrlTable({ fetchUrls, urls }: UrlTableProps) {
   const {
     queryParams,
     copiedMap,
@@ -28,10 +41,6 @@ export default function UrlTable() {
     handleFilterChange,
     handleSort,
     formatDate,
-    urls,
-    setUrls,
-    loading,
-    setLoading,
   } = useUrl();
   const itemsPerPage = 10;
 
@@ -42,27 +51,15 @@ export default function UrlTable() {
   const endIndex = startIndex + itemsPerPage;
   const paginatedData = filteredData.slice(startIndex, endIndex);
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-
   const { token } = useAuth();
   useEffect(() => {
     if (token) {
-      const fetchUrls = async () => {
-        try {
-          setLoading(true);
-          const data = await getUrls(token);
-          setUrls(data.data.urls);
-        } catch (error) {
-        } finally {
-          setLoading(false);
-        }
-      };
-
-      fetchUrls();
+      fetchUrls(token);
     }
   }, [token]);
 
   return (
-    <div className="overflow-hidden rounded-3xl bg-gray-50 dark:bg-gray-900 shadow-[0_10px_40px_rgba(0,0,0,0.5)] p-6">
+    <div className="overflow-hidden rounded-3xl bg-gray-50 z-30 dark:bg-gray-900 shadow-2 p-6">
       <div className="mb-5 pb-5 overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-700">
         {/* search bar with add new url button */}
         <SearchBar
@@ -184,10 +181,9 @@ export default function UrlTable() {
                       </button>
                     </div>
                   </td>
-
                   <td>
                     <span
-                      className={`whitespace-nowrap p-2 rounded-4xl shadow-lg ${getExpiryBg(
+                      className={`whitespace-nowrap p-2 rounded-md ${getExpiryBg(
                         item.expires_at
                       )}`}
                     >
