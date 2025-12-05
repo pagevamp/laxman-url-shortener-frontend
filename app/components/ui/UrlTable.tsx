@@ -13,20 +13,10 @@ import {
 } from "@heroicons/react/24/outline";
 import SearchBar from "./SearchField";
 import { getUrls } from "@/app/api/url.api";
-import useSWR from "swr";
 import { useEffect } from "react";
+import { useAuth } from "@/app/context/AuthContext";
 
-const fetcher = (token: string) => getUrls(token).then((res) => res.data.urls);
-
-interface UrlTableProps {
-  onCreated: (fn: () => void) => void;
-}
-
-export default function UrlTable({ onCreated }: UrlTableProps) {
-  const token = process.env.NEXT_PUBLIC_TOKEN || "";
-  const { data: urls = [], mutate } = useSWR(["urls", token], () =>
-    fetcher(token)
-  );
+export default function UrlTable() {
   const {
     queryParams,
     copiedMap,
@@ -38,21 +28,39 @@ export default function UrlTable({ onCreated }: UrlTableProps) {
     handleFilterChange,
     handleSort,
     formatDate,
+    urls,
+    setUrls,
+    loading,
+    setLoading,
   } = useUrl();
   const itemsPerPage = 10;
 
   const BASE_DOMAIN = process.env.NEXT_PUBLIC_BASE_URL;
 
-  const filteredData = useFilteredSortedUrls(urls ?? []);
+  const filteredData = useFilteredSortedUrls(urls);
   const startIndex = (queryParams.currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const paginatedData = filteredData.slice(startIndex, endIndex);
 
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-
+  const { token } = useAuth();
   useEffect(() => {
-    onCreated(mutate);
-  }, []);
+    if (token) {
+      const fetchUrls = async () => {
+        try {
+          setLoading(true);
+          const data = await getUrls(token);
+          setUrls(data.data.urls);
+          console.log(urls);
+        } catch (error) {
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      fetchUrls();
+    }
+  }, [token]);
 
   return (
     <div className="overflow-hidden rounded-3xl bg-gray-50 dark:bg-gray-900 shadow-[0_10px_40px_rgba(0,0,0,0.5)] p-6">

@@ -34,3 +34,48 @@ export type CreateUrlRequestData = z.infer<typeof CreateUrlRequestSchema>;
 export type CreateUrlResponse = z.infer<typeof CreateUrlResponseSchema>;
 export type UrlItem = z.infer<typeof UrlItemSchema>;
 export type GetUrlsResponse = z.infer<typeof GetUrlsResponseSchema>;
+export interface LoginRequestData {
+  username: string;
+  password: string;
+}
+
+export interface ResendMailRequestData {
+  email: string;
+}
+
+export interface VerifyUserRequestData {
+  token: string;
+}
+
+export interface RegisterRequestData {
+  name: string;
+  username: string;
+  email: string;
+  password: string;
+}
+
+export const LoginResponseSchema = z.object({
+  loggedIn: z.boolean(),
+});
+export type LoginResponse = z.infer<typeof LoginResponseSchema>;
+
+export const RegisterResponseSchema = z.object({
+  message: z.string(),
+  data: z.object({
+    user: z.object({
+      id: z.string(),
+      name: z.string(),
+      username: z.string(),
+      email: z.string(),
+      verified_at: z.string().nullable(),
+      updated_at: z.string().nullable(),
+      created_at: z.string(),
+    }),
+  }),
+});
+export type RegisterResponse = z.infer<typeof RegisterResponseSchema>;
+
+export const ResendMailResponseSchema = z.object({
+  message: z.string(),
+});
+export type ResendMailResponse = z.infer<typeof ResendMailResponseSchema>;

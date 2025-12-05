@@ -13,8 +13,6 @@ export default function UrlPage() {
     create: false,
   });
 
-  const [refresh, setRefresh] = useState<() => void>(() => () => {});
-
   function handleClose(value: string) {
     setIsModalOpen((prev) => ({ ...prev, [value]: false }));
   }
@@ -44,11 +42,11 @@ export default function UrlPage() {
 
       {isModalOpen.create && (
         <Modal onClose={() => handleClose("create")} title="Create New URL">
-          <CreateUrlForm handleClose={handleClose} refresh={refresh} />
+          <CreateUrlForm handleClose={handleClose} />
         </Modal>
       )}
       <Suspense fallback={<UrlTableSkeleton />}>
-        <UrlTable onCreated={(m) => setRefresh(() => m)} />
+        <UrlTable />
       </Suspense>
     </div>
   );
