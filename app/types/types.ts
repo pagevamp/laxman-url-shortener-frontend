@@ -10,11 +10,6 @@ export interface UrlItem {
   created_at: string;
 }
 
-export interface CreateUrl {
-  ORIGINAL_URL: "originalUrl";
-  EXPIRES_AT: "expiresAt";
-}
-
 export enum FilterType {
   ALL = "all",
   ACTIVE = "active",
