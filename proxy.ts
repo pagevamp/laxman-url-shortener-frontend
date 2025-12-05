@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 
 const authPages = ["/login", "/register"];
 
-const protectedPages = ["/"];
+const protectedPages = ["/", "/urls"];
 const JWT_SECRET = process.env.JWT_SECRET || "";
 export function proxy(req: NextRequest) {
   const token = req.cookies.get("accessToken")?.value;
@@ -31,5 +31,5 @@ export function proxy(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/login", "/register"],
+  matcher: ["/", "/login", "/register", "/urls"],
 };
