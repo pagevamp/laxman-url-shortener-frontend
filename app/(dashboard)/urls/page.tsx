@@ -9,10 +9,16 @@ import UrlTable from "../../components/ui/UrlTable";
 import { Suspense } from "react";
 
 export default function UrlPage() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState({
+    create: false,
+  });
+
+  function handleClose(value: string) {
+    setIsModalOpen((prev) => ({ ...prev, [value]: false }));
+  }
 
   useEffect(() => {
-    if (isModalOpen) {
+    if (isModalOpen.create) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
@@ -27,16 +33,16 @@ export default function UrlPage() {
         </h1>
         <Button
           className="flex items-center gap-2 p-3! bg-blue-600 text-white rounded-lg hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 transition hover:scale-105"
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => setIsModalOpen((prev) => ({ ...prev, create: true }))}
         >
           <PlusIcon className="h-5 w-5" />
           Add New URL
         </Button>
       </div>
 
-      {isModalOpen && (
-        <Modal onClose={() => setIsModalOpen(false)} title="Create New URL">
-          <CreateUrlForm />
+      {isModalOpen.create && (
+        <Modal onClose={() => handleClose("create")} title="Create New URL">
+          <CreateUrlForm handleClose={handleClose} />
         </Modal>
       )}
       <Suspense fallback={<UrlTableSkeleton />}>

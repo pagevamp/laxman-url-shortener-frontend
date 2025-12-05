@@ -8,10 +8,13 @@ import toast from "react-hot-toast";
 import { DateTimePicker } from "../DatePicker";
 import { createShortUrl } from "@/app/api/url.api";
 
-export default function CreateUrlForm() {
+interface CreateUrlForm {
+  handleClose: (value: string) => void;
+}
+
+export default function CreateUrlForm({ handleClose }: CreateUrlForm) {
   const {
     form,
-    setForm,
     handleValidation,
     loading,
     setLoading,
@@ -19,6 +22,7 @@ export default function CreateUrlForm() {
     setError,
     handleChange,
     setExpiresAt,
+    router,
   } = useCreateUrl();
   const token = process.env.NEXT_PUBLIC_TOKEN || "";
   const formatDateForDisplay = (date: Date) => {
@@ -44,6 +48,8 @@ export default function CreateUrlForm() {
       console.log(expiryDate);
       await createShortUrl(form, token);
       toast.success("Short Url created successfully!");
+      handleClose("create");
+      router.refresh();
     } catch (err) {
       if (err instanceof Error) {
         toast.error(err.message);

@@ -12,10 +12,16 @@ import {
   ArrowTrendingUpIcon,
 } from "@heroicons/react/24/outline";
 import SearchBar from "./SearchField";
-import { useEffect } from "react";
 import { getUrls } from "@/app/api/url.api";
+import useSWR from "swr";
+
+const fetcher = (token: string) => getUrls(token).then((res) => res.data.urls);
 
 export default function UrlTable() {
+  const token = process.env.NEXT_PUBLIC_TOKEN || "";
+  const { data: urls = [], mutate } = useSWR(["urls", token], () =>
+    fetcher(token)
+  );
   const {
     queryParams,
     copiedMap,
@@ -27,40 +33,17 @@ export default function UrlTable() {
     handleFilterChange,
     handleSort,
     formatDate,
-    urls,
-    setUrls,
-    setLoading,
   } = useUrl();
   const itemsPerPage = 10;
 
   const BASE_DOMAIN = process.env.NEXT_PUBLIC_BASE_URL;
 
-  const filteredData = useFilteredSortedUrls(urls);
+  const filteredData = useFilteredSortedUrls(urls ?? []);
   const startIndex = (queryParams.currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const paginatedData = filteredData.slice(startIndex, endIndex);
 
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-  const token = process.env.NEXT_PUBLIC_TOKEN;
-
-  useEffect(() => {
-    if (!token) return;
-    const fetchUrls = async () => {
-      try {
-        setLoading(true);
-        const data = await getUrls(token);
-        console.log("the data is: ", data);
-        setUrls(data.data.urls);
-      } catch (error) {
-        console.error("Failed to fetch URLs:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUrls();
-  }, [token]);
-
   return (
     <div className="overflow-hidden rounded-3xl bg-gray-50 dark:bg-gray-900 shadow-[0_10px_40px_rgba(0,0,0,0.5)] p-6">
       <div className="mb-5 pb-5 overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-700">
@@ -202,9 +185,9 @@ export default function UrlTable() {
                   <td className="p-4 flex items-center gap-2">
                     <button
                       className="
-                        p-2.5 
-                        rounded-full 
-                        bg-blue-100 text-blue-700 
+                        p-2.5
+                        rounded-full
+                        bg-blue-100 text-blue-700
                         dark:bg-blue-500/30 dark:text-blue-300
                         hover:bg-blue-200 hover:scale-105 dark:hover:bg-blue-300/50
                         transition-all duration-200
@@ -216,9 +199,9 @@ export default function UrlTable() {
 
                     <button
                       className="
-                        p-2.5 
-                        rounded-full 
-                        bg-red-100 text-red-700 
+                        p-2.5
+                        rounded-full
+                        bg-red-100 text-red-700
                         dark:bg-red-900/30 dark:text-red-300
                         hover:bg-red-200 hover:scale-105 dark:hover:bg-red-800/50
                         transition-all duration-200
