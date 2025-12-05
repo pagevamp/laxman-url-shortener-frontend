@@ -22,7 +22,6 @@ export default function CreateUrlForm({ handleClose }: CreateUrlForm) {
     setError,
     handleChange,
     setExpiresAt,
-    router,
   } = useCreateUrl();
   const token = process.env.NEXT_PUBLIC_TOKEN || "";
   const formatDateForDisplay = (date: Date) => {
@@ -49,7 +48,6 @@ export default function CreateUrlForm({ handleClose }: CreateUrlForm) {
       await createShortUrl(form, token);
       toast.success("Short Url created successfully!");
       handleClose("create");
-      router.refresh();
     } catch (err) {
       if (err instanceof Error) {
         toast.error(err.message);

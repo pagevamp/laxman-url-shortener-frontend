@@ -6,10 +6,8 @@ import {
   createUrlSchema,
 } from "../lib/schemas/url.schema";
 import { z } from "zod";
-import { useRouter } from "next/navigation";
 
 export const useCreateUrl = () => {
-  const router = useRouter();
   const [form, setForm] = useState({
     original_url: "",
     expires_at: new Date(),
@@ -55,6 +53,5 @@ export const useCreateUrl = () => {
     setError,
     handleChange,
     setExpiresAt,
-    router,
   };
 };
