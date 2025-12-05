@@ -30,6 +30,26 @@ export const CreateUrlResponseSchema = z.object({
   }),
 });
 
+export const EditUrlRequestSchema = z.object({
+  expires_at: z.date(),
+});
+
+export const EditUrlResponseSchema = z.object({
+  message: z.string(),
+  data: z.object({
+    url: z.object({
+      id: z.uuidv4(),
+      originalUrl: z.string(),
+      short_url: z.string(),
+      user_id: z.uuidv4(),
+      deleted_at: z.date(),
+      expires_at: z.date(),
+      notified: z.boolean(),
+      created_at: z.date(),
+    }),
+  }),
+});
+
 export type CreateUrlRequestData = z.infer<typeof CreateUrlRequestSchema>;
 export type CreateUrlResponse = z.infer<typeof CreateUrlResponseSchema>;
 export type UrlItem = z.infer<typeof UrlItemSchema>;
