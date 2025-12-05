@@ -18,7 +18,6 @@ const Input = ({
   name,
   children,
   placeholder,
-  value,
   error,
   onChange,
 }: InputFieldProps) => {
