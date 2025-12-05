@@ -59,7 +59,7 @@ export default function CreateUrlForm({ handleClose }: CreateUrlForm) {
           placeholder="https://example.com"
           onChange={handleChange}
         >
-          <LinkIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+          <LinkIcon className="absolute top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
         </Input>
         {error?.originalUrl && (
           <p className="text-red-500 text-xs -mt-3">{error.originalUrl}</p>
