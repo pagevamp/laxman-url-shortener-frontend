@@ -26,6 +26,10 @@ export default function UrlPage() {
     }
   }, [isModalOpen]);
 
+  function handleClose(value: string) {
+    setIsModalOpen((prev) => ({ ...prev, [value]: false }));
+  }
+
   return (
     <div>
       <div className="flex justify-between items-center mx-4 mb-4">
@@ -48,18 +52,12 @@ export default function UrlPage() {
       </Suspense>
 
       {isModalOpen.create && (
-        <Modal
-          onClose={() => setIsModalOpen((prev) => ({ ...prev, create: false }))}
-          title="Create New URL"
-        >
-          <CreateUrlForm />
+        <Modal onClose={() => handleClose("create")} title="Create New URL">
+          <CreateUrlForm handleClose={handleClose} />
         </Modal>
       )}
       {isModalOpen.edit && (
-        <Modal
-          onClose={() => setIsModalOpen((prev) => ({ ...prev, edit: false }))}
-          title="Edit URL"
-        >
+        <Modal onClose={() => handleClose("edit")} title="Edit URL">
           <EditUrlForm url={selectedUrl} />
         </Modal>
       )}

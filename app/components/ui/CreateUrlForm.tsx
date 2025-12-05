@@ -7,9 +7,12 @@ import { useCreateUrl } from "@/app/hooks/useCreateUrl";
 import toast from "react-hot-toast";
 import { DateTimePicker } from "../DatePicker";
 
-export default function CreateUrlForm() {
+interface CreateUrlForm {
+  handleClose: (value: string) => void;
+}
+
+export default function CreateUrlForm({ handleClose }: CreateUrlForm) {
   const {
-    form,
     handleValidation,
     loading,
     setLoading,
@@ -27,6 +30,7 @@ export default function CreateUrlForm() {
     try {
       setLoading(true);
       toast.success("Short Url created successfully!");
+      handleClose("create");
     } catch (err) {
       if (err instanceof Error) {
         toast.error(err.message);
