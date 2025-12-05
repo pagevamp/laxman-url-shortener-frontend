@@ -1,6 +1,6 @@
 "use client";
 
-import { SortableFields } from "../../types/types";
+import { SortableFields, UrlItem } from "../../types/types";
 import { useUrl } from "@/app/hooks/useUrlTable";
 import Pagination from "./Pagination";
 import {
@@ -15,15 +15,28 @@ import SearchBar from "./SearchField";
 import { getUrls } from "@/app/api/url.api";
 import useSWR from "swr";
 import { useEffect } from "react";
+import { Dispatch, SetStateAction } from "react";
 
 const fetcher = (token: string) => getUrls(token).then((res) => res.data.urls);
 
 interface UrlTableProps {
   onCreated: (fn: () => void) => void;
+  setIsModalOpen: Dispatch<
+    SetStateAction<{
+      create: boolean;
+      edit: boolean;
+    }>
+  >;
+  setSelectedUrl: Dispatch<SetStateAction<UrlItem | null>>;
 }
 
-export default function UrlTable({ onCreated }: UrlTableProps) {
-  const token = process.env.NEXT_PUBLIC_TOKEN || "";
+const token = process.env.NEXT_PUBLIC_TOKEN || "";
+
+export default function UrlTable({
+  setIsModalOpen,
+  setSelectedUrl,
+  onCreated,
+}: UrlTableProps) {
   const { data: urls = [], mutate } = useSWR(["urls", token], () =>
     fetcher(token)
   );
@@ -39,6 +52,7 @@ export default function UrlTable({ onCreated }: UrlTableProps) {
     handleSort,
     formatDate,
   } = useUrl();
+
   const itemsPerPage = 10;
 
   const BASE_DOMAIN = process.env.NEXT_PUBLIC_BASE_URL;
@@ -194,6 +208,10 @@ export default function UrlTable({ onCreated }: UrlTableProps) {
 
                   <td className="p-4 flex items-center gap-2">
                     <button
+                      onClick={() => {
+                        setSelectedUrl(item);
+                        setIsModalOpen((prev) => ({ ...prev, edit: true }));
+                      }}
                       className="
                         p-2.5
                         rounded-full
