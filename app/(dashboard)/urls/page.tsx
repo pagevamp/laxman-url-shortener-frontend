@@ -1,14 +1,15 @@
 "use client";
 import Modal from "@/app/components/ui/Modal";
 import CreateUrlForm from "../../components/ui/CreateUrlForm";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Button } from "@/app/components/ui/Button";
 import UrlTableSkeleton from "@/app/components/UrlTableSkeleton";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import UrlTable from "../../components/ui/UrlTable";
+import { Suspense } from "react";
+import { getUrls } from "@/app/api/url.api";
 import EditUrlForm from "@/app/components/ui/EditUrlForm";
 import { UrlItem } from "@/app/types/types";
-import { Suspense } from "react";
 
 export default function UrlPage() {
   const [isModalOpen, setIsModalOpen] = useState({
@@ -16,12 +17,21 @@ export default function UrlPage() {
     edit: false,
   });
 
-  const [refresh, setRefresh] = useState<() => void>(() => () => {});
   const [selectedUrl, setSelectedUrl] = useState<UrlItem | null>(null);
+  const [urls, setUrls] = useState<UrlItem[]>([]);
 
   function handleClose(value: string) {
     setIsModalOpen((prev) => ({ ...prev, [value]: false }));
   }
+
+  const fetchUrls = useCallback(async (token: string) => {
+    try {
+      const data = await getUrls(token);
+      setUrls(data.data.urls);
+    } catch (error) {
+    } finally {
+    }
+  }, []);
 
   useEffect(() => {
     if (isModalOpen.create || isModalOpen.edit) {
@@ -45,22 +55,27 @@ export default function UrlPage() {
           Add New URL
         </Button>
       </div>
-      <Suspense fallback={<UrlTableSkeleton />}>
-        <UrlTable
-          setIsModalOpen={setIsModalOpen}
-          setSelectedUrl={setSelectedUrl}
-          onCreated={(m) => setRefresh(() => m)}
-        />
-      </Suspense>
 
       {isModalOpen.create && (
         <Modal onClose={() => handleClose("create")} title="Create New URL">
-          <CreateUrlForm handleClose={handleClose} refresh={refresh} />
+          <CreateUrlForm handleClose={handleClose} fetchUrls={fetchUrls} />
         </Modal>
       )}
+      <Suspense fallback={<UrlTableSkeleton />}>
+        <UrlTable
+          fetchUrls={fetchUrls}
+          urls={urls}
+          setIsModalOpen={setIsModalOpen}
+          setSelectedUrl={setSelectedUrl}
+        />
+      </Suspense>
       {isModalOpen.edit && (
         <Modal onClose={() => handleClose("edit")} title="Edit URL">
-          <EditUrlForm url={selectedUrl} />
+          <EditUrlForm
+            handleClose={handleClose}
+            fetchUrls={fetchUrls}
+            url={selectedUrl}
+          />
         </Modal>
       )}
     </div>

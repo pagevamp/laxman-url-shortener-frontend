@@ -12,15 +12,11 @@ import {
   ArrowTrendingUpIcon,
 } from "@heroicons/react/24/outline";
 import SearchBar from "./SearchField";
-import { getUrls } from "@/app/api/url.api";
-import useSWR from "swr";
-import { useEffect } from "react";
-import { Dispatch, SetStateAction } from "react";
-
-const fetcher = (token: string) => getUrls(token).then((res) => res.data.urls);
+import { Dispatch, SetStateAction, useEffect } from "react";
+import { useAuth } from "@/app/context/AuthContext";
 
 interface UrlTableProps {
-  onCreated: (fn: () => void) => void;
+  fetchUrls: (token: string) => Promise<void>;
   setIsModalOpen: Dispatch<
     SetStateAction<{
       create: boolean;
@@ -28,18 +24,15 @@ interface UrlTableProps {
     }>
   >;
   setSelectedUrl: Dispatch<SetStateAction<UrlItem | null>>;
+  urls: UrlItem[];
 }
-
-const token = process.env.NEXT_PUBLIC_TOKEN || "";
 
 export default function UrlTable({
   setIsModalOpen,
   setSelectedUrl,
-  onCreated,
+  fetchUrls,
+  urls,
 }: UrlTableProps) {
-  const { data: urls = [], mutate } = useSWR(["urls", token], () =>
-    fetcher(token)
-  );
   const {
     queryParams,
     copiedMap,
@@ -57,19 +50,20 @@ export default function UrlTable({
 
   const BASE_DOMAIN = process.env.NEXT_PUBLIC_BASE_URL;
 
-  const filteredData = useFilteredSortedUrls(urls ?? []);
+  const filteredData = useFilteredSortedUrls(urls);
   const startIndex = (queryParams.currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const paginatedData = filteredData.slice(startIndex, endIndex);
-
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-
+  const { token } = useAuth();
   useEffect(() => {
-    onCreated(mutate);
-  }, []);
+    if (token) {
+      fetchUrls(token);
+    }
+  }, [token]);
 
   return (
-    <div className="overflow-hidden rounded-3xl bg-gray-50 dark:bg-gray-900 shadow-[0_10px_40px_rgba(0,0,0,0.5)] p-6">
+    <div className="overflow-hidden rounded-3xl bg-gray-50 z-30 dark:bg-gray-900 shadow-2 p-6">
       <div className="mb-5 pb-5 overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-700">
         {/* search bar with add new url button */}
         <SearchBar
@@ -191,10 +185,9 @@ export default function UrlTable({
                       </button>
                     </div>
                   </td>
-
                   <td>
                     <span
-                      className={`whitespace-nowrap p-2 rounded-4xl shadow-lg ${getExpiryBg(
+                      className={`whitespace-nowrap p-2 rounded-md ${getExpiryBg(
                         item.expires_at
                       )}`}
                     >

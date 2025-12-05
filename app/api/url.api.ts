@@ -3,6 +3,9 @@ import {
   CreateUrlRequestData,
   CreateUrlResponse,
   CreateUrlResponseSchema,
+  EditUrlRequestData,
+  EditUrlResponse,
+  EditUrlResponseSchema,
   GetUrlsResponse,
   GetUrlsResponseSchema,
 } from "./interfaces/interfaces";
@@ -39,6 +42,27 @@ export async function createShortUrl(
     });
 
     const parsed = CreateUrlResponseSchema.safeParse(res.data);
+    if (!parsed.success) throw new Error("Invalid response format");
+
+    return parsed.data;
+  } catch (error: unknown) {
+    throw new Error(getAxiosErrorMessage(error));
+  }
+}
+
+export async function editShortUrl(
+  id: string,
+  data: EditUrlRequestData,
+  token: string
+): Promise<EditUrlResponse> {
+  try {
+    const res = await axiosInstance.patch(`/urls/${id}`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const parsed = EditUrlResponseSchema.safeParse(res.data);
     if (!parsed.success) throw new Error("Invalid response format");
 
     return parsed.data;

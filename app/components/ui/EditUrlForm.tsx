@@ -6,20 +6,31 @@ import toast from "react-hot-toast";
 import { DateTimePicker } from "../DatePicker";
 import { UrlItem } from "@/app/types/types";
 import { useEditUrl } from "@/app/hooks/useEditUrl";
+import { useAuth } from "@/app/context/AuthContext";
+import { editShortUrl } from "@/app/api/url.api";
 
 interface EditUrlForm {
   url: UrlItem | null;
+  fetchUrls: (token: string) => Promise<void>;
+  handleClose: (value: string) => void;
 }
 
-export default function EditUrlForm({ url }: EditUrlForm) {
+export default function EditUrlForm({
+  url,
+  fetchUrls,
+  handleClose,
+}: EditUrlForm) {
   const {
-    setExpiresAt,
+    editForm,
     handleValidation,
     loading,
     setLoading,
     error,
     setError,
+    setExpiresAt,
   } = useEditUrl();
+
+  const { token } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,8 +38,13 @@ export default function EditUrlForm({ url }: EditUrlForm) {
     const isValid = handleValidation();
     if (!isValid) return;
     try {
-      setLoading(true);
-      toast.success("Url Edited successfully!");
+      if (token) {
+        setLoading(true);
+        await editShortUrl(url?.id!, editForm, token);
+        toast.success("Url Edited successfully!");
+        fetchUrls(token);
+        handleClose("edit");
+      }
     } catch (err) {
       if (err instanceof Error) {
         toast.error(err.message);
@@ -58,8 +74,8 @@ export default function EditUrlForm({ url }: EditUrlForm) {
           setExpiresAt={setExpiresAt}
           initialDate={url?.expires_at ? new Date(url.expires_at) : null}
         />
-        {error?.expiresAt && (
-          <p className="text-red-500 text-xs mt-3">{error.expiresAt}</p>
+        {error?.expires_at && (
+          <p className="text-red-500 text-xs mt-3">{error.expires_at}</p>
         )}
       </div>
 

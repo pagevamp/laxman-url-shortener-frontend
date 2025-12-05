@@ -7,13 +7,17 @@ import { useCreateUrl } from "@/app/hooks/useCreateUrl";
 import toast from "react-hot-toast";
 import { DateTimePicker } from "../DatePicker";
 import { createShortUrl } from "@/app/api/url.api";
+import { useAuth } from "@/app/context/AuthContext";
 
 interface CreateUrlForm {
   handleClose: (value: string) => void;
-  refresh: () => void;
+  fetchUrls: (token: string) => Promise<void>;
 }
 
-export default function CreateUrlForm({ handleClose, refresh }: CreateUrlForm) {
+export default function CreateUrlForm({
+  handleClose,
+  fetchUrls,
+}: CreateUrlForm) {
   const {
     form,
     handleValidation,
@@ -24,7 +28,7 @@ export default function CreateUrlForm({ handleClose, refresh }: CreateUrlForm) {
     handleChange,
     setExpiresAt,
   } = useCreateUrl();
-  const token = process.env.NEXT_PUBLIC_TOKEN || "";
+  const { token } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,11 +36,13 @@ export default function CreateUrlForm({ handleClose, refresh }: CreateUrlForm) {
     const isValid = handleValidation();
     if (!isValid) return;
     try {
-      setLoading(true);
-      await createShortUrl(form, token);
-      toast.success("Short Url created successfully!");
-      refresh();
-      handleClose("create");
+      if (token) {
+        setLoading(true);
+        await createShortUrl(form, token);
+        toast.success("Short Url created successfully!");
+        fetchUrls(token);
+        handleClose("create");
+      }
     } catch (err) {
       if (err instanceof Error) {
         toast.error(err.message);
@@ -65,7 +71,7 @@ export default function CreateUrlForm({ handleClose, refresh }: CreateUrlForm) {
           placeholder="https://example.com"
           onChange={handleChange}
         >
-          <LinkIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+          <LinkIcon className="absolute top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
         </Input>
         {error?.original_url && (
           <p className="text-red-500 text-xs -mt-3">{error.original_url}</p>
