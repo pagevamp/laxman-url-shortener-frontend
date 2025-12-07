@@ -2,19 +2,21 @@
 import Modal from "@/app/components/ui/Modal";
 import CreateUrlForm from "../../components/ui/CreateUrlForm";
 import { useCallback, useEffect, useState } from "react";
+import { Button } from "@/app/components/Button";
 import UrlTableSkeleton from "@/app/components/UrlTableSkeleton";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import UrlTable from "../../components/ui/UrlTable";
-import { Suspense } from "react";
 import { getUrls } from "@/app/api/url.api";
 import EditUrlForm from "@/app/components/ui/EditUrlForm";
 import { UrlItem } from "@/app/types/types";
-import { Button } from "@/app/components/Button";
+import { Suspense } from "react";
+import DeleteUrlForm from "@/app/components/ui/DeleteUrlForm";
 
 export default function UrlPage() {
   const [isModalOpen, setIsModalOpen] = useState({
     create: false,
     edit: false,
+    delete: false,
   });
 
   const [selectedUrl, setSelectedUrl] = useState<UrlItem | null>(null);
@@ -34,7 +36,7 @@ export default function UrlPage() {
   }, []);
 
   useEffect(() => {
-    if (isModalOpen.create || isModalOpen.edit) {
+    if (isModalOpen.create || isModalOpen.edit || isModalOpen.delete) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
@@ -75,6 +77,15 @@ export default function UrlPage() {
             handleClose={handleClose}
             fetchUrls={fetchUrls}
             url={selectedUrl}
+          />
+        </Modal>
+      )}
+      {isModalOpen.delete && (
+        <Modal onClose={() => handleClose("delete")} title="Delete URL">
+          <DeleteUrlForm
+            url={selectedUrl}
+            fetchUrls={fetchUrls}
+            handleClose={handleClose}
           />
         </Modal>
       )}

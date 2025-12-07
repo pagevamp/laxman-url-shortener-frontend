@@ -70,3 +70,17 @@ export async function editShortUrl(
     throw new Error(getAxiosErrorMessage(error));
   }
 }
+
+export async function deleteShortUrl(id: string, token: string) {
+  try {
+    const res = await axiosInstance.delete(`/urls/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return true;
+  } catch (error: unknown) {
+    throw new Error(getAxiosErrorMessage(error));
+  }
+}
