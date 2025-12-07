@@ -1,15 +1,18 @@
 "use client";
 
-import { Button } from "@/app/components/ui/Button";
+import { Button } from "@/app/components/Button";
 import Input from "@/app/components/ui/Input";
 import { LinkIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
 import { useCreateUrl } from "@/app/hooks/useCreateUrl";
 import toast from "react-hot-toast";
 import { DateTimePicker } from "../DatePicker";
 
-export default function CreateUrlForm() {
+interface CreateUrlForm {
+  handleClose: (value: string) => void;
+}
+
+export default function CreateUrlForm({ handleClose }: CreateUrlForm) {
   const {
-    form,
     handleValidation,
     loading,
     setLoading,
@@ -27,6 +30,7 @@ export default function CreateUrlForm() {
     try {
       setLoading(true);
       toast.success("Short Url created successfully!");
+      handleClose("create");
     } catch (err) {
       if (err instanceof Error) {
         toast.error(err.message);
@@ -55,7 +59,7 @@ export default function CreateUrlForm() {
           placeholder="https://example.com"
           onChange={handleChange}
         >
-          <LinkIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+          <LinkIcon className="absolute top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
         </Input>
         {error?.originalUrl && (
           <p className="text-red-500 text-xs -mt-3">{error.originalUrl}</p>

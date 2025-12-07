@@ -2,7 +2,7 @@
 import Modal from "@/app/components/ui/Modal";
 import CreateUrlForm from "../../components/ui/CreateUrlForm";
 import { useEffect, useState } from "react";
-import { Button } from "@/app/components/ui/Button";
+import { Button } from "@/app/components/Button";
 import UrlTableSkeleton from "@/app/components/UrlTableSkeleton";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import UrlTable from "../../components/ui/UrlTable";
@@ -18,10 +18,6 @@ export default function UrlPage() {
     delete: false,
   });
 
-  function handleClose(value: string) {
-    setIsModalOpen((prev) => ({ ...prev, [value]: false }));
-  }
-
   const [selectedUrl, setSelectedUrl] = useState<UrlItem | null>(null);
 
   useEffect(() => {
@@ -31,6 +27,10 @@ export default function UrlPage() {
       document.body.style.overflow = "";
     }
   }, [isModalOpen]);
+
+  function handleClose(value: string) {
+    setIsModalOpen((prev) => ({ ...prev, [value]: false }));
+  }
 
   return (
     <div>
@@ -55,7 +55,7 @@ export default function UrlPage() {
 
       {isModalOpen.create && (
         <Modal onClose={() => handleClose("create")} title="Create New URL">
-          <CreateUrlForm />
+          <CreateUrlForm handleClose={handleClose} />
         </Modal>
       )}
       {isModalOpen.edit && (

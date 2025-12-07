@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/app/components/ui/Button";
+import { Button } from "@/app/components/Button";
 import toast from "react-hot-toast";
 import { UrlItem } from "@/app/types/types";
 

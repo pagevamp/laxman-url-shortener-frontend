@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/app/components/ui/Button";
+import { Button } from "@/app/components/Button";
 import { ArrowRightIcon } from "@heroicons/react/24/outline";
 import toast from "react-hot-toast";
 import { DateTimePicker } from "../DatePicker";
