@@ -1,5 +1,5 @@
+import { Button } from "@/app/components/Button";
 import UrlTable from "../../components/ui/UrlTable";
-import { Button } from "@/app/components/ui/Button";
 import UrlTableSkeleton from "@/app/components/UrlTableSkeleton";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import { Suspense } from "react";
