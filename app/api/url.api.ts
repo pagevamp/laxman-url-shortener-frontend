@@ -8,13 +8,9 @@ import {
 } from "./interfaces/interfaces";
 import axiosInstance from "../lib/axios";
 
-export async function getUrls(token: string): Promise<GetUrlsResponse> {
+export async function getUrls(): Promise<GetUrlsResponse> {
   try {
-    const res = await axiosInstance.get("/urls", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const res = await axiosInstance.get("/urls");
 
     const parsed = GetUrlsResponseSchema.safeParse(res.data);
     if (!parsed.success) {
@@ -28,15 +24,10 @@ export async function getUrls(token: string): Promise<GetUrlsResponse> {
 }
 
 export async function createShortUrl(
-  data: CreateUrlRequestData,
-  token: string
+  data: CreateUrlRequestData
 ): Promise<CreateUrlResponse> {
   try {
-    const res = await axiosInstance.post("/urls", data, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const res = await axiosInstance.post("/urls", data);
 
     const parsed = CreateUrlResponseSchema.safeParse(res.data);
     if (!parsed.success) throw new Error("Invalid response format");

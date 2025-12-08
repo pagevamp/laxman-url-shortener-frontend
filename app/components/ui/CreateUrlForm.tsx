@@ -1,17 +1,16 @@
 "use client";
 
+import { Button } from "@/app/components/Button";
 import Input from "@/app/components/ui/Input";
 import { LinkIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
 import { useCreateUrl } from "@/app/hooks/useCreateUrl";
 import toast from "react-hot-toast";
 import { DateTimePicker } from "../DatePicker";
 import { createShortUrl } from "@/app/api/url.api";
-import { useAuth } from "@/app/context/AuthContext";
-import { Button } from "../Button";
 
 interface CreateUrlForm {
   handleClose: (value: string) => void;
-  fetchUrls: (token: string) => Promise<void>;
+  fetchUrls: () => Promise<void>;
 }
 
 export default function CreateUrlForm({
@@ -28,7 +27,6 @@ export default function CreateUrlForm({
     handleChange,
     setExpiresAt,
   } = useCreateUrl();
-  const { token } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,12 +35,10 @@ export default function CreateUrlForm({
     if (!isValid) return;
     try {
       setLoading(true);
-      if (token) {
-        await createShortUrl(form, token);
-        toast.success("Short Url created successfully!");
-        fetchUrls(token);
-        handleClose("create");
-      }
+      await createShortUrl(form);
+      toast.success("Short Url created successfully!");
+      fetchUrls();
+      handleClose("create");
     } catch (err) {
       if (err instanceof Error) {
         toast.error(err.message);
