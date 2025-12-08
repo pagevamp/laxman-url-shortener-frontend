@@ -11,21 +11,17 @@ import { checkLoggedIn } from "../api/auth.api";
 interface AuthContextType {
   loggedIn: boolean | null;
   setLoggedIn: (value: boolean) => void;
-  token: string | null;
-  setToken: (value: string) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [loggedIn, setLoggedIn] = useState<boolean | null>(null);
-  const [token, setToken] = useState<string | null>(null);
   useEffect(() => {
     const checkLogin = async () => {
       try {
         const res = await checkLoggedIn();
         setLoggedIn(res.loggedIn);
-        setToken(res.token.value);
       } catch (err) {
         setLoggedIn(false);
       }
@@ -34,7 +30,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ loggedIn, setLoggedIn, token, setToken }}>
+    <AuthContext.Provider value={{ loggedIn, setLoggedIn }}>
       {children}
     </AuthContext.Provider>
   );

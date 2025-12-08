@@ -1,14 +1,14 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { FilterType, SortableFields, SortOrder, UrlItem } from "../types/types";
+import { FilterType, SortableFields, SortOrder } from "../types/types";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
+import { UrlItem } from "../api/interfaces/interfaces";
 
 export const useUrl = () => {
   const [urls, setUrls] = useState<UrlItem[]>([]);
-
   const searchParams = useSearchParams();
   const pageFromUrl = Number(searchParams.get("page")) || 1;
   const pathname = usePathname();
@@ -27,27 +27,38 @@ export const useUrl = () => {
 
   const [copiedMap, setCopiedMap] = useState<{ [key: string]: boolean }>({});
 
-  const updateParams = (key: string, value: string | null) => {
-    if (value === null) params.delete(key);
-    else params.set(key, value);
-    router.push(`${pathname}?${params.toString()}`);
+  const updateParams = (updates: Array<Record<string, string | null>>) => {
+    const params = new URLSearchParams(window.location.search);
+
+    updates.forEach((obj) => {
+      Object.entries(obj).forEach(([key, value]) => {
+        if (value === null || value === undefined || value === "") {
+          params.delete(key);
+        } else {
+          params.set(key, value);
+        }
+      });
+    });
+
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
   const debouncedUpdateSearchParams = useDebouncedCallback((term: string) => {
-    updateParams("page", "1");
-    if (term.trim()) updateParams("search", term);
-    else updateParams("search", null);
+    if (term.trim()) {
+      updateParams([{ search: term }]);
+    } else updateParams([{ search: null }]);
   }, 400);
 
   const handleSearchChange = (value: string) => {
+    updateParams([{ page: "1" }]);
     setQueryParams((prev) => ({ ...prev, search: value, currentPage: 1 }));
     debouncedUpdateSearchParams(value);
   };
 
   const handleFilterChange = (value: FilterType) => {
     setQueryParams((prev) => ({ ...prev, filter: value, currentPage: 1 }));
-    updateParams("page", "1");
-    updateParams("filter", value === "all" ? null : value);
+    updateParams([{ page: "1" }]);
+    updateParams([{ filter: value === "all" ? null : value }]);
   };
 
   const handleSort = (field: SortableFields) => {
@@ -65,14 +76,12 @@ export const useUrl = () => {
       currentPage: 1,
     });
 
-    updateParams("sortBy", field);
-    updateParams("order", newOrder);
-    updateParams("page", "1");
+    updateParams([{ sortBy: field, order: newOrder, page: "1" }]);
   };
 
   const handlePageChange = (page: number) => {
     setQueryParams((prev) => ({ ...prev, currentPage: page }));
-    updateParams("page", String(page));
+    updateParams([{ page: String(page) }]);
   };
 
   const handleCopyClick = async (text: string, id: string) => {
@@ -107,7 +116,7 @@ export const useUrl = () => {
     let data = [...urls];
 
     const searchQuery = searchParams.get("search");
-    if (searchQuery?.trim() !== "") {
+    if (searchQuery?.trim()) {
       data = data.filter(
         (item) =>
           item.original_url
@@ -126,10 +135,9 @@ export const useUrl = () => {
       data = data.filter((item) => new Date(item.expires_at) <= now);
     }
 
+    const field = queryParams.sortBy;
+    const order = queryParams.sortOrder === "asc" ? 1 : -1;
     data.sort((a, b) => {
-      const field = queryParams.sortBy;
-      const order = queryParams.sortOrder === "asc" ? 1 : -1;
-
       const dateA = new Date(a[field]).getTime();
       const dateB = new Date(b[field]).getTime();
 
@@ -150,6 +158,10 @@ export const useUrl = () => {
     });
   }
 
+  const shortUrlGen = (shortCode: string) => {
+    return `${process.env.NEXT_PUBLIC_BASE_URL}/urls/` + shortCode;
+  };
+
   return {
     queryParams,
     copiedMap,
@@ -163,5 +175,6 @@ export const useUrl = () => {
     formatDate,
     urls,
     setUrls,
+    shortUrlGen,
   };
 };

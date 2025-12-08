@@ -11,13 +11,9 @@ import {
 } from "./interfaces/interfaces";
 import axiosInstance from "../lib/axios";
 
-export async function getUrls(token: string): Promise<GetUrlsResponse> {
+export async function getUrls(): Promise<GetUrlsResponse> {
   try {
-    const res = await axiosInstance.get("/urls", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const res = await axiosInstance.get("/urls");
 
     const parsed = GetUrlsResponseSchema.safeParse(res.data);
     if (!parsed.success) {
@@ -31,15 +27,10 @@ export async function getUrls(token: string): Promise<GetUrlsResponse> {
 }
 
 export async function createShortUrl(
-  data: CreateUrlRequestData,
-  token: string
+  data: CreateUrlRequestData
 ): Promise<CreateUrlResponse> {
   try {
-    const res = await axiosInstance.post("/urls", data, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const res = await axiosInstance.post("/urls", data);
 
     const parsed = CreateUrlResponseSchema.safeParse(res.data);
     if (!parsed.success) throw new Error("Invalid response format");
@@ -52,15 +43,10 @@ export async function createShortUrl(
 
 export async function editShortUrl(
   id: string,
-  data: EditUrlRequestData,
-  token: string
+  data: EditUrlRequestData
 ): Promise<EditUrlResponse> {
   try {
-    const res = await axiosInstance.patch(`/urls/${id}`, data, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const res = await axiosInstance.patch(`/urls/${id}`, data);
 
     const parsed = EditUrlResponseSchema.safeParse(res.data);
     if (!parsed.success) throw new Error("Invalid response format");

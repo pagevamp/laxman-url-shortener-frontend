@@ -1,6 +1,6 @@
 "use client";
 
-import { SortableFields, UrlItem } from "../../types/types";
+import { SortableFields } from "../../types/types";
 import { useUrl } from "@/app/hooks/useUrlTable";
 import Pagination from "./Pagination";
 import {
@@ -13,19 +13,16 @@ import {
 } from "@heroicons/react/24/outline";
 import SearchBar from "./SearchField";
 import { Dispatch, SetStateAction, useEffect } from "react";
-import { useAuth } from "@/app/context/AuthContext";
+import { UrlItem } from "@/app/api/interfaces/interfaces";
 
 interface UrlTableProps {
-  fetchUrls: (token: string) => Promise<void>;
-  setIsModalOpen: Dispatch<
-    SetStateAction<{
-      create: boolean;
-      edit: boolean;
-    }>
-  >;
+  fetchUrls: () => Promise<void>;
+  setIsModalOpen: Dispatch<SetStateAction<"delete" | "create" | "edit" | null>>;
   setSelectedUrl: Dispatch<SetStateAction<UrlItem | null>>;
   urls: UrlItem[];
 }
+
+const itemsPerPage = 10;
 
 export default function UrlTable({
   setIsModalOpen,
@@ -44,23 +41,17 @@ export default function UrlTable({
     handleFilterChange,
     handleSort,
     formatDate,
+    shortUrlGen,
   } = useUrl();
-
-  const itemsPerPage = 10;
-
-  const BASE_DOMAIN = process.env.NEXT_PUBLIC_BASE_URL;
 
   const filteredData = useFilteredSortedUrls(urls);
   const startIndex = (queryParams.currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const paginatedData = filteredData.slice(startIndex, endIndex);
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-  const { token } = useAuth();
   useEffect(() => {
-    if (token) {
-      fetchUrls(token);
-    }
-  }, [token]);
+    fetchUrls();
+  }, []);
 
   return (
     <div className="overflow-hidden rounded-3xl bg-gray-50 z-30 dark:bg-gray-900 shadow-2 p-6">
@@ -160,17 +151,14 @@ export default function UrlTable({
                     <div className="flex items-center gap-2 max-w-[250px]">
                       <span
                         className="flex-1 px-3 py-1 bg-blue-50 dark:bg-blue-900 text-blue-800 dark:text-blue-200 font-medium rounded-full truncate"
-                        title={BASE_DOMAIN + `/urls/` + item.short_url}
+                        title={shortUrlGen(item.short_url)}
                       >
-                        {BASE_DOMAIN + `/urls/` + item.short_url}
+                        {shortUrlGen(item.short_url)}
                       </span>
 
                       <button
                         onClick={() =>
-                          handleCopyClick(
-                            BASE_DOMAIN + `/urls/` + item.short_url,
-                            item.id
-                          )
+                          handleCopyClick(shortUrlGen(item.short_url), item.id)
                         }
                         className="p-1.5 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition flex items-center justify-center text-black dark:text-white cursor-pointer hover:scale-105"
                         title="Copy URL"
@@ -203,7 +191,7 @@ export default function UrlTable({
                     <button
                       onClick={() => {
                         setSelectedUrl(item);
-                        setIsModalOpen((prev) => ({ ...prev, edit: true }));
+                        setIsModalOpen("edit");
                       }}
                       className="
                         p-2.5
@@ -219,6 +207,10 @@ export default function UrlTable({
                     </button>
 
                     <button
+                      onClick={() => {
+                        setSelectedUrl(item);
+                        setIsModalOpen("delete");
+                      }}
                       className="
                         p-2.5
                         rounded-full
