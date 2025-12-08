@@ -12,6 +12,7 @@ import {
   ArrowTrendingUpIcon,
 } from "@heroicons/react/24/outline";
 import SearchBar from "./SearchField";
+import { Dispatch, SetStateAction } from "react";
 
 const urls: UrlItem[] = [
   // 1
@@ -256,9 +257,22 @@ const urls: UrlItem[] = [
   },
 ];
 
+interface UrlTableProps {
+  setIsModalOpen: Dispatch<
+    SetStateAction<{
+      create: boolean;
+      edit: boolean;
+    }>
+  >;
+  setSelectedUrl: Dispatch<SetStateAction<UrlItem | null>>;
+}
+
 const itemsPerPage = 10;
 
-export default function UrlTable() {
+export default function UrlTable({
+  setIsModalOpen,
+  setSelectedUrl,
+}: UrlTableProps) {
   const {
     queryParams,
     copiedMap,
@@ -417,6 +431,10 @@ export default function UrlTable() {
 
                   <td className="p-4 flex items-center gap-2">
                     <button
+                      onClick={() => {
+                        setSelectedUrl(item);
+                        setIsModalOpen((prev) => ({ ...prev, edit: true }));
+                      }}
                       className="
                         p-2.5 
                         rounded-full 
