@@ -2,14 +2,14 @@
 import Modal from "@/app/components/ui/Modal";
 import CreateUrlForm from "../../components/ui/CreateUrlForm";
 import { useCallback, useEffect, useState } from "react";
+import { Button } from "@/app/components/Button";
 import UrlTableSkeleton from "@/app/components/UrlTableSkeleton";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import UrlTable from "../../components/ui/UrlTable";
 import { Suspense } from "react";
 import { getUrls } from "@/app/api/url.api";
-import EditUrlForm from "@/app/components/ui/EditUrlForm";
 import { UrlItem } from "@/app/types/types";
-import { Button } from "@/app/components/Button";
+import EditUrlForm from "@/app/components/ui/EditUrlForm";
 
 export default function UrlPage() {
   const [isModalOpen, setIsModalOpen] = useState({
