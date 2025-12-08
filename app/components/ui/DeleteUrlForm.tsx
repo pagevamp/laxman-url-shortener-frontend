@@ -1,14 +1,14 @@
 "use client";
 
+import { UrlItem } from "@/app/api/interfaces/interfaces";
 import { Button } from "@/app/components/Button";
 import toast from "react-hot-toast";
-import { UrlItem } from "@/app/types/types";
 import { deleteShortUrl } from "@/app/api/url.api";
 import { useAuth } from "@/app/context/AuthContext";
 
 interface DeleteUrlForm {
   url: UrlItem | null;
-  fetchUrls: (token: string) => Promise<void>;
+  fetchUrls: () => Promise<void>;
   handleClose: (value: string) => void;
 }
 
@@ -17,14 +17,12 @@ export default function DeleteUrlForm({
   handleClose,
   fetchUrls,
 }: DeleteUrlForm) {
-  const { token } = useAuth();
   const handleConfirm = async (e: React.FormEvent) => {
     e.preventDefault();
-
     try {
-      await deleteShortUrl(url!.id, token!);
+      await deleteShortUrl(url!.id);
       toast.success("Url Deleted successfully!");
-      fetchUrls(token!);
+      fetchUrls();
       handleClose("delete");
     } catch (err) {
       if (err instanceof Error) {
@@ -32,7 +30,6 @@ export default function DeleteUrlForm({
       } else {
         toast.error("Failed Deleting URL");
       }
-    } finally {
     }
   };
 

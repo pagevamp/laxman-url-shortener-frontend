@@ -5,13 +5,12 @@ import { ArrowRightIcon } from "@heroicons/react/24/outline";
 import toast from "react-hot-toast";
 import { DateTimePicker } from "../DatePicker";
 import { useEditUrl } from "@/app/hooks/useEditUrl";
-import { useAuth } from "@/app/context/AuthContext";
 import { editShortUrl } from "@/app/api/url.api";
 import { UrlItem } from "@/app/api/interfaces/interfaces";
 
 interface EditUrlForm {
   url: UrlItem | null;
-  fetchUrls: (token: string) => Promise<void>;
+  fetchUrls: () => Promise<void>;
   handleClose: (value: string) => void;
 }
 
@@ -30,21 +29,17 @@ export default function EditUrlForm({
     setExpiresAt,
   } = useEditUrl();
 
-  const { token } = useAuth();
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const isValid = handleValidation();
     if (!isValid) return;
     try {
-      if (token) {
-        setLoading(true);
-        await editShortUrl(url?.id!, editForm, token);
-        toast.success("Url Edited successfully!");
-        fetchUrls(token);
-        handleClose("edit");
-      }
+      setLoading(true);
+      await editShortUrl(url?.id!, editForm);
+      toast.success("Url Edited successfully!");
+      fetchUrls();
+      handleClose("edit");
     } catch (err) {
       if (err instanceof Error) {
         toast.error(err.message);
