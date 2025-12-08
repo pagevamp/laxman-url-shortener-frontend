@@ -70,17 +70,12 @@ export default function CreateUrlForm({
           name="original_url"
           placeholder="https://example.com"
           onChange={handleChange}
+          error={error?.original_url}
         >
           <LinkIcon className="absolute top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
         </Input>
-        {error?.original_url && (
-          <p className="text-red-500 text-xs -mt-3">{error.original_url}</p>
-        )}
 
-        <DateTimePicker setExpiresAt={setExpiresAt} />
-        {error?.expires_at && (
-          <p className="text-red-500 text-xs -mt-3">{error.expires_at}</p>
-        )}
+        <DateTimePicker error={error?.expires_at} setExpiresAt={setExpiresAt} />
       </div>
 
       <Button className="mt-6">
