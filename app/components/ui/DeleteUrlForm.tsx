@@ -47,13 +47,13 @@ export default function DeleteUrlForm({
       <div className="flex gap-[10%] mx-5 justify-around">
         <Button
           onClick={handleConfirm}
-          className="mt-4 w-full bg-red-100! border border-red-500! text-red-500! hover:bg-red-500! hover:text-red-100! shadow-red-600/30! hover:scale-105"
+          className="mt-4 w-full bg-red-100! border border-red-500! dark:bg-red-500! dark:text-red-100! text-red-500! hover:bg-red-500! hover:text-red-100! shadow-red-600/30! hover:scale-105"
         >
           Confirm
         </Button>
         <Button
           onClick={() => handleClose("delete")}
-          className="mt-4 w-full bg-blue-100! border border-blue-500! text-blue-500! hover:bg-blue-500! hover:text-blue-100! shadow-blue-600/30! hover:scale-105"
+          className="mt-4 w-full bg-blue-100! border border-blue-500! dark:bg-blue-500! dark:text-blue-100! text-blue-500! hover:bg-blue-500! hover:text-blue-100! shadow-blue-600/30! hover:scale-105"
         >
           Cancel
         </Button>

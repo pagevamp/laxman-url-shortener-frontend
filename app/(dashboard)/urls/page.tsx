@@ -27,12 +27,8 @@ export default function UrlPage() {
   }
 
   const fetchUrls = useCallback(async (token: string) => {
-    try {
-      const data = await getUrls(token);
-      setUrls(data.data.urls);
-    } catch (error) {
-    } finally {
-    }
+    const data = await getUrls(token);
+    setUrls(data.data.urls);
   }, []);
 
   useEffect(() => {
