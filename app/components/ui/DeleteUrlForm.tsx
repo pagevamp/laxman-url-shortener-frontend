@@ -12,17 +12,7 @@ interface DeleteUrlForm {
 export default function DeleteUrlForm({ url, handleClose }: DeleteUrlForm) {
   const handleConfirm = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    try {
-      toast.success("Url Deleted successfully!");
-    } catch (err) {
-      if (err instanceof Error) {
-        toast.error(err.message);
-      } else {
-        toast.error("Failed Deleting URL");
-      }
-    } finally {
-    }
+    toast.success("Url Deleted successfully!");
   };
 
   return (
