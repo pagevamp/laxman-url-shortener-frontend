@@ -26,9 +26,9 @@ export default function UrlPage() {
     setIsModalOpen((prev) => ({ ...prev, [value]: false }));
   }
 
-  const fetchUrls = useCallback(async (token: string) => {
+  const fetchUrls = useCallback(async () => {
     try {
-      const data = await getUrls(token);
+      const data = await getUrls();
       setUrls(data.data.urls);
     } catch (error) {
     } finally {

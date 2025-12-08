@@ -16,7 +16,7 @@ import { Dispatch, SetStateAction, useEffect } from "react";
 import { useAuth } from "@/app/context/AuthContext";
 
 interface UrlTableProps {
-  fetchUrls: (token: string) => Promise<void>;
+  fetchUrls: () => Promise<void>;
   setIsModalOpen: Dispatch<
     SetStateAction<{
       create: boolean;
@@ -56,12 +56,10 @@ export default function UrlTable({
   const endIndex = startIndex + itemsPerPage;
   const paginatedData = filteredData.slice(startIndex, endIndex);
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-  const { token } = useAuth();
-  useEffect(() => {
-    if (token) {
-      fetchUrls(token);
-    }
-  }, [token]);
+  (useEffect(() => {
+    fetchUrls();
+  }),
+    []);
 
   return (
     <div className="overflow-hidden rounded-3xl bg-gray-50 z-30 dark:bg-gray-900 shadow-2 p-6">
