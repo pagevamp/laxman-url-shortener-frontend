@@ -9,17 +9,19 @@ import UrlTable from "../../components/ui/UrlTable";
 import EditUrlForm from "@/app/components/ui/EditUrlForm";
 import { UrlItem } from "@/app/types/types";
 import { Suspense } from "react";
+import DeleteUrlForm from "@/app/components/ui/DeleteUrlForm";
 
 export default function UrlPage() {
   const [isModalOpen, setIsModalOpen] = useState({
     create: false,
     edit: false,
+    delete: false,
   });
 
   const [selectedUrl, setSelectedUrl] = useState<UrlItem | null>(null);
 
   useEffect(() => {
-    if (isModalOpen.create || isModalOpen.edit) {
+    if (!!isModalOpen) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
@@ -59,6 +61,11 @@ export default function UrlPage() {
       {isModalOpen.edit && (
         <Modal onClose={() => handleClose("edit")} title="Edit URL">
           <EditUrlForm url={selectedUrl} />
+        </Modal>
+      )}
+      {isModalOpen.delete && (
+        <Modal onClose={() => handleClose("delete")} title="Delete URL">
+          <DeleteUrlForm url={selectedUrl} handleClose={handleClose} />
         </Modal>
       )}
     </div>
