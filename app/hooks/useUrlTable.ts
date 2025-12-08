@@ -25,27 +25,38 @@ export const useUrl = () => {
 
   const [copiedMap, setCopiedMap] = useState<{ [key: string]: boolean }>({});
 
-  const updateParams = (key: string, value: string | null) => {
-    if (value === null) params.delete(key);
-    else params.set(key, value);
-    router.push(`${pathname}?${params.toString()}`);
+  const updateParams = (updates: Array<Record<string, string | null>>) => {
+    const params = new URLSearchParams(window.location.search);
+
+    updates.forEach((obj) => {
+      Object.entries(obj).forEach(([key, value]) => {
+        if (value === null || value === undefined || value === "") {
+          params.delete(key);
+        } else {
+          params.set(key, value);
+        }
+      });
+    });
+
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
   const debouncedUpdateSearchParams = useDebouncedCallback((term: string) => {
-    updateParams("page", "1");
-    if (term.trim()) updateParams("search", term);
-    else updateParams("search", null);
+    if (term.trim()) {
+      updateParams([{ search: term }]);
+    } else updateParams([{ search: null }]);
   }, 400);
 
   const handleSearchChange = (value: string) => {
+    updateParams([{ page: "1" }]);
     setQueryParams((prev) => ({ ...prev, search: value, currentPage: 1 }));
     debouncedUpdateSearchParams(value);
   };
 
   const handleFilterChange = (value: FilterType) => {
     setQueryParams((prev) => ({ ...prev, filter: value, currentPage: 1 }));
-    updateParams("page", "1");
-    updateParams("filter", value === "all" ? null : value);
+    updateParams([{ page: "1" }]);
+    updateParams([{ filter: value === "all" ? null : value }]);
   };
 
   const handleSort = (field: SortableFields) => {
@@ -63,14 +74,12 @@ export const useUrl = () => {
       currentPage: 1,
     });
 
-    updateParams("sortBy", field);
-    updateParams("order", newOrder);
-    updateParams("page", "1");
+    updateParams([{ sortBy: field, order: newOrder, page: "1" }]);
   };
 
   const handlePageChange = (page: number) => {
     setQueryParams((prev) => ({ ...prev, currentPage: page }));
-    updateParams("page", String(page));
+    updateParams([{ page: String(page) }]);
   };
 
   const handleCopyClick = async (text: string, id: string) => {
