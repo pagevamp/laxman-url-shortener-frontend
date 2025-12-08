@@ -2,18 +2,6 @@ export enum SortableFields {
   CREATED_AT = "created_at",
   EXPIRES_AT = "expires_at",
 }
-export interface UrlItem {
-  id: string;
-  original_url: string;
-  short_url: string;
-  expires_at: string;
-  created_at: string;
-}
-
-export interface CreateUrl {
-  ORIGINAL_URL: "original_url";
-  EXPIRES_AT: "expires_at";
-}
 
 export enum FilterType {
   ALL = "all",

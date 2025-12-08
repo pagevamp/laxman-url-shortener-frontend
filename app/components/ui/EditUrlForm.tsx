@@ -4,10 +4,10 @@ import { Button } from "@/app/components/Button";
 import { ArrowRightIcon } from "@heroicons/react/24/outline";
 import toast from "react-hot-toast";
 import { DateTimePicker } from "../DatePicker";
-import { UrlItem } from "@/app/types/types";
 import { useEditUrl } from "@/app/hooks/useEditUrl";
 import { useAuth } from "@/app/context/AuthContext";
 import { editShortUrl } from "@/app/api/url.api";
+import { UrlItem } from "@/app/api/interfaces/interfaces";
 
 interface EditUrlForm {
   url: UrlItem | null;
@@ -73,10 +73,8 @@ export default function EditUrlForm({
         <DateTimePicker
           setExpiresAt={setExpiresAt}
           initialDate={url?.expires_at ? new Date(url.expires_at) : null}
+          error={error?.expires_at}
         />
-        {error?.expires_at && (
-          <p className="text-red-500 text-xs mt-3">{error.expires_at}</p>
-        )}
       </div>
 
       <Button className="mt-4">

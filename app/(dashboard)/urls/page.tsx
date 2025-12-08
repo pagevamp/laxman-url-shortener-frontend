@@ -8,9 +8,9 @@ import { PlusIcon } from "@heroicons/react/24/outline";
 import UrlTable from "../../components/ui/UrlTable";
 import { getUrls } from "@/app/api/url.api";
 import EditUrlForm from "@/app/components/ui/EditUrlForm";
-import { UrlItem } from "@/app/types/types";
 import { Suspense } from "react";
 import DeleteUrlForm from "@/app/components/ui/DeleteUrlForm";
+import { UrlItem } from "@/app/api/interfaces/interfaces";
 
 export default function UrlPage() {
   const [isModalOpen, setIsModalOpen] = useState({
