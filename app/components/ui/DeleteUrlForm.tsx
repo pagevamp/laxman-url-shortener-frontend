@@ -4,7 +4,6 @@ import { UrlItem } from "@/app/api/interfaces/interfaces";
 import { Button } from "@/app/components/Button";
 import toast from "react-hot-toast";
 import { deleteShortUrl } from "@/app/api/url.api";
-import { useAuth } from "@/app/context/AuthContext";
 
 interface DeleteUrlForm {
   url: UrlItem | null;
