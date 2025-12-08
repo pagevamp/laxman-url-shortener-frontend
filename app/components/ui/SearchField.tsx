@@ -1,4 +1,5 @@
 import { FilterType, SortableFields, SortOrder } from "@/app/types/types";
+import Input from "./Input";
 
 interface SearchBarProps {
   handleFilterChange: (value: FilterType) => void;
@@ -19,13 +20,19 @@ const SearchBar = ({
 }: SearchBarProps) => {
   return (
     <div className="flex flex-col md:flex-row items-center justify-start gap-3 bg-gray-50 dark:bg-gray-900 p-4">
-      <input
+      <Input
+        id="searchQuery"
         type="text"
+        name="search query"
         placeholder="Search by URL or short code..."
         value={queryParams.search}
         onChange={(e) => handleSearchChange(e.target.value)}
-        className="w-full md:w-1/3 px-3 py-2 rounded-xl border focus:outline-gray-500 border-gray-400 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200"
-      />
+        inputClassName={
+          "w-full md:w-1/3 px-3 py-2 rounded-xl border focus:outline-gray-500 border-gray-400 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200"
+        }
+      >
+        {""}
+      </Input>
       <select
         value={queryParams.filter}
         onChange={(e) => handleFilterChange(e.target.value as FilterType)}
