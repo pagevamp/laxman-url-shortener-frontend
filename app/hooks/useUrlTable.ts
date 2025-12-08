@@ -9,8 +9,6 @@ import { UrlItem } from "../api/interfaces/interfaces";
 
 export const useUrl = () => {
   const [loading, setLoading] = useState(false);
-  const [urls, setUrls] = useState<UrlItem[]>([]);
-
   const searchParams = useSearchParams();
   const pageFromUrl = Number(searchParams.get("page")) || 1;
   const pathname = usePathname();
@@ -177,8 +175,6 @@ export const useUrl = () => {
     formatDate,
     loading,
     setLoading,
-    urls,
-    setUrls,
     shortUrlGen,
   };
 };

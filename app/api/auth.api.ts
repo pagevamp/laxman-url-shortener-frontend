@@ -18,7 +18,7 @@ export async function loginUser(
   data: LoginRequestData
 ): Promise<LoginResponse> {
   try {
-    const res = await axios.post("/api/login", data, { withCredentials: true });
+    const res = await axios.post("/api/login", data);
 
     const parsed = LoginResponseSchema.safeParse(res.data);
     if (!parsed.success) {
@@ -33,8 +33,7 @@ export async function loginUser(
 
 export async function checkLoggedIn() {
   try {
-    const res = await axios.get("/api/authCheck", { withCredentials: true });
-
+    const res = await axios.get("/api/authCheck");
     return res.data;
   } catch (error: unknown) {
     throw new Error(getAxiosErrorMessage(error));

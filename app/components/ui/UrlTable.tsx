@@ -19,8 +19,10 @@ import { Dispatch, SetStateAction } from "react";
 import { UrlItem } from "@/app/api/interfaces/interfaces";
 
 interface UrlTableProps {
+  fetchUrls: () => Promise<void>;
   setIsModalOpen: Dispatch<SetStateAction<"delete" | "create" | "edit" | null>>;
   setSelectedUrl: Dispatch<SetStateAction<UrlItem | null>>;
+  urls: UrlItem[];
 }
 
 const itemsPerPage = 10;
@@ -28,6 +30,8 @@ const itemsPerPage = 10;
 export default function UrlTable({
   setIsModalOpen,
   setSelectedUrl,
+  fetchUrls,
+  urls,
 }: UrlTableProps) {
   const {
     queryParams,
@@ -40,8 +44,6 @@ export default function UrlTable({
     handleFilterChange,
     handleSort,
     formatDate,
-    urls,
-    setUrls,
     shortUrlGen,
   } = useUrl();
 
@@ -51,17 +53,9 @@ export default function UrlTable({
   const paginatedData = filteredData.slice(startIndex, endIndex);
 
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-  const { token } = useAuth();
   useEffect(() => {
-    if (token) {
-      const fetchUrls = async () => {
-        const data = await getUrls(token);
-        setUrls(data.data.urls);
-      };
-
-      fetchUrls();
-    }
-  }, [token]);
+    fetchUrls();
+  }, []);
 
   return (
     <div className="overflow-hidden rounded-3xl bg-gray-50 dark:bg-gray-900 shadow-[0_10px_40px_rgba(0,0,0,0.5)] p-6">

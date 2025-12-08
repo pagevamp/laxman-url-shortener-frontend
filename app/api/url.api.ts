@@ -5,13 +5,9 @@ import {
 } from "./interfaces/interfaces";
 import axiosInstance from "../lib/axios";
 
-export async function getUrls(token: string): Promise<GetUrlsResponse> {
+export async function getUrls(): Promise<GetUrlsResponse> {
   try {
-    const res = await axiosInstance.get("/urls", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const res = await axiosInstance.get("/urls");
 
     const parsed = GetUrlsResponseSchema.safeParse(res.data);
     if (!parsed.success) {

@@ -1,7 +1,7 @@
 "use client";
 import Modal from "@/app/components/ui/Modal";
 import CreateUrlForm from "@/app/components/ui/CreateUrlForm";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Button } from "@/app/components/Button";
 import UrlTableSkeleton from "@/app/components/UrlTableSkeleton";
 import { PlusIcon } from "@heroicons/react/24/outline";
@@ -10,6 +10,7 @@ import EditUrlForm from "@/app/components/ui/EditUrlForm";
 import { Suspense } from "react";
 import DeleteUrlForm from "@/app/components/ui/DeleteUrlForm";
 import { UrlItem } from "@/app/api/interfaces/interfaces";
+import { getUrls } from "@/app/api/url.api";
 
 export default function UrlPage() {
   const [isModalOpen, setIsModalOpen] = useState<
@@ -17,6 +18,7 @@ export default function UrlPage() {
   >(null);
 
   const [selectedUrl, setSelectedUrl] = useState<UrlItem | null>(null);
+  const [urls, setUrls] = useState<UrlItem[]>([]);
 
   useEffect(() => {
     if (!!isModalOpen) {
@@ -25,6 +27,11 @@ export default function UrlPage() {
       document.body.style.overflow = "";
     }
   }, [isModalOpen]);
+
+  const fetchUrls = useCallback(async () => {
+    const data = await getUrls();
+    setUrls(data.data.urls);
+  }, []);
 
   function handleClose(value: string) {
     setIsModalOpen(null);
@@ -46,6 +53,8 @@ export default function UrlPage() {
       </div>
       <Suspense fallback={<UrlTableSkeleton />}>
         <UrlTable
+          fetchUrls={fetchUrls}
+          urls={urls}
           setIsModalOpen={setIsModalOpen}
           setSelectedUrl={setSelectedUrl}
         />
