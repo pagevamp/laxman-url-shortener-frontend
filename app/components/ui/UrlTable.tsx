@@ -30,8 +30,6 @@ export default function UrlTable() {
     formatDate,
     urls,
     setUrls,
-    loading,
-    setLoading,
   } = useUrl();
   const itemsPerPage = 10;
 
@@ -47,14 +45,8 @@ export default function UrlTable() {
   useEffect(() => {
     if (token) {
       const fetchUrls = async () => {
-        try {
-          setLoading(true);
-          const data = await getUrls(token);
-          setUrls(data.data.urls);
-        } catch (error) {
-        } finally {
-          setLoading(false);
-        }
+        const data = await getUrls(token);
+        setUrls(data.data.urls);
       };
 
       fetchUrls();
