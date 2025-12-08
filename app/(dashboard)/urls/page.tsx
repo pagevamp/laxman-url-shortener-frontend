@@ -2,7 +2,7 @@
 import Modal from "@/app/components/ui/Modal";
 import CreateUrlForm from "../../components/ui/CreateUrlForm";
 import { useEffect, useState } from "react";
-import { Button } from "@/app/components/ui/Button";
+import { Button } from "@/app/components/Button";
 import UrlTableSkeleton from "@/app/components/UrlTableSkeleton";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import UrlTable from "../../components/ui/UrlTable";

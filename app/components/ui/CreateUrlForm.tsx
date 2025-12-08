@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/app/components/ui/Button";
+import { Button } from "@/app/components/Button";
 import Input from "@/app/components/ui/Input";
 import { LinkIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
 import { useCreateUrl } from "@/app/hooks/useCreateUrl";
