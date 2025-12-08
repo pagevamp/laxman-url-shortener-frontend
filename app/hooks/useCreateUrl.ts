@@ -9,8 +9,8 @@ import { z } from "zod";
 
 export const useCreateUrl = () => {
   const [form, setForm] = useState({
-    originalUrl: "",
-    expiresAt: null as Date | null,
+    original_url: "",
+    expires_at: null as Date | null,
   });
 
   const setExpiresAt = (date: Date | null) =>
@@ -26,16 +26,16 @@ export const useCreateUrl = () => {
 
   const handleValidation = () => {
     const result = createUrlSchema.safeParse({
-      originalUrl: form.originalUrl,
-      expiresAt: form.expiresAt,
+      original_url: form.original_url,
+      expires_at: form.expires_at,
     });
 
     if (!result.success) {
       const fieldErrors = z.treeifyError(result.error);
 
       setError({
-        originalUrl: fieldErrors.properties?.originalUrl?.errors[0],
-        expiresAt: fieldErrors.properties?.expiresAt?.errors[0],
+        original_url: fieldErrors.properties?.original_url?.errors[0],
+        expires_at: fieldErrors.properties?.expires_at?.errors[0],
       });
       return false;
     }
