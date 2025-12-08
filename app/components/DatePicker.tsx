@@ -16,11 +16,13 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 interface DateTimePickerProps {
   setExpiresAt: (date: Date | null) => void;
   initialDate?: Date | null;
+  error?: string;
 }
 
 export function DateTimePicker({
   setExpiresAt,
   initialDate,
+  error,
 }: DateTimePickerProps) {
   const [date, setDate] = React.useState<Date | undefined>(
     initialDate ?? undefined
@@ -156,6 +158,7 @@ export function DateTimePicker({
           </div>
         </div>
       </PopoverContent>
+      {error && <p className="text-red-500 text-xs">{error}</p>}
     </Popover>
   );
 }
