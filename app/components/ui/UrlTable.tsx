@@ -256,6 +256,10 @@ const urls: UrlItem[] = [
   },
 ];
 
+const itemsPerPage = 10;
+
+const BASE_DOMAIN = process.env.NEXT_PUBLIC_BASE_URL;
+
 export default function UrlTable() {
   const {
     queryParams,
@@ -269,9 +273,6 @@ export default function UrlTable() {
     handleSort,
     formatDate,
   } = useUrl();
-  const itemsPerPage = 10;
-
-  const BASE_DOMAIN = process.env.NEXT_PUBLIC_BASE_URL;
 
   const filteredData = useFilteredSortedUrls(urls);
   const startIndex = (queryParams.currentPage - 1) * itemsPerPage;
