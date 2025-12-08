@@ -8,7 +8,7 @@ export const createUrlSchema = z.object({
 export type CreateUrlActionState = {
   form?: {
     original_url?: string;
-    expires_ut?: Date | null;
+    expires_at?: Date | null;
   };
   errors?: {
     original_url?: string;

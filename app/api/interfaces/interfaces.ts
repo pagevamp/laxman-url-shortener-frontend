@@ -20,7 +20,7 @@ export const GetUrlsResponseSchema = z.object({
 
 export const CreateUrlRequestSchema = z.object({
   original_url: z.url(),
-  expires_at: z.date(),
+  expires_at: z.date().nullable(),
 });
 
 export const CreateUrlResponseSchema = z.object({

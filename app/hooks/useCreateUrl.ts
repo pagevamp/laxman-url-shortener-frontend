@@ -10,10 +10,10 @@ import { z } from "zod";
 export const useCreateUrl = () => {
   const [form, setForm] = useState({
     original_url: "",
-    expires_at: new Date(),
+    expires_at: null as Date | null,
   });
 
-  const setExpiresAt = (date: Date) =>
+  const setExpiresAt = (date: Date | null) =>
     setForm((prev) => ({ ...prev, expires_at: date }));
 
   const [loading, setLoading] = useState(false);
