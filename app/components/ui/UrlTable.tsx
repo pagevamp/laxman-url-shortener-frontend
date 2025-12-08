@@ -258,8 +258,6 @@ const urls: UrlItem[] = [
 
 const itemsPerPage = 10;
 
-const BASE_DOMAIN = process.env.NEXT_PUBLIC_BASE_URL;
-
 export default function UrlTable() {
   const {
     queryParams,
@@ -272,6 +270,7 @@ export default function UrlTable() {
     handleFilterChange,
     handleSort,
     formatDate,
+    shortUrlGen,
   } = useUrl();
 
   const filteredData = useFilteredSortedUrls(urls);
@@ -379,17 +378,14 @@ export default function UrlTable() {
                     <div className="flex items-center gap-2 max-w-[250px]">
                       <span
                         className="flex-1 px-3 py-1 bg-blue-50 dark:bg-blue-900 text-blue-800 dark:text-blue-200 font-medium rounded-full truncate"
-                        title={BASE_DOMAIN + `/urls/` + item.short_url}
+                        title={shortUrlGen(item.short_url)}
                       >
-                        {BASE_DOMAIN + `/urls/` + item.short_url}
+                        {shortUrlGen(item.short_url)}
                       </span>
 
                       <button
                         onClick={() =>
-                          handleCopyClick(
-                            BASE_DOMAIN + `/urls/` + item.short_url,
-                            item.id
-                          )
+                          handleCopyClick(shortUrlGen(item.short_url), item.id)
                         }
                         className="p-1.5 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition flex items-center justify-center text-black dark:text-white cursor-pointer hover:scale-105"
                         title="Copy URL"

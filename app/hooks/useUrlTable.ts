@@ -156,6 +156,10 @@ export const useUrl = () => {
     });
   }
 
+  const shortUrlGen = (shortCode: string) => {
+    return `${process.env.NEXT_PUBLIC_BASE_URL}/urls/` + shortCode;
+  };
+
   return {
     queryParams,
     copiedMap,
@@ -167,5 +171,6 @@ export const useUrl = () => {
     handleFilterChange,
     handleSort,
     formatDate,
+    shortUrlGen,
   };
 };
