@@ -114,7 +114,7 @@ export const useUrl = () => {
     let data = [...urls];
 
     const searchQuery = searchParams.get("search");
-    if (searchQuery?.trim() !== "") {
+    if (searchQuery?.trim()) {
       data = data.filter(
         (item) =>
           item.original_url
@@ -133,10 +133,9 @@ export const useUrl = () => {
       data = data.filter((item) => new Date(item.expires_at) <= now);
     }
 
+    const field = queryParams.sortBy;
+    const order = queryParams.sortOrder === "asc" ? 1 : -1;
     data.sort((a, b) => {
-      const field = queryParams.sortBy;
-      const order = queryParams.sortOrder === "asc" ? 1 : -1;
-
       const dateA = new Date(a[field]).getTime();
       const dateB = new Date(b[field]).getTime();
 
