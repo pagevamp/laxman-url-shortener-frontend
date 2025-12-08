@@ -57,10 +57,8 @@ export default function EditUrlForm({ url }: EditUrlForm) {
         <DateTimePicker
           setExpiresAt={setExpiresAt}
           initialDate={url?.expires_at ? new Date(url.expires_at) : null}
+          error={error?.expiresAt}
         />
-        {error?.expiresAt && (
-          <p className="text-red-500 text-xs mt-3">{error.expiresAt}</p>
-        )}
       </div>
 
       <Button className="mt-4">
