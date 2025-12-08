@@ -1,6 +1,7 @@
 import { FilterType, SortableFields, SortOrder } from "@/app/types/types";
 import Input from "./Input";
 
+import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 interface SearchBarProps {
   handleFilterChange: (value: FilterType) => void;
   handleSearchChange: (value: string) => void;
@@ -31,7 +32,7 @@ const SearchBar = ({
           "w-full md:w-1/3 px-3 py-2 rounded-xl border focus:outline-gray-500 border-gray-400 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200"
         }
       >
-        {""}
+        <MagnifyingGlassIcon className="h-5 w-5" />
       </Input>
       <select
         value={queryParams.filter}
