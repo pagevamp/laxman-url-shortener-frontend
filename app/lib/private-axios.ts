@@ -6,6 +6,7 @@ const axiosInstance = axios.create({
   timeout: 10000,
   withCredentials: true,
 });
+
 axiosInstance.interceptors.request.use(
   async (config) => {
     const res = await checkLoggedIn();

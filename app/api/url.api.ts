@@ -9,7 +9,7 @@ import {
   GetUrlsResponse,
   GetUrlsResponseSchema,
 } from "./interfaces/interfaces";
-import axiosInstance from "../lib/axios";
+import axiosInstance from "../lib/private-axios";
 
 export async function getUrls(): Promise<GetUrlsResponse> {
   try {

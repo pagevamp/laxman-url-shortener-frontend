@@ -4,7 +4,7 @@ export default function UrlTableSkeleton() {
   const rows = Array.from({ length: 10 });
 
   return (
-    <div className="overflow-hidden rounded-3xl bg-gray-50 dark:bg-gray-900 shadow-[0_10px_40px_rgba(0,0,0,0.5)] p-6 animate-pulse">
+    <div className="overflow-hidden rounded-3xl bg-gray-50 dark:bg-gray-900 shadow-2xl p-6 animate-pulse">
       <div className="mb-5 pb-5 overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-700">
         {/* search bar skeleton */}
         <div className="flex gap-3 mb-4">

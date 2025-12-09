@@ -44,7 +44,7 @@ export default function SendVerificationForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="w-full max-w-sm flex flex-col gap-6 px-8 py-12 bg-gray-50 dark:bg-gray-900 rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.5)]"
+      className="w-full max-w-sm flex flex-col gap-6 px-8 py-12 bg-gray-50 dark:bg-gray-900 rounded-3xl shadow-2xl"
     >
       <h1 className="text-3xl font-semibold text-gray-900 dark:text-gray-100">
         Enter your email here

@@ -42,13 +42,13 @@ export default function VerifyEmail() {
     if (status === "checking")
       return <ClockIcon className="w-12 h-12 text-yellow-500 animate-pulse" />;
     if (status === "success")
-      return <CheckCircleIcon className="w-12 h-12 text-green-500" />;
+      return <CheckCircleIcon className="w-12 h-12 text-green-700" />;
     return <XCircleIcon className="w-12 h-12 text-red-500" />;
   };
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 px-4">
-      <div className="flex flex-col items-center gap-4 bg-white dark:bg-gray-800 shadow-md rounded-lg p-8 max-w-md w-full text-center">
+      <div className="flex flex-col items-center gap-4 bg-white dark:bg-gray-800 shadow-2xl rounded-lg p-8 max-w-md w-full text-center">
         {getStatusIcon()}
         <h1 className="text-2xl font-semibold">
           {status === "checking" && "Verifying..."}

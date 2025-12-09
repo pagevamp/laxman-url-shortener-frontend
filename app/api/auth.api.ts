@@ -1,5 +1,5 @@
 import axios from "axios";
-import axiosInstance from "../lib/axios";
+import axiosInstance from "../lib/private-axios";
 import { getAxiosErrorMessage } from "../lib/helpers/axios.error";
 import {
   LoginRequestData,
@@ -13,6 +13,7 @@ import {
   ResendMailResponseSchema,
   VerifyUserRequestData,
 } from "./interfaces/interfaces";
+import publicAxiosInstance from "../lib/public-axios";
 
 export async function loginUser(
   data: LoginRequestData
@@ -44,7 +45,7 @@ export async function registerUser(
   data: RegisterRequestData
 ): Promise<RegisterResponse> {
   try {
-    const res = await axiosInstance.post("/users", data);
+    const res = await publicAxiosInstance.post("/users", data);
 
     const parsed = RegisterResponseSchema.safeParse(res.data);
     if (!parsed.success) {
@@ -60,7 +61,7 @@ export async function resendMail(
   data: ResendMailRequestData
 ): Promise<ResendMailResponse> {
   try {
-    const res = await axiosInstance.post("/auth/resend-email", data);
+    const res = await publicAxiosInstance.post("/auth/resend-email", data);
 
     const parsed = ResendMailResponseSchema.safeParse(res.data);
     if (!parsed.success) {
@@ -75,7 +76,9 @@ export async function resendMail(
 
 export async function verifyUser(data: VerifyUserRequestData) {
   try {
-    const res = await axiosInstance.get("/auth/verify-email", { params: data });
+    const res = await publicAxiosInstance.get("/auth/verify-email", {
+      params: data,
+    });
     const parsed = ResendMailResponseSchema.safeParse(res.data);
     if (!parsed.success) {
       throw new Error("Invalid response format from server.");
