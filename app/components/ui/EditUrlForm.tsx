@@ -35,6 +35,10 @@ export default function EditUrlForm({
     const isValid = handleValidation();
     if (!isValid) return;
     try {
+      if (!url?.id) {
+        toast.error("Invalid Url");
+        return;
+      }
       setLoading(true);
       await editShortUrl(url?.id!, editForm);
       toast.success("Url Edited successfully!");

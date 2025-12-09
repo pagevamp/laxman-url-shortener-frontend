@@ -19,6 +19,7 @@ export default function DeleteUrlForm({
   const handleConfirm = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!url?.id) {
+      toast.error("Invalid Url");
       return;
     }
     try {
