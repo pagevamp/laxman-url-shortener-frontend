@@ -18,8 +18,11 @@ export default function DeleteUrlForm({
 }: DeleteUrlForm) {
   const handleConfirm = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!url?.id) {
+      return;
+    }
     try {
-      await deleteShortUrl(url!.id);
+      await deleteShortUrl(url.id);
       toast.success("Url Deleted successfully!");
       fetchUrls();
       handleClose("delete");
