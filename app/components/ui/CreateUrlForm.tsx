@@ -67,7 +67,6 @@ export default function CreateUrlForm({
           placeholder="https://example.com"
           onChange={handleChange}
           error={error?.original_url}
-          inputClassName="dark:bg-input/30 dark:hover:bg-input/50"
         >
           <LinkIcon className="absolute top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
         </Input>

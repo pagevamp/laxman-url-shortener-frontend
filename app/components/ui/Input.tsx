@@ -33,12 +33,12 @@ const Input = ({
           placeholder={placeholder}
           onChange={onChange}
           className={`peer
-          w-full bg-transparent text-gray-900 dark:text-gray-100
+          w-full bg-gray-200 hover:bg-gray-300 text-gray-900 dark:text-gray-100
           border-b border-gray-300 dark:border-gray-700
           py-3 pl-10 pr-3 text-base outline-none
           placeholder-gray-400 dark:placeholder-gray-500
           focus:border-blue-500 focus:ring-1 focus:ring-blue-300
-          rounded-lg transition-all duration-200 ${inputClassName}
+          rounded-lg transition-all duration-200 dark:bg-input/30 dark:hover:bg-input/50 ${inputClassName}
         `}
         />
         {children && (
