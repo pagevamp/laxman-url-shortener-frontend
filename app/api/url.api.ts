@@ -60,7 +60,6 @@ export async function editShortUrl(
 export async function deleteShortUrl(id: string) {
   try {
     const res = await axiosInstance.delete(`/urls/${id}`);
-    return true;
   } catch (error: unknown) {
     throw new Error(getAxiosErrorMessage(error));
   }
