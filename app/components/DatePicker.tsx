@@ -73,7 +73,7 @@ export function DateTimePicker({
         <Button
           variant="outline"
           className={cn(
-            "w-full justify-start text-left font-normal py-6 cursor-pointer",
+            "w-full justify-start text-left border-0 border-b border-gray-300 dark:border-gray-700 font-normal p-6 cursor-pointer",
             !date && "text-muted-foreground"
           )}
         >
@@ -158,7 +158,7 @@ export function DateTimePicker({
           </div>
         </div>
       </PopoverContent>
-      {error && <p className="text-red-500 text-xs">{error}</p>}
+      {error && <p className="text-red-500 text-xs -mt-5">{error}</p>}
     </Popover>
   );
 }

@@ -85,8 +85,7 @@ export default function UrlTable({
                 >
                   <div className="flex gap-3 items-center">
                     Expires At
-                    <ChevronUpDownIcon className="h-5 w-5" />
-                    {queryParams.sortBy === "expires_at" && (
+                    {queryParams.sortBy === "expires_at" ? (
                       <>
                         {queryParams.sortOrder === "asc" && (
                           <ArrowTrendingUpIcon className="h-5 w-5" />
@@ -95,6 +94,8 @@ export default function UrlTable({
                           <ArrowTrendingDownIcon className="h-5 w-5" />
                         )}
                       </>
+                    ) : (
+                      <ChevronUpDownIcon className="h-5 w-5" />
                     )}
                   </div>
                 </th>
@@ -107,8 +108,7 @@ export default function UrlTable({
                 >
                   <div className="flex gap-3 items-center">
                     Created At
-                    <ChevronUpDownIcon className="h-5 w-5" />
-                    {queryParams.sortBy === "created_at" && (
+                    {queryParams.sortBy === "created_at" ? (
                       <>
                         {queryParams.sortOrder === "asc" && (
                           <ArrowTrendingUpIcon className="h-5 w-5" />
@@ -117,6 +117,8 @@ export default function UrlTable({
                           <ArrowTrendingDownIcon className="h-5 w-5" />
                         )}
                       </>
+                    ) : (
+                      <ChevronUpDownIcon className="h-5 w-5" />
                     )}
                   </div>
                 </th>
