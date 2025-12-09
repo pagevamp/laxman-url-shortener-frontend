@@ -29,7 +29,7 @@ const SearchBar = ({
         value={queryParams.search}
         onChange={(e) => handleSearchChange(e.target.value)}
         inputClassName={
-          "w-full md:w-1/3 px-3 py-2 rounded-xl border focus:outline-gray-500 border-gray-400 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200"
+          "w-full md:w-2/3 px-3 py-2 rounded-xl border focus:outline-gray-500 border-gray-400 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200"
         }
       >
         <MagnifyingGlassIcon className="h-5 w-5" />
@@ -37,7 +37,7 @@ const SearchBar = ({
       <select
         value={queryParams.filter}
         onChange={(e) => handleFilterChange(e.target.value as FilterType)}
-        className="px-5 py-2 rounded-xl border focus:outline-none border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 cursor-pointer"
+        className="px-5 py-2 rounded-xl border focus:outline-none border-gray-300 dark:border-gray-700 w-full md:w-1/4 lg:w-1/8 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 cursor-pointer"
       >
         <option value={FilterType.ALL}>All URLs</option>
         <option value={FilterType.ACTIVE}>Active URLs</option>

@@ -54,7 +54,7 @@ export default function UrlTable({
   }, []);
 
   return (
-    <div className="overflow-hidden rounded-3xl bg-gray-50 z-30 dark:bg-gray-900 shadow-2 p-6">
+    <div className="overflow-hidden rounded-3xl bg-gray-50 z-30 dark:bg-gray-900 shadow-2 p-1">
       <div className="mb-5 pb-5 overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-700">
         {/* search bar with add new url button */}
         <SearchBar

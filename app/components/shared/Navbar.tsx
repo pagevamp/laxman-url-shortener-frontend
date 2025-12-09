@@ -34,7 +34,7 @@ export default function Navbar() {
             <NavLink href={"/urls"}>Dashboard</NavLink>
             <Button
               onClick={handleLogout}
-              className="bg-transparent! border-none! shadow-none dark:text-gray-300! text-gray-700! hidden md:block  hover:underline px-0!"
+              className="bg-transparent! border-none! shadow-none dark:text-gray-300! text-gray-700!  hover:underline px-0!"
             >
               Logout
             </Button>

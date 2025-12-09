@@ -44,11 +44,11 @@ export default function UrlPage() {
           Your Shortened URLs
         </h1>
         <Button
-          className="flex items-center gap-2 p-3! bg-blue-600 text-white rounded-lg hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 transition hover:scale-105"
+          className="flex items-center gap-2 p-3!  text-white rounded-lg! hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 transition hover:scale-105"
           onClick={() => setIsModalOpen("create")}
         >
           <PlusIcon className="h-5 w-5" />
-          Add New URL
+          <p className=" hidden md:block"> Add New URL</p>
         </Button>
       </div>
       <Suspense fallback={<UrlTableSkeleton />}>
