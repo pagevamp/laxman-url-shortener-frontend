@@ -60,7 +60,7 @@ export default function EditUrlForm({
       <p className="text-lg text-gray-700 dark:text-gray-300">
         Set a new expiry date for:
       </p>
-      <p className="dark:bg-blue-900/30 text-blue-700 dark:text-blue-300  text-sm font-medium truncate">
+      <p className="text-blue-700 dark:text-blue-300  text-sm font-medium truncate">
         {url?.original_url}
       </p>
 

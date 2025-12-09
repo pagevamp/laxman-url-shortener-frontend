@@ -150,7 +150,7 @@ export default function UrlTable({
                   <td className="p-2">
                     <div className="flex items-center gap-2 max-w-[250px]">
                       <span
-                        className="flex-1 px-3 py-1 bg-blue-50 dark:bg-blue-900 text-blue-800 dark:text-blue-200 font-medium rounded-full truncate"
+                        className="flex-1 px-3 py-1 bg-blue-50 dark:bg-blue-900 text-blue-800 dark:text-blue-200 font-medium rounded-md truncate"
                         title={shortUrlGen(item.short_url)}
                       >
                         {shortUrlGen(item.short_url)}
