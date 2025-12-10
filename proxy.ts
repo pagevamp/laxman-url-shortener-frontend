@@ -21,6 +21,7 @@ export function proxy(req: NextRequest) {
   }
 
   if (isValidToken && authPages.includes(pathname)) {
+    console.log("pathname matches");
     return NextResponse.redirect(new URL("/urls", req.url));
   }
 
